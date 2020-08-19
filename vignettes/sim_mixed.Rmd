@@ -1,0 +1,85 @@
+---
+title: "Mixed Design Simulation"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Mixed Design Simulation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.height = 5,
+  collapse = TRUE,
+  comment = "#>",
+  out.width = "100%"
+)
+ggplot2::theme_set(ggplot2::theme_bw())
+set.seed(8675309)
+```
+
+```{r, warning=FALSE, message=FALSE}
+library(dplyr)
+library(tidyr)
+library(lme4)
+library(broom.mixed)
+library(faux)
+```
+
+The mixed design functions are extremely basic. I plan to work on more useful functions, but this [paper](https://osf.io/3cz2e/) provides a tutorial and examples for more complex designs. 
+
+## sim_mixed_cc
+
+This function produces a data table for a basic cross-classified design with random intercepts for subjects and items. 
+
+For example, the following code produces the data for 100 subjects responding to 50 items where the response has an overall mean (`grand_i`) of 10. Subjects vary in their average response with an SD of 1, items vary in their average response with an SD of 2, and the residual error term has an SD of 3.
+
+```{r}
+dat_cc <- sim_mixed_cc(
+  sub_n = 100,   # subject sample size
+  item_n = 50,  # item sample size
+  grand_i = 10,  # overall mean of the score
+  sub_sd = 1,   # SD of subject random intercepts
+  item_sd = 2,  # SD of item random intercepts
+  error_sd = 3  # SD of residual error
+)
+```
+
+You can then see how changing these numbers affects the random effects in an intercept-only mixed effects model.
+
+```{r, results='asis'}
+lme4::lmer(y ~ 1 + (1 | sub_id) + (1 | item_id), data = dat_cc) %>%
+  broom.mixed::tidy() %>%
+  knitr::kable(digits = 3)
+```
+
+For example, changing `grand_i` to 0 changes the estimate for the fixed effect of the intercept `(Intercept)`. Changing `sub_sd` to 1.5 and `item_sd` to 3 change the estimate for the SD of their corresponding random effects. Changing `error_sd` to 10 changes the estimate from the Residual SD. 
+
+```{r, results='asis'}
+dat_cc <- sim_mixed_cc(100, 50, 0, 1.5, 3, 10)
+
+lme4::lmer(y ~ 1 + (1 | sub_id) + (1 | item_id), data = dat_cc) %>%
+  broom.mixed::tidy() %>%
+  knitr::kable(digits = 3)
+```
+
+## sim_mixed_df
+
+This function uses `lme4::lmer()` to get subject, item and error SDs from an existing dataset and simulates a new dataset with the specified number of subjects and items with distributions drawn from the example data.
+
+This example uses the `fr4` dataset from this package to simulate 100 new subjects viewing 50 new faces.
+
+```{r, eval = FALSE}
+
+new_dat <- sim_mixed_df(fr4, 
+                        sub_n = 100, 
+                        item_n = 50, 
+                        dv = "rating", 
+                        sub_id = "rater_id", 
+                        item_id = "face_id")
+
+```
+
+
+

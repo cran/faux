@@ -1,0 +1,67 @@
+articles:
+- title: Demos
+  navbar: ~
+  contents:
+  - sim_design
+  - sim_df
+  - rnorm_multi
+  - continuous
+  - plots
+  - sim_mixed
+  - codebook
+
+reference:
+- title: Simulation functions
+  desc: ~
+  contents:
+  - '`sim_design`'
+  - '`sim_df`'
+  - '`sim_mixed_cc`'
+  - '`sim_mixed_df`'
+- title: Other useful functions
+  desc: ~
+  contents:
+  - '`codebook`'
+  - '`get_params`'
+  - '`json_design`'
+  - '`make_id`'
+  - '`messy`'
+  - '`rnorm_multi`'
+  - '`rnorm_pre`'
+  - '`long2wide`'
+  - '`wide2long`'
+  - '`faux_options`'
+- title: Datasets
+  desc: ~
+  contents:
+  - '`faceratings`'
+  - '`fr4`'
+- title: Helper functions
+  desc: ~
+  contents:
+  - '`check_design`'
+  - '`check_mixed_design`'
+  - '`cormat`'
+  - '`cormat_from_triangle`'
+  - '`fix_name_labels`'
+  - '`get_design_long`'
+  - '`interactive_design`'
+  - '`is_pos_def`'
+  - '`nested_list`'
+  - '`plot_design`'
+  - '`pos_def_limits`'
+  - '`readline_check`'
+  - '`sample_from_pop`'
+  - '`sim_data`'
+  - '`unique_pairs`'
+- title: Distribution functions
+  desc: ~
+  contents:
+  - '`norm2likert`'
+  - '`norm2beta`'
+  - '`norm2binom`'
+  - '`norm2pois`'
+  - '`norm2trunc`'
+  - '`trunc2norm`'
+  - '`norm2unif`'
+  - '`unif2norm`'

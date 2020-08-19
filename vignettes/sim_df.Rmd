@@ -1,0 +1,94 @@
+---
+title: "Simulate from Existing Data"
+author: "Lisa DeBruine"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Simulate from Existing Data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  fig.width = 8,
+  fig.height = 5,
+  collapse = TRUE,
+  comment = "#>",
+  out.width = "100%"
+)
+ggplot2::theme_set(ggplot2::theme_bw())
+set.seed(8675309)
+```
+
+```{r, warning=FALSE, message=FALSE}
+library(ggplot2)
+library(dplyr)
+library(tidyr)
+library(faux)
+```
+
+The `sim_df()` function produces a dataframe with the same distributions and correlations as an existing dataframe. It only returns numeric columns and simulates all numeric variables from a continuous normal distribution (for now).
+
+For example, here is the relationship between speed and distance in the built-in dataset `cars`. 
+
+```{r plot-cars-orig, fig.cap="Original cars dataset"}
+cars %>%
+  ggplot(aes(speed, dist)) + 
+  geom_point() +
+  geom_smooth(method = "lm", formula = "y~x")
+```
+
+You can create a new sample with the same parameters and 500 rows with the code `sim_df(cars, 500)`.
+
+```{r plot-cars-sim, fig.cap="Simulated cars dataset"}
+sim_df(cars, 500) %>%
+  ggplot(aes(speed, dist)) + 
+    geom_point() +
+    geom_smooth(method = "lm", formula = "y~x")
+```
+
+## Between-subject variables
+
+You can also optionally add between-subject variables. For example, here is the relationship between horsepower (`hp`) and weight (`wt`) for automatic (`am = 0`) versus manual (`am = 1`) transmission in the built-in dataset `mtcars`.
+
+```{r plot-mtcars-orig, fig.cap="Original mtcars dataset"}
+mtcars %>%
+  mutate(transmission = factor(am, labels = c("automatic", "manual"))) %>%
+  ggplot(aes(hp, wt, color = transmission)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = "y~x")
+```
+
+And here is a new sample with 50 observations of each.
+
+```{r plot-iris-sim, fig.cap="Simulated iris dataset"}
+sim_df(mtcars, 50 , between = "am") %>%
+  mutate(transmission = factor(am, labels = c("automatic", "manual"))) %>%
+  ggplot(aes(hp, wt, color = transmission)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = "y~x")
+```
+
+## Empirical
+
+Set `empirical = TRUE` to return a data frame with *exactly* the same means, SDs, and correlations as the original dataset.
+
+```{r}
+exact_mtcars <- sim_df(mtcars, 50, between = "am", empirical = TRUE)
+```
+
+
+## Rounding
+
+For now, the function only creates new variables sampled from a continuous normal distribution. I hope to add in other sampling distributions in the future. So you'd need to do any rounding or truncating yourself.
+
+```{r plot-iris-sim-round, fig.cap="Simulated iris dataset (rounded)"}
+sim_df(mtcars, 50, between = "am") %>%
+  mutate(hp = round(hp),
+         transmission = factor(am, labels = c("automatic", "manual"))) %>%
+  ggplot(aes(hp, wt, color = transmission)) +
+  geom_point() +
+  geom_smooth(method = "lm", formula = "y~x")
+```
+
