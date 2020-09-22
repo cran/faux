@@ -1,6 +1,11 @@
+# faux 0.0.1.5 (2020-09-11)
+
+* Removed a test using markdown that failed on Solaris (causing faux to be pulled from CRAN)
+* `seed` arguments reinstated as deprecated and produce a warning
+
 # faux 0.0.1.4 (2020-08-12)
 
-* Even more fixes for CRAN
+* Even more fixes for CRAN (on CRAN from 2009-08-19!)
 * Removed all `seed` arguments (at the request of CRAN)
 * Faster unit tests
 

@@ -9,7 +9,8 @@ sim_data(
   empirical = FALSE,
   long = FALSE,
   rep = 1,
-  sep = faux_options("sep")
+  sep = faux_options("sep"),
+  seed = NULL
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ sim_data(
 \item{rep}{the number of data frames to return (default 1); if greater than 1, the returned data frame is nested by rep}
 
 \item{sep}{separator for within-columns, defaults to _}
+
+\item{seed}{DEPRECATED use set.seed() instead}
 }
 \value{
 a tbl

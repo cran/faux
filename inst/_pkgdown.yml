@@ -57,6 +57,7 @@ reference:
 - title: Distribution functions
   desc: ~
   contents:
+  - '`std_alpha2average_r`'
   - '`norm2likert`'
   - '`norm2beta`'
   - '`norm2binom`'

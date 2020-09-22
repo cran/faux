@@ -16,6 +16,7 @@
 #' @param interactive whether to run the function interactively
 #' @param design a design list including within, between, n, mu, sd, r, dv, id
 #' @param rep the number of data frames to return (default 1); if greater than 1, the returned data frame is nested by rep
+#' @param seed DEPRECATED use set.seed() instead
 #' 
 #' @return a tbl
 #' 
@@ -28,7 +29,7 @@ sim_design <- function(within = list(), between = list(),
                        id = list(id = "id"),
                        plot = faux_options("plot"), 
                        interactive = FALSE, 
-                       design = NULL, rep = 1) {
+                       design = NULL, rep = 1, seed = NULL) {
   # check the design is specified correctly
   if (interactive) {
     design <- interactive_design(plot = plot)
@@ -43,6 +44,10 @@ sim_design <- function(within = list(), between = list(),
     design <- check_design(within = within, between = between, 
                          n = n, mu = mu, sd = sd, r = r, 
                          dv = dv, id = id, plot = plot)
+  }
+  
+  if (!is.null(seed)) {
+    warning("The seed argument is deprecated. Please set seed using set.seed() instead")
   }
   
   # simulate the data
@@ -60,12 +65,13 @@ sim_design <- function(within = list(), between = list(),
 #' @param long Whether the returned tbl is in wide (default = FALSE) or long (TRUE) format
 #' @param rep the number of data frames to return (default 1); if greater than 1, the returned data frame is nested by rep
 #' @param sep separator for within-columns, defaults to _
+#' @param seed DEPRECATED use set.seed() instead
 #' 
 #' @return a tbl
 #' @export
 #' 
 sim_data <- function(design, empirical = FALSE, long = FALSE, 
-                     rep = 1, sep = faux_options("sep")) {
+                     rep = 1, sep = faux_options("sep"), seed = NULL) {
   if (!is.numeric(rep)) {
     stop("rep must be a number")
   } else if (rep < 1) {
@@ -74,11 +80,12 @@ sim_data <- function(design, empirical = FALSE, long = FALSE,
     warning("rep should be an integer")
   }
   
-  # if (!is.null(seed)) {
+  if (!is.null(seed)) {
+    warning("The seed argument is deprecated. Please set seed using set.seed() instead")
   #   # reinstate system seed after simulation
   #   gs <- global_seed(); on.exit(global_seed(gs))
   #   set.seed(seed, kind = "Mersenne-Twister", normal.kind = "Inversion")
-  # }
+  }
   
   # defaults
   within <- list()

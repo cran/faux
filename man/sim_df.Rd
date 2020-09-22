@@ -12,7 +12,8 @@ sim_df(
   id = "id",
   dv = "value",
   empirical = FALSE,
-  long = FALSE
+  long = FALSE,
+  seed = NULL
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ sim_df(
 \item{empirical}{Should the returned data have these exact parameters? (versus be sampled from a population with these parameters)}
 
 \item{long}{whether to return the data table in long format}
+
+\item{seed}{DEPRECATED use set.seed() instead}
 }
 \value{
 a tbl

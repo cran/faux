@@ -18,7 +18,8 @@ sim_design(
   plot = faux_options("plot"),
   interactive = FALSE,
   design = NULL,
-  rep = 1
+  rep = 1,
+  seed = NULL
 )
 }
 \arguments{
@@ -49,6 +50,8 @@ sim_design(
 \item{design}{a design list including within, between, n, mu, sd, r, dv, id}
 
 \item{rep}{the number of data frames to return (default 1); if greater than 1, the returned data frame is nested by rep}
+
+\item{seed}{DEPRECATED use set.seed() instead}
 }
 \value{
 a tbl

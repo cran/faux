@@ -10,6 +10,7 @@
 #' @param varnames optional names for the variables (string vector of length vars) defaults if r is a matrix with column names
 #' @param empirical logical. If true, mu, sd and r specify the empirical not population mean, sd and covariance 
 #' @param as.matrix logical. If true, returns a matrix
+#' @param seed DEPRECATED use set.seed() instead
 #' 
 #' @return a tbl of vars vectors
 #' 
@@ -21,11 +22,12 @@
 
 rnorm_multi <- function(n, vars = NULL, mu = 0, sd = 1, r = 0,
                        varnames = NULL, empirical = FALSE, 
-                       as.matrix = FALSE) {
-  # if (!is.null(seed)) {
+                       as.matrix = FALSE, seed = NULL) {
+  if (!is.null(seed)) {
+    warning("The seed argument is deprecated. Please set seed using set.seed() instead")
   #   # reinstate system seed after simulation
   #   gs <- global_seed(); on.exit(global_seed(gs))
-  # }
+  }
   
   # error handling ----
   if ( !is.numeric(n) || n %% 1 > 0 || n < 1 ) {

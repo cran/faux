@@ -240,3 +240,31 @@ norm2likert <- function(x, prob, mu = mean(x), sd = stats::sd(x)) {
   sapply(p, function(a) n + 1 - sum(a < cprob))
 }
 
+
+#' Standardized Alpha to Average R
+#'
+#' @param std_alpha The standarized alpha 
+#' @param n The number of items
+#'
+#' @return The average inter-item correlation
+#' @export
+#'
+#' @examples
+#' std_alpha2average_r(.8, 10)
+std_alpha2average_r <- function(std_alpha, n) {
+  sumR <- -n / ((std_alpha / (n/(n - 1))) - 1)
+  (sumR - n)/(n * (n - 1))
+}
+
+#' Average r to Random Intercept SD
+#'
+#' @param average_r The average inter-item correlation
+#' @param sigma Total error variance
+#'
+#' @return The standard deviation of the random intercept
+#' @export
+#'
+#' @examples
+average_r2tau_0 <- function(average_r, sigma) {
+  sqrt((average_r * sigma^2) / (1 - average_r))
+}

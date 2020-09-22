@@ -157,25 +157,25 @@ test_that("trunc2norm", {
   x <- truncnorm::rtruncnorm(1000)
   
   expect_message(suppressWarnings(trunc2norm(x)), 
-                 "mu was set to 0.00639653548187051", fixed = TRUE)
+                 "mu was set to 0\\.006\\d+")
   expect_message(suppressWarnings(trunc2norm(x)), 
-                 "sd was set to 0.9980754175952", fixed = TRUE)
+                 "sd was set to 0\\.998\\d+")
   expect_message(suppressWarnings(trunc2norm(x)), 
-                 "-2.98782971730373 (min(x) = -3.05632823356306)", fixed = TRUE)
+                 "-2\\.987\\d+ \\(min\\(x\\) = -3\\.056\\d+\\)")
   expect_message(suppressWarnings(trunc2norm(x)), 
-                 "max was set to 3.00062278826747 (max(x) = 3.51929906496364)", fixed = TRUE)
+                 "max was set to 3\\.000\\d+ \\(max\\(x\\) = 3\\.519\\d+\\)")
   expect_warning(suppressMessages(trunc2norm(x)), 
-                 "min was > min(x), so min was set to -3.06630898773901", fixed = TRUE)
+                 "min was > min\\(x\\), so min was set to -3\\.066\\d+")
   expect_warning(suppressMessages(trunc2norm(x)), 
-                 "max was < max(x), so max was set to 3.52927981913959", fixed = TRUE)
+                 "max was < max\\(x\\), so max was set to 3\\.529\\d+")
   
   set.seed(8675309)
   x <- truncnorm::rtruncnorm(100, mean = 10, sd = 5)
   
-  expect_message(trunc2norm(x), "mu was set to 10.2615138815768", fixed = TRUE)
-  expect_message(trunc2norm(x), "sd was set to 4.64571854015768", fixed = TRUE)
-  expect_message(trunc2norm(x), "min was set to -3.67564173889628 (min(x) = -2.98432899791241)", fixed = TRUE)
-  expect_message(trunc2norm(x), "max was set to 24.1986695020498 (max(x) = 20.1469578725237)", fixed = TRUE)
+  expect_message(trunc2norm(x), "mu was set to 10\\.261\\d+")
+  expect_message(trunc2norm(x), "sd was set to 4\\.645\\d+")
+  expect_message(trunc2norm(x), "min was set to -3\\.675\\d+ \\(min\\(x\\) = -2\\.984\\d+\\)")
+  expect_message(trunc2norm(x), "max was set to 24\\.198\\d+ \\(max\\(x\\) = 20\\.146\\d+\\)")
   
   # defaults
   for (i in 1:reps) {
@@ -238,3 +238,21 @@ test_that("norm2likert", {
   expect_equal(mean(y == 3), .2, tolerance = tol)
   expect_equal(mean(y == 4), .1, tolerance = tol)
 })
+
+# std_alpha2average_r ----
+test_that("std_alpha2average_r", {
+  set.seed(10)
+  
+  replicate(10, {
+    n <- sample(10:100, 1)
+    vars <- sample(5:20, 1)
+    r <- runif(1)
+    dat <- rnorm_multi(n, vars, r = r)
+    suppressWarnings(capture.output(
+      a <- psych::alpha(dat, check.keys = FALSE) %>% summary()
+    ))
+    calc_r <- std_alpha2average_r(a$std.alpha, vars)
+    expect_equal(a$average_r, calc_r, tolerance = .001)
+  })
+})
+

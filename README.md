@@ -22,13 +22,18 @@ It is useful to be able to simulate data with a specified structure. The `faux` 
 
 ## Installation
 
-You can install the newest version of faux from [GitHub](https://github.com/debruine/faux) with:
+You can install the released version of faux from [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
-devtools::install_github("debruine/faux", build_vignettes = TRUE)
+install.packages("faux")
 ```
 
-Because faux is still in early development, some features will break in future versions. Include sessioninfo::package_info() in your script to list the versions of all loaded packages.
+And the development version from [GitHub](https://github.com/debruine/faux) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("debruine/faux")
+```
 
 ## How to use faux
 
@@ -69,14 +74,14 @@ df <- sim_design(within, between,
 
 |pet |   n|var     | morning| noon| evening| night| mean| sd|
 |:---|---:|:-------|-------:|----:|-------:|-----:|----:|--:|
-|cat | 100|morning |     1.0|  0.5|     0.5|   0.5|   10|  5|
-|cat | 100|noon    |     0.5|  1.0|     0.5|   0.5|   12|  5|
 |cat | 100|evening |     0.5|  0.5|     1.0|   0.5|   14|  5|
+|cat | 100|morning |     1.0|  0.5|     0.5|   0.5|   10|  5|
 |cat | 100|night   |     0.5|  0.5|     0.5|   1.0|   16|  5|
-|dog | 100|morning |     1.0|  0.5|     0.5|   0.5|   10|  5|
-|dog | 100|noon    |     0.5|  1.0|     0.5|   0.5|   15|  5|
+|cat | 100|noon    |     0.5|  1.0|     0.5|   0.5|   12|  5|
 |dog | 100|evening |     0.5|  0.5|     1.0|   0.5|   20|  5|
+|dog | 100|morning |     1.0|  0.5|     0.5|   0.5|   10|  5|
 |dog | 100|night   |     0.5|  0.5|     0.5|   1.0|   25|  5|
+|dog | 100|noon    |     0.5|  1.0|     0.5|   0.5|   15|  5|
 
 
 Table: Sample `sim_design()` stats
@@ -132,20 +137,9 @@ You can then see how changing these numbers affects the random effects in an int
 lme4::lmer(y ~ 1 + (1 | sub_id) + (1 | item_id), data = dat) %>%
   broom.mixed::tidy() %>%
   knitr::kable(digits = 2)
-#> Registered S3 methods overwritten by 'broom.mixed':
-#>   method         from 
-#>   augment.lme    broom
-#>   augment.merMod broom
-#>   glance.lme     broom
-#>   glance.merMod  broom
-#>   glance.stanreg broom
-#>   tidy.brmsfit   broom
-#>   tidy.gamlss    broom
-#>   tidy.lme       broom
-#>   tidy.merMod    broom
-#>   tidy.rjags     broom
-#>   tidy.stanfit   broom
-#>   tidy.stanreg   broom
+#> Registered S3 method overwritten by 'broom.mixed':
+#>   method      from 
+#>   tidy.gamlss broom
 ```
 
 
@@ -191,6 +185,7 @@ dat <- rnorm_multi(
   varnames = c("A", "B", "C"),
   empirical = FALSE
 )
+#> [32mThe number of variables (vars) was guessed from the input to be 3[39m
 ```
 
 
@@ -269,10 +264,10 @@ get_params(iris)
 
 |   n|var          | Sepal.Length| Sepal.Width| Petal.Length| Petal.Width| mean|   sd|
 |---:|:------------|------------:|-----------:|------------:|-----------:|----:|----:|
-| 150|Sepal.Length |         1.00|       -0.12|         0.87|        0.82| 5.84| 0.83|
-| 150|Sepal.Width  |        -0.12|        1.00|        -0.43|       -0.37| 3.06| 0.44|
 | 150|Petal.Length |         0.87|       -0.43|         1.00|        0.96| 3.76| 1.77|
 | 150|Petal.Width  |         0.82|       -0.37|         0.96|        1.00| 1.20| 0.76|
+| 150|Sepal.Length |         1.00|       -0.12|         0.87|        0.82| 5.84| 0.83|
+| 150|Sepal.Width  |        -0.12|        1.00|        -0.43|       -0.37| 3.06| 0.44|
 
 
 
@@ -289,18 +284,18 @@ get_params(iris,
 
 |Species    |  n|var          | Sepal.Length| Sepal.Width| Petal.Length| Petal.Width| mean|   sd|
 |:----------|--:|:------------|------------:|-----------:|------------:|-----------:|----:|----:|
-|setosa     | 50|Sepal.Length |         1.00|        0.74|         0.27|        0.28| 5.01| 0.35|
-|setosa     | 50|Sepal.Width  |         0.74|        1.00|         0.18|        0.23| 3.43| 0.38|
 |setosa     | 50|Petal.Length |         0.27|        0.18|         1.00|        0.33| 1.46| 0.17|
 |setosa     | 50|Petal.Width  |         0.28|        0.23|         0.33|        1.00| 0.25| 0.11|
-|versicolor | 50|Sepal.Length |         1.00|        0.53|         0.75|        0.55| 5.94| 0.52|
-|versicolor | 50|Sepal.Width  |         0.53|        1.00|         0.56|        0.66| 2.77| 0.31|
+|setosa     | 50|Sepal.Length |         1.00|        0.74|         0.27|        0.28| 5.01| 0.35|
+|setosa     | 50|Sepal.Width  |         0.74|        1.00|         0.18|        0.23| 3.43| 0.38|
 |versicolor | 50|Petal.Length |         0.75|        0.56|         1.00|        0.79| 4.26| 0.47|
 |versicolor | 50|Petal.Width  |         0.55|        0.66|         0.79|        1.00| 1.33| 0.20|
-|virginica  | 50|Sepal.Length |         1.00|        0.46|         0.86|        0.28| 6.59| 0.64|
-|virginica  | 50|Sepal.Width  |         0.46|        1.00|         0.40|        0.54| 2.97| 0.32|
+|versicolor | 50|Sepal.Length |         1.00|        0.53|         0.75|        0.55| 5.94| 0.52|
+|versicolor | 50|Sepal.Width  |         0.53|        1.00|         0.56|        0.66| 2.77| 0.31|
 |virginica  | 50|Petal.Length |         0.86|        0.40|         1.00|        0.32| 5.55| 0.55|
 |virginica  | 50|Petal.Width  |         0.28|        0.54|         0.32|        1.00| 2.03| 0.27|
+|virginica  | 50|Sepal.Length |         1.00|        0.46|         0.86|        0.28| 6.59| 0.64|
+|virginica  | 50|Sepal.Width  |         0.46|        1.00|         0.40|        0.54| 2.97| 0.32|
 
 
 
@@ -339,14 +334,14 @@ df_wide <- long2wide(df_long)
 ```
 
 
-|id   |pet |        day|      night|
-|:----|:---|----------:|----------:|
-|S001 |cat |  0.5230799|  0.5415126|
-|S002 |cat | -1.2129722| -0.6874280|
-|S003 |cat | -0.5516822| -0.7844739|
-|S004 |cat | -0.6098251| -0.6234040|
-|S005 |cat |  0.2853363|  2.3027620|
-|S006 |cat | -0.2490935| -0.6530662|
+|         |id   |pet |        day|      night|
+|:--------|:----|:---|----------:|----------:|
+|1.S001.1 |S001 |cat |  0.5230799|  0.5415126|
+|1.S002.1 |S002 |cat | -1.2129722| -0.6874280|
+|1.S003.1 |S003 |cat | -0.5516822| -0.7844739|
+|1.S004.1 |S004 |cat | -0.6098251| -0.6234040|
+|1.S005.1 |S005 |cat |  0.2853363|  2.3027620|
+|1.S006.1 |S006 |cat | -0.2490935| -0.6530662|
 
 If you have a data table not made by faux, you need to specify the within-subject columns, the between-subject columns, the DV column, and the ID column.
 
@@ -368,14 +363,14 @@ df_wide <- long2wide(df_long, within = c("A", "B"),
 
 
 
-| sub_id|C  |      A1_B1|      A1_B2|      A2_B1|      A2_B2|
+| sub_id|C  |      A1_B1|      A2_B1|      A1_B2|      A2_B2|
 |------:|:--|----------:|----------:|----------:|----------:|
-|      1|C1 | -0.3782026| -0.5674500|  0.0048040|  0.6154273|
-|      2|C2 |  0.5338898|  1.7815958| -1.6407051| -2.1325543|
-|      3|C1 |  1.2792787|  0.6207239|  1.4960844|  1.7913821|
-|      4|C2 |  0.1885384| -0.7397000| -0.0884940|  0.0295121|
-|      5|C1 | -0.3090509|  0.9916406| -0.3942107| -0.2951152|
-|      6|C2 |  1.4168226|  0.0634940|  0.8341336| -1.1571559|
+|      1|C1 | -0.3782026|  0.0048040| -0.5674500|  0.6154273|
+|      2|C2 |  0.5338898| -1.6407051|  1.7815958| -2.1325543|
+|      3|C1 |  1.2792787|  1.4960844|  0.6207239|  1.7913821|
+|      4|C2 |  0.1885384| -0.0884940| -0.7397000|  0.0295121|
+|      5|C1 | -0.3090509| -0.3942107|  0.9916406| -0.2951152|
+|      6|C2 |  1.4168226|  0.8341336|  0.0634940| -1.1571559|
 
 
 
@@ -394,14 +389,14 @@ df_long <- wide2long(df_wide)
 
 
 
-|id   |pet |time |          y|
-|:----|:---|:----|----------:|
-|S001 |cat |day  | -0.9012830|
-|S002 |cat |day  | -0.3205931|
-|S003 |cat |day  | -0.7733501|
-|S004 |cat |day  | -1.1861210|
-|S005 |cat |day  | -1.0848848|
-|S006 |cat |day  | -0.4888620|
+|       |id   |pet |time |          y|
+|:------|:----|:---|:----|----------:|
+|S001.1 |S001 |cat |day  | -0.9012830|
+|S002.1 |S002 |cat |day  | -0.3205931|
+|S003.1 |S003 |cat |day  | -0.7733501|
+|S004.1 |S004 |cat |day  | -1.1861210|
+|S005.1 |S005 |cat |day  | -1.0848848|
+|S006.1 |S006 |cat |day  | -0.4888620|
 
 
 
@@ -423,14 +418,14 @@ long_iris <- wide2long(
 
 
 
-|Species |flower_id |feature |dimension | value|
-|:-------|:---------|:-------|:---------|-----:|
-|setosa  |S001      |Sepal   |Length    |   5.1|
-|setosa  |S002      |Sepal   |Length    |   4.9|
-|setosa  |S003      |Sepal   |Length    |   4.7|
-|setosa  |S004      |Sepal   |Length    |   4.6|
-|setosa  |S005      |Sepal   |Length    |   5.0|
-|setosa  |S006      |Sepal   |Length    |   5.4|
+|       |flower_id |Species |feature |dimension | value|
+|:------|:---------|:-------|:-------|:---------|-----:|
+|S001.1 |S001      |setosa  |Sepal   |Length    |   5.1|
+|S002.1 |S002      |setosa  |Sepal   |Length    |   4.9|
+|S003.1 |S003      |setosa  |Sepal   |Length    |   4.7|
+|S004.1 |S004      |setosa  |Sepal   |Length    |   4.6|
+|S005.1 |S005      |setosa  |Sepal   |Length    |   5.0|
+|S006.1 |S006      |setosa  |Sepal   |Length    |   5.4|
 
 
 
@@ -455,7 +450,7 @@ json_design(design)
 ```
 
 <pre>
-{"within":{"feature":{"Petal":"Petal","Sepal":"Sepal"},"dimension":{"Length":"Length","Width":"Width"}},"between":{"Species":{"setosa":"setosa","versicolor":"versicolor","virginica":"virginica"}},"dv":{"value":"value"},"id":{"flower_id":"flower_id"},"n":{"setosa":50,"versicolor":50,"virginica":50},"mu":{"setosa":{"Petal_Length":1.462,"Petal_Width":0.246,"Sepal_Length":5.006,"Sepal_Width":3.428},"versicolor":{"Petal_Length":4.26,"Petal_Width":1.326,"Sepal_Length":5.936,"Sepal_Width":2.77},"virginica":{"Petal_Length":5.552,"Petal_Width":2.026,"Sepal_Length":6.588,"Sepal_Width":2.974}},"sd":{"setosa":{"Petal_Length":0.173664,"Petal_Width":0.10538559,"Sepal_Length":0.35248969,"Sepal_Width":0.37906437},"versicolor":{"Petal_Length":0.46991098,"Petal_Width":0.19775268,"Sepal_Length":0.51617115,"Sepal_Width":0.31379832},"virginica":{"Petal_Length":0.5518947,"Petal_Width":0.27465006,"Sepal_Length":0.63587959,"Sepal_Width":0.32249664}},"r":{"setosa":[[1,0.33163004,0.26717576,0.17769997],[0.33163004,1,0.27809835,0.23275201],[0.26717576,0.27809835,1,0.74254669],[0.17769997,0.23275201,0.74254669,1]],"versicolor":[[1,0.78666809,0.75404896,0.56052209],[0.78666809,1,0.54646107,0.66399872],[0.75404896,0.54646107,1,0.52591072],[0.56052209,0.66399872,0.52591072,1]],"virginica":[[1,0.32210822,0.86422473,0.40104458],[0.32210822,1,0.28110771,0.53772803],[0.86422473,0.28110771,1,0.45722782],[0.40104458,0.53772803,0.45722782,1]]}}
+{"within":{"feature":{"Sepal":"Sepal","Petal":"Petal"},"dimension":{"Length":"Length","Width":"Width"}},"between":{"Species":{"setosa":"setosa","versicolor":"versicolor","virginica":"virginica"}},"dv":{"value":"value"},"id":{"flower_id":"flower_id"},"n":{"setosa":50,"versicolor":50,"virginica":50},"mu":{"setosa":{"Sepal_Length":5.006,"Sepal_Width":3.428,"Petal_Length":1.462,"Petal_Width":0.246},"versicolor":{"Sepal_Length":5.936,"Sepal_Width":2.77,"Petal_Length":4.26,"Petal_Width":1.326},"virginica":{"Sepal_Length":6.588,"Sepal_Width":2.974,"Petal_Length":5.552,"Petal_Width":2.026}},"sd":{"setosa":{"Sepal_Length":0.35248969,"Sepal_Width":0.37906437,"Petal_Length":0.173664,"Petal_Width":0.10538559},"versicolor":{"Sepal_Length":0.51617115,"Sepal_Width":0.31379832,"Petal_Length":0.46991098,"Petal_Width":0.19775268},"virginica":{"Sepal_Length":0.63587959,"Sepal_Width":0.32249664,"Petal_Length":0.5518947,"Petal_Width":0.27465006}},"r":{"setosa":[[1,0.74254669,0.26717576,0.27809835],[0.74254669,1,0.17769997,0.23275201],[0.26717576,0.17769997,1,0.33163004],[0.27809835,0.23275201,0.33163004,1]],"versicolor":[[1,0.52591072,0.75404896,0.54646107],[0.52591072,1,0.56052209,0.66399872],[0.75404896,0.56052209,1,0.78666809],[0.54646107,0.66399872,0.78666809,1]],"virginica":[[1,0.45722782,0.86422473,0.28110771],[0.45722782,1,0.40104458,0.53772803],[0.86422473,0.40104458,1,0.32210822],[0.28110771,0.53772803,0.32210822,1]]}}
 </pre>
 
 
@@ -468,8 +463,8 @@ json_design(design, pretty = TRUE)
 {
   "within": {
     "feature": {
-      "Petal": "Petal",
-      "Sepal": "Sepal"
+      "Sepal": "Sepal",
+      "Petal": "Petal"
     },
     "dimension": {
       "Length": "Length",
@@ -496,62 +491,62 @@ json_design(design, pretty = TRUE)
   },
   "mu": {
     "setosa": {
-      "Petal_Length": 1.462,
-      "Petal_Width": 0.246,
       "Sepal_Length": 5.006,
-      "Sepal_Width": 3.428
+      "Sepal_Width": 3.428,
+      "Petal_Length": 1.462,
+      "Petal_Width": 0.246
     },
     "versicolor": {
-      "Petal_Length": 4.26,
-      "Petal_Width": 1.326,
       "Sepal_Length": 5.936,
-      "Sepal_Width": 2.77
+      "Sepal_Width": 2.77,
+      "Petal_Length": 4.26,
+      "Petal_Width": 1.326
     },
     "virginica": {
-      "Petal_Length": 5.552,
-      "Petal_Width": 2.026,
       "Sepal_Length": 6.588,
-      "Sepal_Width": 2.974
+      "Sepal_Width": 2.974,
+      "Petal_Length": 5.552,
+      "Petal_Width": 2.026
     }
   },
   "sd": {
     "setosa": {
-      "Petal_Length": 0.173664,
-      "Petal_Width": 0.10538559,
       "Sepal_Length": 0.35248969,
-      "Sepal_Width": 0.37906437
+      "Sepal_Width": 0.37906437,
+      "Petal_Length": 0.173664,
+      "Petal_Width": 0.10538559
     },
     "versicolor": {
-      "Petal_Length": 0.46991098,
-      "Petal_Width": 0.19775268,
       "Sepal_Length": 0.51617115,
-      "Sepal_Width": 0.31379832
+      "Sepal_Width": 0.31379832,
+      "Petal_Length": 0.46991098,
+      "Petal_Width": 0.19775268
     },
     "virginica": {
-      "Petal_Length": 0.5518947,
-      "Petal_Width": 0.27465006,
       "Sepal_Length": 0.63587959,
-      "Sepal_Width": 0.32249664
+      "Sepal_Width": 0.32249664,
+      "Petal_Length": 0.5518947,
+      "Petal_Width": 0.27465006
     }
   },
   "r": {
     "setosa": [
-      [1, 0.33163004, 0.26717576, 0.17769997],
-      [0.33163004, 1, 0.27809835, 0.23275201],
-      [0.26717576, 0.27809835, 1, 0.74254669],
-      [0.17769997, 0.23275201, 0.74254669, 1]
+      [1, 0.74254669, 0.26717576, 0.27809835],
+      [0.74254669, 1, 0.17769997, 0.23275201],
+      [0.26717576, 0.17769997, 1, 0.33163004],
+      [0.27809835, 0.23275201, 0.33163004, 1]
     ],
     "versicolor": [
-      [1, 0.78666809, 0.75404896, 0.56052209],
-      [0.78666809, 1, 0.54646107, 0.66399872],
-      [0.75404896, 0.54646107, 1, 0.52591072],
-      [0.56052209, 0.66399872, 0.52591072, 1]
+      [1, 0.52591072, 0.75404896, 0.54646107],
+      [0.52591072, 1, 0.56052209, 0.66399872],
+      [0.75404896, 0.56052209, 1, 0.78666809],
+      [0.54646107, 0.66399872, 0.78666809, 1]
     ],
     "virginica": [
-      [1, 0.32210822, 0.86422473, 0.40104458],
-      [0.32210822, 1, 0.28110771, 0.53772803],
-      [0.86422473, 0.28110771, 1, 0.45722782],
-      [0.40104458, 0.53772803, 0.45722782, 1]
+      [1, 0.45722782, 0.86422473, 0.28110771],
+      [0.45722782, 1, 0.40104458, 0.53772803],
+      [0.86422473, 0.40104458, 1, 0.32210822],
+      [0.28110771, 0.53772803, 0.32210822, 1]
     ]
   }
 }
@@ -630,5 +625,4 @@ matrix(c(1, .3, -.9, .2,
 
 
 Please note that the [34m'faux'[39m project is released with a [Contributor Code of Conduct](https://github.com/debruine/faux/blob/master/CODE_OF_CONDUCT.md). By contributing to this project, you agree to abide by its terms.
-
 

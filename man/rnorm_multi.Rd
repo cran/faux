@@ -12,7 +12,8 @@ rnorm_multi(
   r = 0,
   varnames = NULL,
   empirical = FALSE,
-  as.matrix = FALSE
+  as.matrix = FALSE,
+  seed = NULL
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ rnorm_multi(
 \item{empirical}{logical. If true, mu, sd and r specify the empirical not population mean, sd and covariance}
 
 \item{as.matrix}{logical. If true, returns a matrix}
+
+\item{seed}{DEPRECATED use set.seed() instead}
 }
 \value{
 a tbl of vars vectors

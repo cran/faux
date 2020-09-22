@@ -9,6 +9,7 @@
 #' @param item_sd the SD of item random intercepts (or an item_n-length named vector of random intercepts for each item)
 #' @param error_sd the SD of the error term
 #' @param empirical Should the returned data have these exact parameters? (versus be sampled from a population with these parameters)
+#' @param seed DEPRECATED use set.seed() instead
 #'
 #' @return a tbl 
 #' @export
@@ -18,12 +19,13 @@
 #' sim_mixed_cc(10, 10)
 sim_mixed_cc <- function(sub_n = 100, item_n = 20, grand_i = 0, 
                          sub_sd = 1, item_sd = 1, error_sd = 1, 
-                         empirical = FALSE) {
-  # if (!is.null(seed)) {
+                         empirical = FALSE, seed = NULL) {
+  if (!is.null(seed)) {
+    warning("The seed argument is deprecated. Please set seed using set.seed() instead")
   #   # reinstate system seed after simulation
   #   gs <- global_seed(); on.exit(global_seed(gs))
   #   set.seed(seed, kind = "Mersenne-Twister", normal.kind = "Inversion")
-  # }
+  }
   
   # sample subject random intercepts----
   if (length(sub_sd) == sub_n) {

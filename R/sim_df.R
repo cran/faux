@@ -13,6 +13,7 @@
 #' @param id the names of the column(s) for grouping observations
 #' @param empirical Should the returned data have these exact parameters? (versus be sampled from a population with these parameters)
 #' @param long whether to return the data table in long format
+#' @param seed DEPRECATED use set.seed() instead
 #' 
 #' @return a tbl
 #' @examples
@@ -22,12 +23,13 @@
 
 sim_df <- function (data, n = 100, within = c(), between = c(), 
                     id = "id", dv = "value",
-                    empirical = FALSE, long = FALSE) {
-  # if (!is.null(seed)) {
+                    empirical = FALSE, long = FALSE, seed = NULL) {
+  if (!is.null(seed)) {
+    warning("The seed argument is deprecated. Please set seed using set.seed() instead")
   #   # reinstate system seed after simulation
   #   gs <- global_seed(); on.exit(global_seed(gs))
   #   set.seed(seed, kind = "Mersenne-Twister", normal.kind = "Inversion")
-  # }
+  }
   
   # error checking ------
   if ( !is.numeric(n) || n %% 1 > 0 || n < 3 ) {
