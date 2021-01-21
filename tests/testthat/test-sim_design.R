@@ -66,7 +66,7 @@ test_that("2w", {
   expect_equal(nrow(df), 100)
   expect_equal(ncol(df), 3)
   expect_equal(names(df), c("sub_id", "W1", "W2"))
-  expect_equal(chk, comp)
+  expect_equivalent(chk, comp)
 })
 
 # 2w*2w ----
@@ -94,7 +94,7 @@ test_that("2w*2w", {
   expect_equal(nrow(df), 100)
   expect_equal(ncol(df), 5)
   expect_equal(names(df), c("id", "W1_X1", "W1_X2", "W2_X1", "W2_X2"))
-  expect_equal(chk, comp)
+  expect_equivalent(chk, comp)
 })
 
 # 2b ----
@@ -119,7 +119,7 @@ test_that("2b", {
   expect_equal(nrow(df), 200)
   expect_equal(ncol(df), 3)
   expect_equal(names(df), c("id", "B", "y"))
-  expect_equal(chk, comp)
+  expect_equivalent(chk, comp)
 })
 
 # 2b*2b ----
@@ -147,7 +147,7 @@ test_that("2b*2b", {
   expect_equal(nrow(df), 400)
   expect_equal(ncol(df), 4)
   expect_equal(names(df), c("id", "A", "B", "y"))
-  expect_equal(chk, comp)
+  expect_equivalent(chk, comp)
 })
 
 # 2w*2b basic ----
@@ -192,7 +192,7 @@ test_that("2w*2b basic", {
   expect_equal(nrow(df), 100)
   expect_equal(ncol(df), 4)
   expect_equal(names(df), c("id", "B", "W1", "W2"))
-  expect_equal(chk, comp)
+  expect_equivalent(chk, comp)
 })
 
 # 2w*2b alt ----
@@ -237,7 +237,7 @@ test_that("2w*2b alt", {
   expect_equal(nrow(df), 100)
   expect_equal(ncol(df), 4)
   expect_equal(names(df), c("id", "B", "W1", "W2"))
-  expect_equal(chk, comp)
+  expect_equivalent(chk, comp)
 })
 
 
@@ -275,7 +275,7 @@ test_that("2w*2b within order", {
   expect_equal(nrow(df), 100)
   expect_equal(ncol(df), 4)
   expect_equal(names(df), c("id", "B", "W1", "W2"))
-  expect_equal(chk, comp)
+  expect_equivalent(chk, comp)
 })
 
 
@@ -322,7 +322,7 @@ test_that("2w*2b order", {
   expect_equal(nrow(df), 100)
   expect_equal(ncol(df), 4)
   expect_equal(names(df), c("id", "B", "W1", "W2"))
-  expect_equal(chk, comp)
+  expect_equivalent(chk, comp)
 })
 
 # 2w*2b*2b ----
@@ -567,7 +567,8 @@ test_that("multiple reps", {
   
   expect_equal(nrow(df), rep)
   expect_equal(nrow(df$data[[1]]), n)
-  expect_false(isTRUE(all.equal(df$data[[1]], df$data[[2]])))
+  expect_false(isTRUE(all.equal(df$data[[1]], df$data[[2]], 
+                                check.environment=FALSE)))
   expect_equal(names(df$data[[1]]), c("id", "A1", "A2"))
   expect_equal(nrow(df$data[[1]]), n)
   
@@ -576,7 +577,8 @@ test_that("multiple reps", {
   
   expect_equal(nrow(df), rep)
   expect_equal(nrow(df$data[[1]]), 2*n)
-  expect_false(isTRUE(all.equal(df$data[[1]], df$data[[2]])))
+  expect_false(isTRUE(all.equal(df$data[[1]], df$data[[2]], 
+                      check.environment=FALSE)))
   expect_equal(names(df$data[[1]]), c("id", "A", "y"))
   expect_equal(nrow(df$data[[1]]), n*2)
 })

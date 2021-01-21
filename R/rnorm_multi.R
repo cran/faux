@@ -15,12 +15,28 @@
 #' @return a tbl of vars vectors
 #' 
 #' @examples
-#' rnorm_multi(100, 3, 0, 1, c(0.2, 0.4, 0.5), varnames=c("A", "B", "C"))
-#' rnorm_multi(100, 3, 0, 1, c(1, 0.2, -0.5, 0.2, 1, 0.5, -0.5, 0.5, 1), varnames=c("A", "B", "C"))
+#' # 4 10-item vectors each correlated r = .5
+#' rnorm_multi(10, 4, r = 0.5)
+#' 
+#' # set r with the upper right triangle
+#' b <- rnorm_multi(100, 3, c(0, .5, 1), 1, 
+#'                  r = c(0.2, -0.5, 0.5), 
+#'                  varnames=c("A", "B", "C"))
+#' cor(b)
+#' 
+#' # set r with a correlation matrix and column names from mu names
+#' c <- rnorm_multi(
+#'   n = 100, 
+#'   mu = c(A = 0, B = 0.5, C = 1),
+#'   r = c( 1,   0.2, -0.5, 
+#'          0.2, 1,    0.5, 
+#'         -0.5, 0.5,  1)
+#' )
+#' cor(c)
 #' 
 #' @export
 
-rnorm_multi <- function(n, vars = NULL, mu = 0, sd = 1, r = 0,
+rnorm_multi <- function(n = 100, vars = NULL, mu = 0, sd = 1, r = 0,
                        varnames = NULL, empirical = FALSE, 
                        as.matrix = FALSE, seed = NULL) {
   if (!is.null(seed)) {
@@ -50,11 +66,7 @@ rnorm_multi <- function(n, vars = NULL, mu = 0, sd = 1, r = 0,
       vars <- ncol(r)
     }
     
-    if (!is.null(vars)) {
-      if (faux_options("verbose")) {
-        message("The number of variables (vars) was guessed from the input to be ", vars)
-      }
-    } else {
+    if (is.null(vars)) {
       stop("The number of variables (vars) was not explicitly set and can't be guessed from the input.")
     }
   }
@@ -65,7 +77,7 @@ rnorm_multi <- function(n, vars = NULL, mu = 0, sd = 1, r = 0,
     stop("the length of mu must be 1 or vars");
   } else {
     # get rid of names
-    mu <- as.matrix(mu) %>% as.vector()
+    #mu <- as.matrix(mu) %>% as.vector()
   }
   
   if (length(sd) == 1) {
@@ -74,7 +86,7 @@ rnorm_multi <- function(n, vars = NULL, mu = 0, sd = 1, r = 0,
     stop("the length of sd must be 1 or vars");
   } else {
     # get rid of names
-    sd <- as.matrix(sd) %>% as.vector()
+    #sd <- as.matrix(sd) %>% as.vector()
   }
   
   if (n == 1 & empirical == TRUE) {
@@ -122,6 +134,12 @@ rnorm_multi <- function(n, vars = NULL, mu = 0, sd = 1, r = 0,
   } else if (!is.null(colnames(cor_mat))) {
     # if r was a matrix with names, use that
     colnames(mvn) <- colnames(cor_mat)
+  } else if (!is.null(names(mu))) {
+    #use mu names 
+    colnames(mvn) <- names(mu)
+  } else if (!is.null(names(sd))) {
+    #use sd names 
+    colnames(mvn) <- names(sd)
   } else {
     colnames(mvn) <- make_id(ncol(mvn), "X")
   }

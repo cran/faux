@@ -291,21 +291,21 @@ test_that("params table", {
     "Within-subject variables:",
     "",
     "* time: ",
-    "  * morning: am",
-    "  * night: pm",
+    "    * morning: am",
+    "    * night: pm",
     "* condition: ",
-    "  * A: cond 1",
-    "  * B: cond 2",
-    "  * C: cond 3",
+    "    * A: cond 1",
+    "    * B: cond 2",
+    "    * C: cond 3",
     "",
     "Between-subject variables:",
     "",
     "* pet: ",
-    "  * dog: Dogs",
-    "  * cat: Cats",
+    "    * dog: Dogs",
+    "    * cat: Cats",
     "* x: ",
-    "  * X1: First",
-    "  * X2: Second"
+    "    * X1: First",
+    "    * X2: Second"
   )
   
   op <- capture.output(des)

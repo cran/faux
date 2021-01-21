@@ -2,7 +2,6 @@ test_that("error messages", {
   expect_warning(rnorm_multi(n = 1, vars = 3, empirical = TRUE),
     "When n = 1 and empirical = TRUE, returned data are equal to mu")
   
-  expect_error(rnorm_multi(), "argument \"n\" is missing, with no default")
   expect_error(rnorm_multi(-1), "n must be an integer > 0")
   expect_error(rnorm_multi(10.3), "n must be an integer > 0")
   expect_error(rnorm_multi("A"), "n must be an integer > 0")
@@ -131,16 +130,30 @@ test_that("guessing vars", {
   expect_error(rnorm_multi(n = 10), err, fixed = TRUE)
   expect_error(rnorm_multi(n = 10, r = c(.5, .5, .25)), err, fixed = TRUE)
   
-  msg <- "The number of variables (vars) was guessed from the input to be 2"
-  expect_message(rnorm_multi(10, mu = c(1,2)), msg, fixed = TRUE)
-  expect_message(rnorm_multi(10, sd = c(1,2)), msg, fixed = TRUE)
-  covmat <- matrix(c(1,.5,.5, 1), nrow = 2)
-  expect_message(rnorm_multi(10, r = covmat), msg, fixed = TRUE)
+  s <- rnorm_multi(n = 10, mu = 1:2)
+  expect_equal(ncol(s), 2)
   
-  faux_options(verbose = FALSE)
-  on.exit(faux_options(verbose = TRUE))
-  expect_silent(rnorm_multi(10, r = covmat))
+  s <- rnorm_multi(n = 10, sd = 1:3)
+  expect_equal(ncol(s), 3)
   
+  s <- rnorm_multi(n = 10, varnames = LETTERS[1:4])
+  expect_equal(ncol(s), 4)
+})
+
+# names from parameters ----
+test_that("names", {
+  s <- rnorm_multi(n = 10, varnames = c("A", "B"))
+  expect_equal(names(s), c("A", "B"))
+  
+  s <- rnorm_multi(n = 10, mu = c(A = 1, B = 2))
+  expect_equal(names(s), c("A", "B"))
+  
+  s <- rnorm_multi(n = 10, sd = c(A = 1, B = 2))
+  expect_equal(names(s), c("A", "B"))
+  
+  r <- cor(s)
+  s <- rnorm_multi(n = 10, r = r)
+  expect_equal(names(s), c("A", "B"))
 })
 
 # seed ----

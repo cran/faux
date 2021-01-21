@@ -5,7 +5,7 @@
 \title{Multiple correlated normal distributions}
 \usage{
 rnorm_multi(
-  n,
+  n = 100,
   vars = NULL,
   mu = 0,
   sd = 1,
@@ -42,7 +42,23 @@ a tbl of vars vectors
 Make normally distributed vectors with specified relationships. See \href{../doc/rnorm_multi.html}{\code{vignette("rnorm_multi", package = "faux")}} for details.
 }
 \examples{
-rnorm_multi(100, 3, 0, 1, c(0.2, 0.4, 0.5), varnames=c("A", "B", "C"))
-rnorm_multi(100, 3, 0, 1, c(1, 0.2, -0.5, 0.2, 1, 0.5, -0.5, 0.5, 1), varnames=c("A", "B", "C"))
+# 4 10-item vectors each correlated r = .5
+rnorm_multi(10, 4, r = 0.5)
+
+# set r with the upper right triangle
+b <- rnorm_multi(100, 3, c(0, .5, 1), 1, 
+                 r = c(0.2, -0.5, 0.5), 
+                 varnames=c("A", "B", "C"))
+cor(b)
+
+# set r with a correlation matrix and column names from mu names
+c <- rnorm_multi(
+  n = 100, 
+  mu = c(A = 0, B = 0.5, C = 1),
+  r = c( 1,   0.2, -0.5, 
+         0.2, 1,    0.5, 
+        -0.5, 0.5,  1)
+)
+cor(c)
 
 }

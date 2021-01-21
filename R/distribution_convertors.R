@@ -263,8 +263,6 @@ std_alpha2average_r <- function(std_alpha, n) {
 #'
 #' @return The standard deviation of the random intercept
 #' @export
-#'
-#' @examples
 average_r2tau_0 <- function(average_r, sigma) {
   sqrt((average_r * sigma^2) / (1 - average_r))
 }

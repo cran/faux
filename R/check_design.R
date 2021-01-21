@@ -19,6 +19,7 @@
 #' @param vardesc a list of variable descriptions having the names of the within- and between-subject factors
 #' @param plot whether to show a plot of the design
 #' @param design a design list including within, between, n, mu, sd, r, dv, id
+#' @param fix_names fix variable names so special characters become . or _ (default TRUE)
 #' 
 #' @return list
 #' 
@@ -41,7 +42,8 @@ check_design <- function(within = list(), between = list(),
                          dv = list(y = "value"), 
                          id = list(id = "id"), 
                          vardesc = list(),
-                         plot = faux_options("plot"), design = NULL) {
+                         plot = faux_options("plot"), 
+                         design = NULL, fix_names = TRUE) {
   # design passed as design list
   if (!is.null(design)) {
     # double-check the entered design
@@ -70,8 +72,10 @@ check_design <- function(within = list(), between = list(),
   
   # if within or between factors are named vectors, 
   # use their names as column names and values as labels for plots
-  between <- lapply(between, fix_name_labels, pattern = "_")
-  within <- lapply(within, fix_name_labels, pattern = "_")
+  pattern <- NULL
+  if (fix_names) pattern <- "_"
+  between <- lapply(between, fix_name_labels, pattern = pattern)
+  within <- lapply(within, fix_name_labels, pattern = pattern)
   dv <- fix_name_labels(dv, pattern = NULL)
   id <- fix_name_labels(id, pattern = NULL)
   

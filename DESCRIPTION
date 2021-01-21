@@ -1,7 +1,7 @@
 Package: faux
 Title: Simulation for Factorial Designs
-Version: 0.0.1.5
-Date: 2020-09-11
+Version: 0.0.1.6
+Date: 2021-01-05
 Authors@R: c(
     person(
         given = "Lisa", 
@@ -37,10 +37,10 @@ LazyData: true
 URL: https://github.com/debruine/faux
 BugReports: https://github.com/debruine/faux/issues
 NeedsCompilation: no
-Packaged: 2020-09-21 13:33:30 UTC; lisad
+Packaged: 2021-01-18 16:13:24 UTC; lisad
 Author: Lisa DeBruine [aut, cre] (<https://orcid.org/0000-0002-7523-5539>),
   Anna Krystalli [ctb] (<https://orcid.org/0000-0002-2378-4915>),
   Andrew Heiss [ctb] (<https://orcid.org/0000-0002-3948-3914>)
 Maintainer: Lisa DeBruine <debruine@gmail.com>
 Repository: CRAN
-Date/Publication: 2020-09-22 06:30:13 UTC
+Date/Publication: 2021-01-21 11:20:02 UTC

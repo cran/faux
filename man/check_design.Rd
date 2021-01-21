@@ -15,7 +15,8 @@ check_design(
   id = list(id = "id"),
   vardesc = list(),
   plot = faux_options("plot"),
-  design = NULL
+  design = NULL,
+  fix_names = TRUE
 )
 }
 \arguments{
@@ -40,6 +41,8 @@ check_design(
 \item{plot}{whether to show a plot of the design}
 
 \item{design}{a design list including within, between, n, mu, sd, r, dv, id}
+
+\item{fix_names}{fix variable names so special characters become . or _ (default TRUE)}
 }
 \value{
 list

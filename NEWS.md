@@ -1,6 +1,12 @@
+# faux 0.0.1.6 (2021-01-05)
+
+* `nested_list()` updated to match scienceverse version and handle edge cases better
+* changes to tests for changes in CRAN development environments
+* `rnorm_multi()` can get column names from mu, sd, or r names
+
 # faux 0.0.1.5 (2020-09-11)
 
-* Removed a test using markdown that failed on Solaris (causing faux to be pulled from CRAN)
+* Removed a test using markdown that failed on Solaris (causing faux to be pulled from CRAN) Back on CRAN!
 * `seed` arguments reinstated as deprecated and produce a warning
 
 # faux 0.0.1.4 (2020-08-12)

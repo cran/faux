@@ -17,45 +17,49 @@
 #'            e2 = list(a = "A", b = "B"),
 #'            e3 = c("A", "B", "C"),
 #'            e4 = 100),
-#'   f = "not a list or vector"
+#'   f = "single item vector",
+#'   g = list()
 #' )
 #' nested_list(x)
 nested_list <- function(x, pre = "", quote = "") {
   txt <- c()
-  if (is.list(x) | length(x) > 1) {
-    if (is.null(names(x))) {
-      # unnamed list
-      for (i in 1:length(x)) {
-        y <- x[[i]]
-        if (is.list(y) | length(y) > 1) {
-          txt[length(txt)+1] <- paste0(pre, "* ", i, ": ")
-          subtxt<- nested_list(y, paste(pre, "  "), quote)
-        } else {
-          subtxt<- nested_list(y, pre, quote)
-        }
-        txt <- c(txt, subtxt)
-      }
+  
+  if (is.function(x)) {
+    fnc <- x %>%
+      jsonlite::toJSON() %>%
+      jsonlite::fromJSON()
+    
+    txt <- c("```r", fnc, "```") %>%
+      paste0(pre, .)
+  } else if (!is.null(x) & !is.atomic(x) & !is.vector(x) & !is.list(x)) {
+    # not a displayable type
+    txt <- class(x)[1] %>% paste0("{", ., "}")
+  } else if (is.null(x) | length(x) == 0) {
+    txt <- "{empty}"
+  } else if (length(x) == 1 &
+             is.null(names(x)) &
+             !is.list(x)) { # single-item unnamed vector
+    txt <- paste0(quote, x, quote)
+  } else { # x is a list, named vector, or vector length > 1
+    # handle named, unnamed, or partially named
+    list_names <- names(x)
+    if (is.null(list_names)) {
+      bullet <- paste0(1:length(x), ". ")
     } else {
-      # named list
-      for (y in names(x)) {
-        if (is.list(x[[y]]) | length(x[[y]]) > 1) {
-          # non-terminal named list entry
-          txt[length(txt)+1] <- paste0(pre, "* ", y, ": ")
-          subtxt <- nested_list(x[[y]], paste0(pre, "  "), quote)
-          txt <- c(txt, subtxt)
-        } else {
-          # terminal named list entry
-          entry <- paste(x[[y]], collapse = ", ")
-          txt[length(txt)+1] <-
-            paste0(pre, "* ", y, ": ", quote, entry, quote)
-        }
-      }
+      blanks <- grep("^$", list_names)
+      list_names[blanks] <- paste0("{", blanks, "}")
+      bullet <- paste0("* ", list_names, ": ")
     }
-  } else {
-    # terminal unnamed list entry
-    collapse <- paste0(quote, ", ", quote)
-    txt[length(txt)+1] <- paste0(pre, "* ", quote,
-                                 paste(x, collapse = collapse), quote)
+    
+    pre2 <- paste0(pre, "    ")
+    txt <- lapply(seq_along(x), function(i) {
+      item <- x[[i]]
+      sub <- nested_list(item, pre2, quote)
+      # add line break unless item is unnamed and length = 1
+      lbreak <- ifelse(length(item) > 1 | (length(names(item)) > 0), "\n", "")
+      if (grepl("\n", sub)) lbreak <- "\n"
+      paste0(pre, bullet[i], lbreak, sub)
+    })
   }
   
   list_txt <- paste(txt, collapse = "\n")
