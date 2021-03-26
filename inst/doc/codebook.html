@@ -14,22 +14,7 @@
 
 <title>Codebook Demo</title>
 
-<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
-// v0.0.1
-// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
-
-document.addEventListener('DOMContentLoaded', function() {
-  const codeList = document.getElementsByClassName("sourceCode");
-  for (var i = 0; i < codeList.length; i++) {
-    var linkList = codeList[i].getElementsByTagName('a');
-    for (var j = 0; j < linkList.length; j++) {
-      if (linkList[j].innerHTML === "") {
-        linkList[j].setAttribute('aria-hidden', 'true');
-      }
-    }
-  }
-});
-</script>
+<script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -41,21 +26,28 @@ document.addEventListener('DOMContentLoaded', function() {
     </style>
 
 
-<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -75,7 +67,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -133,187 +125,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<style type="text/css">body {
-background-color: #fff;
-margin: 1em auto;
-max-width: 700px;
-overflow: visible;
-padding-left: 2em;
-padding-right: 2em;
-font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-font-size: 14px;
-line-height: 1.35;
-}
-#TOC {
-clear: both;
-margin: 0 0 10px 10px;
-padding: 4px;
-width: 400px;
-border: 1px solid #CCCCCC;
-border-radius: 5px;
-background-color: #f6f6f6;
-font-size: 13px;
-line-height: 1.3;
-}
-#TOC .toctitle {
-font-weight: bold;
-font-size: 15px;
-margin-left: 5px;
-}
-#TOC ul {
-padding-left: 40px;
-margin-left: -1.5em;
-margin-top: 5px;
-margin-bottom: 5px;
-}
-#TOC ul ul {
-margin-left: -2em;
-}
-#TOC li {
-line-height: 16px;
-}
-table {
-margin: 1em auto;
-border-width: 1px;
-border-color: #DDDDDD;
-border-style: outset;
-border-collapse: collapse;
-}
-table th {
-border-width: 2px;
-padding: 5px;
-border-style: inset;
-}
-table td {
-border-width: 1px;
-border-style: inset;
-line-height: 18px;
-padding: 5px 5px;
-}
-table, table th, table td {
-border-left-style: none;
-border-right-style: none;
-}
-table thead, table tr.even {
-background-color: #f7f7f7;
-}
-p {
-margin: 0.5em 0;
-}
-blockquote {
-background-color: #f6f6f6;
-padding: 0.25em 0.75em;
-}
-hr {
-border-style: solid;
-border: none;
-border-top: 1px solid #777;
-margin: 28px 0;
-}
-dl {
-margin-left: 0;
-}
-dl dd {
-margin-bottom: 13px;
-margin-left: 13px;
-}
-dl dt {
-font-weight: bold;
-}
-ul {
-margin-top: 0;
-}
-ul li {
-list-style: circle outside;
-}
-ul ul {
-margin-bottom: 0;
-}
-pre, code {
-background-color: #f7f7f7;
-border-radius: 3px;
-color: #333;
-white-space: pre-wrap; 
-}
-pre {
-border-radius: 3px;
-margin: 5px 0px 10px 0px;
-padding: 10px;
-}
-pre:not([class]) {
-background-color: #f7f7f7;
-}
-code {
-font-family: Consolas, Monaco, 'Courier New', monospace;
-font-size: 85%;
-}
-p > code, li > code {
-padding: 2px 0px;
-}
-div.figure {
-text-align: center;
-}
-img {
-background-color: #FFFFFF;
-padding: 2px;
-border: 1px solid #DDDDDD;
-border-radius: 3px;
-border: 1px solid #CCCCCC;
-margin: 0 5px;
-}
-h1 {
-margin-top: 0;
-font-size: 35px;
-line-height: 40px;
-}
-h2 {
-border-bottom: 4px solid #f7f7f7;
-padding-top: 10px;
-padding-bottom: 2px;
-font-size: 145%;
-}
-h3 {
-border-bottom: 2px solid #f7f7f7;
-padding-top: 10px;
-font-size: 120%;
-}
-h4 {
-border-bottom: 1px solid #f7f7f7;
-margin-left: 8px;
-font-size: 105%;
-}
-h5, h6 {
-border-bottom: 1px solid #ccc;
-font-size: 105%;
-}
-a {
-color: #0033dd;
-text-decoration: none;
-}
-a:hover {
-color: #6666ff; }
-a:visited {
-color: #800080; }
-a:visited:hover {
-color: #BB00BB; }
-a[href^="http:"] {
-text-decoration: underline; }
-a[href^="https:"] {
-text-decoration: underline; }
-
-code > span.kw { color: #555; font-weight: bold; } 
-code > span.dt { color: #902000; } 
-code > span.dv { color: #40a070; } 
-code > span.bn { color: #d14; } 
-code > span.fl { color: #d14; } 
-code > span.ch { color: #d14; } 
-code > span.st { color: #d14; } 
-code > span.co { color: #888888; font-style: italic; } 
-code > span.ot { color: #007020; } 
-code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; } 
-code > span.er { color: #a61717; background-color: #e3d2d2; } 
-</style>
+<link rel="stylesheet" href="data:text/css,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" type="text/css" />
 
 
 
@@ -329,437 +141,427 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(faux)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(faux)</span></code></pre></div>
 <p>Codebooks in faux follow the <a href="https://docs.google.com/document/d/1u8o5jnWk0Iqp_J06PTu5NjBfVsdoPbBhstht6W0fFp0/edit">Psych-DS 0.1.0 format</a>, which is still in development.</p>
 <div id="simulated-data" class="section level2">
 <h2>Simulated Data</h2>
 <p>When you simulate data with <code>sim_design</code>, the codebook function reads some parameters of the design.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>pet_data &lt;-<span class="st"> </span><span class="kw">sim_design</span>(</span>
-<span id="cb2-2"><a href="#cb2-2"></a>  <span class="dt">between =</span> <span class="kw">list</span>(<span class="dt">pet =</span> <span class="kw">c</span>(<span class="dt">cat =</span> <span class="st">&quot;Cat Owners&quot;</span>, </span>
-<span id="cb2-3"><a href="#cb2-3"></a>                         <span class="dt">dog =</span> <span class="st">&quot;Dog Owners&quot;</span>)),</span>
-<span id="cb2-4"><a href="#cb2-4"></a>  <span class="dt">n =</span> <span class="kw">c</span>(<span class="dv">4</span>, <span class="dv">6</span>),</span>
-<span id="cb2-5"><a href="#cb2-5"></a>  <span class="dt">dv =</span> <span class="kw">list</span>(<span class="dt">happy =</span> <span class="st">&quot;Happiness Score&quot;</span>),</span>
-<span id="cb2-6"><a href="#cb2-6"></a>  <span class="dt">id =</span> <span class="kw">list</span>(<span class="dt">id =</span> <span class="st">&quot;Subject ID&quot;</span>),</span>
-<span id="cb2-7"><a href="#cb2-7"></a>  <span class="dt">mu =</span> <span class="kw">c</span>(<span class="dv">10</span>, <span class="dv">12</span>),</span>
-<span id="cb2-8"><a href="#cb2-8"></a>  <span class="dt">sd =</span> <span class="dv">4</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a>)</span></code></pre></div>
-<p><img src="data:image/png;base64,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ZLPaX3fddXH11VfHm2++GSeccEKMHTu22XRPCBAgQIAAAQIECBBoP4Eu7beo1pf06quvxte+9rXo06dP9ld45cSJE+Phhx+OG2+8MXr37h277bZbvPDCC9lj4TUeCRAgQIAAAQIECBBoP4E1kgDMmzcvzj///Hjvvfdi1KhRxdqnrf077rhjTJ06Nf7whz/EXnvtFbvuumtxehq466674uabby6O69mzZ/b64ggDBOpQYOnSpVnUM2fOjNmzZ9ehgJAJECDQXKBx3uxomjMjpnZZI12b5m/uGYEqEmhsbIympqayNVoj35IBAwZklXjssceaVSZ1/F9//fUYMWJEbLPNNnH99dfHueeeG4MGDSq+rn///s2Sgpdeeim6detWnG6AQD0KLFmyJPtyd+3aNRoaGuqRQMwECBBoJjDnoV/EjNsujn+59d1m4z0hUG8CnTuv/Aj/NZIAtAafOjHTp0+Pu+++O+vEDBw4MO65555mCcA+++wT6a9Qhg0b1uwwosJ4jwTqSSBl9+m8ml69ekWPHj3qKXSxEiBAoEWB2cs2iKSSDjdWCNSzQOojrGzj4MpThNUo2K9fv9h2222LlUx7AdI5AAoBAgQIECBAgAABAqtHoEMTgMGDB8eECRNi8uTJWXTphOB0ToBCgAABAgQIECBAgMDqEejQQ4A23HDDOPXUU7O/dBWgLstO3LnssstWT6SWSoAAAQIECBAgQIBArNEEYMiQIZH+SsvQoUNjv/32i3STMMftlcoYJkCAAAECBAgQIND+Ah16CFAhnHSigs5/QcMjAQIECBAgQIAAgdUnUBUJwOoLz5IJECBAgAABAgQIECgVkACUahgmQIAAAQIECBAgkHMBCUDOG1h4BAgQIECAAAECBEoFJAClGoYJECBAgAABAgQI5FxAApDzBhYeAQIECBAgQIAAgVIBCUCphmECBAgQIECAAAECOReQAOS8gYVHgAABAgQIECBAoFRAAlCqYZgAAQIECBAgQIBAzgUkADlvYOERIECAAAECBAgQKBWQAJRqGCZAgAABAgQIECCQcwEJQM4bWHgECBAgQIAAAQIESgUkAKUahgkQIECAAAECBAjkXEACkPMGFh4BAgQIECBAgACBUgEJQKmGYQIECBAgQIAAAQI5F5AA5LyBhUeAAAECBAgQIECgVEACUKphmAABAgQIECBAgEDOBSQAOW9g4REgQIAAAQIECBAoFZAAlGoYJkCAAAECBAgQIJBzAQlAzhtYeAQIECBAgAABAgRKBSQApRqGCRAgQIAAAQIECORcQAKQ8wYWHgECBAgQIECAAIFSAQlAqYZhAgQIECBAgAABAjkXkADkvIGFR4AAAQIECBAgQKBUQAJQqmGYAAECBAgQIECAQM4FJAA5b2DhESBAgAABAgQIECgVkACUahgmQIAAAQIECBAgkHMBCUDOG1h4BAgQIECAAAECBEoFJAClGoYJECBAgAABAgQI5FxAApDzBhYeAQIECBAgQIAAgVIBCUCphmECBAgQIECAAAECOReQAOS8gYVHgAABAgQIECBAoFSgS+mTWhheunRpLFiwoBaqqo4EVptAU1NTtuxFixattvewYAIECNSSQGG9qI9QS62mrqtDoLGxMVJ/uVypyQRgyZIl5WIyjUDuBQpf7PTo+5D75hYgAQIVCXzQ4bFOrAjLi3IskL4DhX5Ca2HWXALQuXPn6NWrV2vxGE+gLgRSdj979uzo3r179OjRoy5iFiQBAgTKCTQ0fNCl0Ucop2RaPQikPkLqL5cr5aeWm9M0AgQIECBAgAABAgRqTkACUHNNpsIECBAgQIAAAQIE2i4gAWi7nTkJECBAgAABAgQI1JyABKDmmkyFCRAgQIAAAQIECLRdQALQdjtzEiBAgAABAgQIEKg5AQlAzTWZChMgQIAAAQIECBBou4AEoO125iRAgAABAgQIECBQcwISgJprMhUmQIAAAQIECBAg0HYBCUDb7cxJgAABAgQIECBAoOYEJAA112QqTIAAAQIECBAgQKDtAhKAttuZkwABAgQIECBAgEDNCUgAaq7JVJgAAQIECBAgQIBA2wUkAG23MycBAgQIECBAgACBmhOQANRck6kwAQIECBAgQIAAgbYLSADabmdOAgQIECBAgAABAjUnIAGouSZTYQIECBAgQIAAAQJtF5AAtN3OnAQIECBAgAABAgRqTkACUHNNpsIECBAgQIAAAQIE2i4gAWi7nTkJECBAgAABAgQI1JyABKDmmkyFCRAgQIAAAQIECLRdQALQdjtzEiBAgAABAgQIEKg5AQlAzTWZChMgQIAAAQIECBBou4AEoO125iRAgAABAgQIECBQcwISgJprMhUmQIAAAQIECBAg0HYBCUDb7cxJgAABAgQIECBA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IECAAAECBAgQKCcgASinYxoBAgQIECBAgACBnAlIAHLWoMIhQIAAAQIECBAgUE5AAlBOxzQCBAgQIECAAAECORP4pxKA+fPnxx133BGXXHJJTJw4MZ5++ulYsmRJzkiEQ4AAAQIECBAgQCC/Al0qDW3ChAlxwAEHxKRJk7JO/0EHHRQXXHBBzJw5M375y1/GRhttVOmivI4AAQIECBAgQIAAgQ4SqHgPwPHHHx+DBw+OKVOmxGabbZZV96abborOnTvH7bff3kHV97YECBAgQIAAAQIECPwzAhUlAPPmzYsxY8Zkh/6ss846xeX3798/zjjjjBg1alRxnAECBAgQIECAAAECBKpXoKIEoEuXLtmW/rlz564Qyfjx47NpK0wwggABAgQIECBAgACBqhOoKAHo1q1b7L///nHWWWfFU089lQWR9grcdtttce2118bQoUOrLjAVIkCAAAECBAgQIEBgRYGKTwK+/vrr47DDDos99tgjOnXqFPvuu28sXrw4jjrqqDj99NNXXLIxBAgQIECAAAECBAhUnUDFCUC6ys+f//zneOKJJ+Jvf/tbpL0CO++8c/ZXdVGpEAECBAgQIECAAAECLQpUnAAMGDAgRowYEQcffHDsvffeLS7MSAIECBAgQIAAAQIEqlugonMA0g3AXnnlFTf9qu62VDsCBAgQIECAAAECKxWoaA9Az549s63/5557brzzzjux9dZbRxpXKBtssEFsv/32haceCRAgQIAAAQIECBCoUoGKEoBU969//evZXX9PO+20FUI54ogj4q677lphvBEECBAgQIAAgTUh0Pj+5IilS6Nxzozo0nvdNfGW3oNAzQpUnACkLf9Ll32xWirpPgGVlDlz5sRzzz0Xe+21V7OX//3vf4+33norBg0a1GzPQrMXeUKAAAECBAgQWE5g5ujfxDs3DI+FE1/Jpvz1qA/FensfHpuedEV06bPBcq/2lACBJFBZz33ZC9daa61VEluwYEFcfPHF2U3DShOAs88+OxoaGmKrrbaK6667Lr761a9mlxpdpTczMwECBAgQIJB7gemP3RFvXD4si7NTt56xdNH86Nyzd7z/+7ti3ivjYtvvPR4Na/XJvYMACfyzAhUnAGnBM2bMyG7+9dJLL0W6LOguu+yS3Q8gXRK0XHn11Vfja1/7WvTp0yf7K7z2+eefj6lTp8Ytt9yS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uP3221ESIECAAAECBAgQIFADAhUlAPPmzYsxY8Zkh/6ss846xbD69+8fZ5xxRowaNao4zgABAgQIECBAgAABAtUrUFEC0KVLl2xL/9y5c1eIZPz48dm0FSYYQYAAAQIECBAgQIBA1QlUlAB0W3Zprf333z/OOuuseOqpp7Ig0l6B2267La699toYOnRo1QWmQgQIECBAgAABAgQIrChQ8UnA119/fRx22GGxxx57ZJcdTJcAXbx4cRx11FFx+umnr7hkYwgQIECAAAECBAgQqDqBihOATTbZJP785z/HE088EX/7298i7RXYeeeds7+qi0qFCBAgQIAAAQIECBBoUaDiBCDNvWjRothiiy1i4403Li7s5Zdfjt69ezcbV5xogAABAgQIECBAgACBqhKoOAG4++6744QTTogZM2asEMARRxwRd9111wrjjSBAgAABAgQIECBAoLoEKk4ATj311Dj00EPjlFNOib59+zaLIu0BUAgQIECAAAECBAgQqH6BihKAWbNmZTcA+853vhMbbrhh9UelhgQIECBAgAABAgQItChQ0WVA082/ttxyy3j66adbXIiRBAgQIECAAAECBAjUhkBFewBSKN/85jez+wC8/fbbWTKQbg5WKGmvwEc/+tHCU48ECBAgQIAAAQIECFSpwD968SupYDoHYObMmXHSSSet8EonAa9AYgQBAgQIECBAgACBqhSoOAGYPHlyLF26tMUgGhoaWhxvJAECBAgQIECAAAEC1SVQNgEYPXp0do3/dHhPuglYY2Nji7Xv379/DBgwoMVpRhIgQIAAAQIECBAgUD0CZROA448/PgYOHBi33XZbHHLIIdkhQC1V3SFALakYR4AAAQIECBAgQKD6BMomAM8++2x06tQpq/WUKVNarX3nzhVdTKjV+U0gQIAAAQIECBAgQGDNCJRNALp27VqsRbdu3bK7AD/yyCPx3HPPxfrrrx8f+9jHYs899yy+xgABAgQIECBAgAABAtUtUDYBKK36uHHj4rDDDovXX389tttuu+zGYNOnT49jjjkmfvKTn0T37t1LX26YAAECBAgQIECAAIEqFKj42J10GdB99tkn0n0AJkyYEFOnTo0xY8ZkJwdfeeWVVRiaKhEgQIAAAQIECBAgsLxARQnA3Llz45lnnonLL788PvShD2XLSMf977777jF8+PC4//77l1+u5wQIECBAgAABAgQIVKFARQnAWmutFX369ImxY8euEMJLL70U6TKgCgECBAgQIECAAAEC1S9Q8TkA559/fpxwwglx7LHHxtChQyPtFXjggQfixhtvjCuuuCIeffTRLNq0h2Cbbbap/sjVkAABAgQIECBAgEAdClScAFx44YXZfQC+853vRPorLSeddFLx6Ze//OX4wQ9+UHxugAABAgQIECBAgACB6hGoOAGYPHlyLF26dKU179Kl4kWudFleQIAAAQIECBAgQIBA+wpU3FtPl/mcMWNGuA9A+zaApREgQIAAAQIECBBYkwIVJwDuA7Amm8V7ESBAgAABAgQIEFg9AhVdBSi9tfsArJ4GsFQCBAgQIECAAAECa1KgogTAfQDWZJN4LwIECBAgQIAAAQKrT6CiBMB9AFZfA1gyAQIECBAgQIAAgTUpUPE5AO4DsCabxXsRaFmgcUlT3P78E3Hjs49kLzj/sdvipRmT4oRd/l+s1a1HyzMZS4AAAQIECBAoEag4AWiP+wDMmTMnnnvuudhrr71KqhDx4osvxhtvvBG77rprbLDBBs2meUKAwAcCi5oa44sjr4nH33yhSDJt/uy44k8j474Xx8Rdh58T6/dauzjNAAECBAgQIECgJYGKE4BVvQ/AggUL4uKLL47OnTs3SwC+//3vx/jx42PrrbeOH/7wh3HNNdfEhz/84ZbqahyBuha4avSvss7/VuttFJ/YbLv46V8ei09sul00xpL489svxfDf3Rw3HPzlujYSPAECBAgQILBygYrOAUiLSfcBSDcCmzZtWkyaNCn7e+edd+KFF16Ixx9/PHr06JH9tXQjsFdffTWOO+64mD17drMavf766/HEE0/E9ddfH8OHD4+jjz46br311mav8YQAgYimJUvip+MejS6dOse3PvkfsXa3nhlL506d4pIhR8cGPdeOB18dFxNnT8dFgAABAgQIECgrUPEegJ/97Gdx8sknR7oi0PLlS1/6Uuy///7Ljy4+nzdvXqRzCN57770YNWpUcXxKDAYOHJjtFUgj0yFAv/nNb4rT08DNN98cP/7xj4vj+vfvH2lvhEKgngT+/v6kmLVofhbyUXdfUQz98bcmxP4/+3rx+V3P/j6O3nbP4nMDBAgQqBeBhQsXZKHqI9RLi4uzNYHGxsZoampqbXI2vuIE4JxzzonDDz88Pv/5z8dhhx0WDz30UIwZMya+/e1vZ3/l3mXAgAHZ5Mcee6zZy959993o06dPcdw666yTJQnFEcsGtt122zj00EOLo8aOHRs9e36w9bM40gCBnAtsvHT9LMLuDV3joxtsGpPnzox35kyPdbv3in9Zt3+8OmNyzFg4LzZfb0Pfj5x/FoRHgEDLAvMbGrIJ+ggt+xhbPwIpAei07AiBcqWiBGDmzJnZIT/f/OY3Y9NNN41+/frFuuuuG1/5yldi4cKFcemll8YVV/xjq2S5Nyyd1rDsy1qaoaQKL//F/fjHPx7pr1CGDRsWKVFQCNSTQPrM79Bvs3hh6lvx+Z33jffmzopv/uEXMehD28Spe/x7HHbniFira/c4YPvdo0eXbvVEI1YCBAhkArO6dM0e9RF8IOpdIPWn0zm35Ur5qf83Z69evaJr167ZMf5p1HbbbRdPPvlkNjV1zkePHv1/r/znHlIiMX36P45ZTsMbb7zxP7cQryZQJwLD9zwsi/TsB26M37w8Nht+cfrEOOLnl0fT0iVx1qCDdf7r5LMgTAIECBAgsCoCFSUAqfO/0047xUUXXZSdyLvzzjvHz3/+81i8eHF2TP+WW27Zpjrsvvvu8fzzz8dbb70VKVv51a9+FXvssUeblmUmAnkX2HfLHeOK/YdFz67d4tnJr2XhvjZjSqR7A3xljwPjxN1aPw8n7zbiI0CAAAECBCoXqOgQoLS4H/3oR3HQQQfFkCFDIp30u9tuu0Xv3r2zQ3juu+++yt+x5JVpN92JJ54YJ5xwQvTt2zc233zzOOaYY0peYZAAgVKBI3bYMz65xY5x07MPx1VP/SY+/ZHdYvi/fjY279Ov9GWGCRAgQIAAAQKtClScAKSt9W+++WYsWrQo6/g/++yz8eCDD8Z+++2XddxbfYeSCSl5SH+l5dOf/nR86lOfys4lSAmFQoBAeYF0s6/Pbj84SwAO2vpjOv/luUwlQIAAAQIElhOoOAFI83Xr1i37S8PpZl1py317lHSIUfpTCBAgQIAAAQIECBBYvQJlE4A777yz2Um6rVVlq622KnsfgNbmM54AAQIECBAgQIAAgTUrUDYBSNf4T3f6LZR0yc50N+Dl7/b72c9+VgJQQPJIgAABAgQIECBAoIoFyiYA48aNa1b1dDffZ555Jn772982G+8JAQIECBAgQIAAAQK1IVDRZUBrIxS1JECAAAECBAgQIEBgZQISgJUJmU6AAAECBAgQIEAgRwISgBw1plAIECBAgAABAgQIrExAArAyIdMJECBAgAABAgQI5Eig7EnAI0aMiEmTJhXD/eMf/xhTpkyJM888szguDey8885x3HHHNRvnCQECBAgQIECAAAEC1SdQNgEYPXp0/P3vf29W67XXXjsefvjhZuOWvyxos4meECBAgAABAgQIECBQNQJlE4B77rmnaiqqIgQIECBAgAABAgQIrLqAcwBW3dASCBAgQIAAAQIECNSMgASgZppKRQkQIECAAAECBAisuoAEYNUNLYEAAQIECBAgQIBAzQhIAGqmqVSUAAECBAgQIECAwKoLSABW3dASCBAgQIAAAQIECNSMgASgZppKRQkQIECAAAECBAisuoAEYNUNLYEAAQIECBAgQIBAzQhIAGqmqVSUAAECBAgQIECAwKoLSABW3dASCBAgQIAAAQIECNSMgASgZppKRQkQIECAAAECBAisuoAEYNUNLYEAAQIECBAgQIBAzQhIAGqmqVSUAAECBAgQIECAwKoLSABW3dASCBAgQIAAAQIECNSMgASgZppKRQkQIECAAAECBAisuoAEYNUNLYEAAQIECBAgQIBAzQhIAGqmqVSUAAECBAgQIECAwKoLSABW3dASCBAgQIAAAQIECNSMgASgZppKRQkQIECAAAECBAisuoAEYNUNLYEAAQIECBAgQIBAzQhIAGqmqVSUAAECBAgQIECAwKoLSABW3dASCBAgQIAAAQIECNSMQJeaqen/VXTJkiUxb968Wqu2+hJoV4GFCxdmy1u8eLHvQ7vKWhgBArUq0NTUmFVdH6FWW1C920ugsbExUn+5XKm5BKBTp06R/hQCBD4Q8H3wSSBAgEAS+KBvYJ3o01DvApX0lWsyAejZs2e9t63461yg+/zumUDXrl3D96HOPwzCJ0AgE2hoaMgerRN9IOpdIO0BWFki7ByAev+UiJ8AAQIECBAgQKCuBCQAddXcgiVAgAABAgQIEKh3AQlAvX8CxE+AAAECBAgQIFBXAhKAumpuwRIgQIAAAQIECNS7gASg3j8B4idAgAABAgQIEKgrAQlAXTW3YAkQIECAAAECBOpdQAJQ758A8RMgQIAAAQIECNSVgASgrppbsAQIECBAgAABAvUuIAGo90+A+AkQIECAAAECBOpKQAJQV80tWAIECBAgQIAAgXoXkADU+ydA/AQIECBAgAABAnUlIAGoq+YWLAECBAgQIECAQL0LSADq/RMgfgIECBAgQIAAgboSkADUVXMLlgABAgQIECBAoN4FJAD1/gkQPwECBAgQIECAQF0JSADqqrkFS4AAAQIECBAgUO8CEoB6/wSInwABAgQIECBAoK4EJAB11dyCJUCAAAECBAgQqHcBCUC9fwLET4AAAQIECBAgUFcCEoC6am7BEiBAgAABAgQI1LuABKDePwHiJ0CAAAECBAgQqCsBCUBdNbdgCRAgQIAAAQIE6l1AAlDvnwDxEyBAgAABAgQI1JWABKCumluwBAgQIECAAAEC9S4gAaj3T4D4CRAgQIAAAQIE6kpAAlBXzS1YAgQIECBAgACBeheQANT7J0D8BAgQIECAAAECdSUgAair5hYsAQIECBAgQIBAvQtIAOr9EyB+AgQIECBAgACBuhKQANRVcwuWAAECBAgQIECg3gUkAPX+CRA/AQIECBAgQIBAXQlIAOqquQVLgAABAgQIECBQ7wISgHr/BIifAAECBAgQIECgrgSqIgF49dVX4/HHH4+FCxfWFb5gCRAgQIAAAQIECKxpgQ5PAL797W/HNddcE88//3wcc8wxMXHixDVt4P0IECBAgAABAgQI1I1Al46MdMaMGfH73/8+Ro4cGd27d48uXbrEfffdFyeffHJHVst7EyBAgAABAgQIEMitQIcmAL17946uXbvG008/HQMGDMj2AgwZMqQZdjo06JFHHimOW7BgQcycObP43ACBehSYM3dOFvbCBQt9H+rxAyBmAgRWEFi8eHE2Th9hBRoj6kygsbExlixZUjbqDk0A0hb/c889N84777zo1q1bbLPNNnHwwQc3q/C7774bY8aMKY5ba621YtGiRcXnBgjUo0Dj4sYs7MamRt+HevwAiJkAgRUEeuz52eg38JPWiSvIGFFvAikBWLp0admwOzQBePnll+Oyyy6LG2+8MTbZZJP44Q9/GOmcgAsuuKBY6SOPPDLSX6EMGzYs+vXrV3jqkUBdCsxt+CCzTwmx70NdfgQETYDAcgJze/WKWd17WScu5+Jp/QmkBKChoaFs4B16EvC4ceNi8ODB8ZGPfCR6Lfvipo7+6NGjy1bYRAIECBAgQIAAAQIE2i7QoQnAoEGDYsKECTF//vwsgtT5T+MUAgQIECBAgAABAgRWj0CHHgK02WabxYEHHhhf/epXs2P2NtxwwzjllFNWT6SWSoAAAQIECBAgQIBAdGgCkPyPOuqo7NCftBcgHQakECBAgAABAgQIECCw+gQ69BCgQlidOnXS+S9geCRAgAABAgQIECCwGgWqIgFYjfFZNAECBAgQIECAAAECJQISgBIMgwQIECBAgAABAgTyLiAByHsLi48AAQIECBAgQIBAiYAEoATDIAECBAgQIECAAIG8C0gA8t7C4iNAgAABAgQIECBQIiABKMEwSIAAAQIECBAgQCDvAhKAvLew+AgQIECAAAECBAiUCEgASjAMEiBAgAABAgQIEMi7gAQg7y0sPgIECBAgQIAAAQIlAhKAEgyDBAgQIECAAAECBPIuIAHIewuLjwABAgQIECBAgECJgASgBMMgAQIECBAgQIAAgbwLSADy3sLiI0CAAAECBAgQIFAiIAEowTBIgAABAgQIECBAIO8CEoC8t7D4CBAgQIAAAQIECJQISABKMAwSIECAAAECBAgQyLuABCDvLSw+AgQIECBAgAABAiUCEoASDIMECBAgQIAAAQIE8i4gAch7C4uPAAECBAgQIECAQImABKAEwyABAgQIECBAgACBvAtIAPLewuIjQIAAAQIECBAgUCIgASjBMEiAAAECBAgQIEAg7wISgLy3sPgIECBAgAABAgQIlAhIAEowDBIgQIAAAQIECBDIu4AEIO8tLD4CBAgQIECAAAECJQISgBIMgwQIECBAgAABAgTyLiAByHsLi48AAQIECBAgQIBAiYAEoATDIAECBAgQIECAAIG8C0gA8t7C4iNAgAABAgQIECBQIiABKMEwSIAAAQIECBAgQCDvAhKAvLew+AgQIECAAAECBAiUCHQpGa6ZwSVLltRMXVWUwOoQWLp0abbY9Oj7sDqELZMAgVoTKKwXrRNrreXUt70FKvkO1FwC0NTUFLNmzWpvK8sjUFMCc+bOyeq7cOFC34eaajmVJUBgdQk0NjZmi9ZHWF3CllsrAum7kPrL5UrNJQANDQ2x7rrrlovJNAK5F5ixZGEWY48ePXwfct/aAiRAoBKBuXPnxuLFi60TK8HymlwLpAQg9ZfLFecAlNMxjQABAgQIECBAgEDOBCQAOWtQ4RAgQIAAAQIECBAoJyABKKdjGgECBAgQIECAAIGcCUgActagwiFA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alBAAlCDjabKBAgQqBWBdGOnoUOH1kp11ZMAAQJ1ISABqItmFiQBAgQ6RiDdCTvdH0MhQIAAgeoRkABUT1uoCQECBKpKIN2s6Utf+lL89a9/jdNOOy27W/WVV14Zc+bMaVbPcePGZa9L128/88wzY+LEidn0dMfru+++O95+++1serqxkkKAAAECHS8gAej4NlADAgQIVKVAU1NT3HDDDbHffvtld4w++OCD4wc/+EF84QtfyO58mir9yCOPxODBg7Ok4IgjjojRo0fHwIEDsyRgww03jE033TTSzZr22GOP1XK31qqEUykCBAhUuYD7AFR5A6keAQIEOkpgwYIF0bNnz6zDf9NNN2XVeOaZZ2K33XaLRx99NIYMGRK77rprbLHFFvHLX/6yWM00bs8998yShcsuuyxuvfXWeO6554rTDRAgQIBAxwp06di39+4ECBAgUO0CBxxwQLGK6e6s/fr1i5QIpC3/qWO/8cYbx3nnnVd8TUNDQzz99NPF5wYIECBAoLoEJADV1R5qQ4AAgaoT2HzzzYt16tSpU6y77rrZIT/p8p5LliyJ3r17R+fO/ziiNB0ytN566xXnMUCAAAEC1SUgAaiu9lAbAgQIVJ1AOs5/0KBBWb3efPPNePnll7NDf9KegHXWWSc22WSTuPTSS4v1fvDBB6Nr167Z85QwKAQIECBQXQL/2GRTXfVSGwIECBCoEoGbb745xowZE5MnT44LLrggPvKRj8Tee++d1e6UU06JW265Je67775IJw0//vjjccghh8S0adOy6X379o133303XnrppWhsbKySiFSDAAEC9S1gD0B9t7/oCRAgsFKB3XffPTvhNx3uM2DAgPjNb36TbflPM1500UXZ4UCHH354dOnSJfr37x/nnHNOpCsCpZIShXROwLbbbht/+tOfinsSson+ESBAgECHCLgKUIewe1MCBAhUv0DhKkDpEKC99torZs6cmZ0A3FLN0z0D0h6CdNnPlsqMGTOycwdammYcAQIECKxZAYcArVlv70aAAIGaFOjWrVurnf8UUDrmv7XOf5qeThxWCBAgQKA6BCQA1dEOakGAAIGqE0gn8KYTfVPnXyFAgACB/Ag4BCg/bSkSAgQIECBAgAABAisVsAdgpUReQIAAAQIECBAgQCA/AhKA/LSlSAgQIECAAAECBAisVEACsFIiLyBAgAABAgQIECCQHwEJQH7aUiQECBAgQIAAAQIEViogAVgpkRcQIECAAAECBAgQyI+ABCA/bSkSAgQIECBAgAABAisV+P+VzkrK6/pGZwAAAABJRU5ErkJggg==" width="100%" /></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>pet_data <span class="ot">&lt;-</span> <span class="fu">sim_design</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">between =</span> <span class="fu">list</span>(<span class="at">pet =</span> <span class="fu">c</span>(<span class="at">cat =</span> <span class="st">&quot;Cat Owners&quot;</span>, </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">dog =</span> <span class="st">&quot;Dog Owners&quot;</span>)),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">n =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">6</span>),</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">dv =</span> <span class="fu">list</span>(<span class="at">happy =</span> <span class="st">&quot;Happiness Score&quot;</span>),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">id =</span> <span class="fu">list</span>(<span class="at">id =</span> <span class="st">&quot;Subject ID&quot;</span>),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="at">mu =</span> <span class="fu">c</span>(<span class="dv">10</span>, <span class="dv">12</span>),</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="at">sd =</span> <span class="dv">4</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">plot =</span> <span class="cn">FALSE</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>You can set up a codebook with the function <code>codebook()</code>. If you don’t specify the name, it defaults to the variable name (<code>pet_data</code>).</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>cb &lt;-<span class="st"> </span><span class="kw">codebook</span>(pet_data)</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="co">#&gt; id set to dataType string</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="co">#&gt; pet set to dataType string</span></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="co">#&gt; happy set to dataType float</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>cb <span class="ot">&lt;-</span> <span class="fu">codebook</span>(pet_data)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; id set to dataType string</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; pet set to dataType string</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; happy set to dataType float</span></span></code></pre></div>
 <p>If you just type the codebook object into the console, you’ll see the info in JSON format like this.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>cb</span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="co">#&gt; {</span></span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt;     &quot;@context&quot;: &quot;https://schema.org/&quot;,</span></span>
-<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt;     &quot;@type&quot;: &quot;Dataset&quot;,</span></span>
-<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt;     &quot;name&quot;: &quot;pet_data&quot;,</span></span>
-<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt;     &quot;schemaVersion&quot;: &quot;Psych-DS 0.1.0&quot;,</span></span>
-<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt;     &quot;variableMeasured&quot;: [</span></span>
-<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt;         {</span></span>
-<span id="cb4-9"><a href="#cb4-9"></a><span class="co">#&gt;             &quot;@type&quot;: &quot;PropertyValue&quot;,</span></span>
-<span id="cb4-10"><a href="#cb4-10"></a><span class="co">#&gt;             &quot;name&quot;: &quot;id&quot;,</span></span>
-<span id="cb4-11"><a href="#cb4-11"></a><span class="co">#&gt;             &quot;description&quot;: &quot;Subject ID&quot;,</span></span>
-<span id="cb4-12"><a href="#cb4-12"></a><span class="co">#&gt;             &quot;dataType&quot;: &quot;string&quot;</span></span>
-<span id="cb4-13"><a href="#cb4-13"></a><span class="co">#&gt;         },</span></span>
-<span id="cb4-14"><a href="#cb4-14"></a><span class="co">#&gt;         {</span></span>
-<span id="cb4-15"><a href="#cb4-15"></a><span class="co">#&gt;             &quot;@type&quot;: &quot;PropertyValue&quot;,</span></span>
-<span id="cb4-16"><a href="#cb4-16"></a><span class="co">#&gt;             &quot;name&quot;: &quot;pet&quot;,</span></span>
-<span id="cb4-17"><a href="#cb4-17"></a><span class="co">#&gt;             &quot;description&quot;: &quot;pet&quot;,</span></span>
-<span id="cb4-18"><a href="#cb4-18"></a><span class="co">#&gt;             &quot;levels&quot;: {</span></span>
-<span id="cb4-19"><a href="#cb4-19"></a><span class="co">#&gt;                 &quot;cat&quot;: &quot;Cat Owners&quot;,</span></span>
-<span id="cb4-20"><a href="#cb4-20"></a><span class="co">#&gt;                 &quot;dog&quot;: &quot;Dog Owners&quot;</span></span>
-<span id="cb4-21"><a href="#cb4-21"></a><span class="co">#&gt;             },</span></span>
-<span id="cb4-22"><a href="#cb4-22"></a><span class="co">#&gt;             &quot;dataType&quot;: &quot;string&quot;,</span></span>
-<span id="cb4-23"><a href="#cb4-23"></a><span class="co">#&gt;             &quot;levelsOrdered&quot;: false</span></span>
-<span id="cb4-24"><a href="#cb4-24"></a><span class="co">#&gt;         },</span></span>
-<span id="cb4-25"><a href="#cb4-25"></a><span class="co">#&gt;         {</span></span>
-<span id="cb4-26"><a href="#cb4-26"></a><span class="co">#&gt;             &quot;@type&quot;: &quot;PropertyValue&quot;,</span></span>
-<span id="cb4-27"><a href="#cb4-27"></a><span class="co">#&gt;             &quot;name&quot;: &quot;happy&quot;,</span></span>
-<span id="cb4-28"><a href="#cb4-28"></a><span class="co">#&gt;             &quot;description&quot;: &quot;Happiness Score&quot;,</span></span>
-<span id="cb4-29"><a href="#cb4-29"></a><span class="co">#&gt;             &quot;dataType&quot;: &quot;float&quot;</span></span>
-<span id="cb4-30"><a href="#cb4-30"></a><span class="co">#&gt;         }</span></span>
-<span id="cb4-31"><a href="#cb4-31"></a><span class="co">#&gt;     ]</span></span>
-<span id="cb4-32"><a href="#cb4-32"></a><span class="co">#&gt; }</span></span>
-<span id="cb4-33"><a href="#cb4-33"></a><span class="co">#&gt; </span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>cb</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     &quot;@context&quot;: &quot;https://schema.org/&quot;,</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     &quot;@type&quot;: &quot;Dataset&quot;,</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     &quot;name&quot;: &quot;pet_data&quot;,</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     &quot;schemaVersion&quot;: &quot;Psych-DS 0.1.0&quot;,</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     &quot;variableMeasured&quot;: [</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         {</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;@type&quot;: &quot;PropertyValue&quot;,</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;name&quot;: &quot;id&quot;,</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;description&quot;: &quot;Subject ID&quot;,</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;dataType&quot;: &quot;string&quot;</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         },</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         {</span></span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;@type&quot;: &quot;PropertyValue&quot;,</span></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;name&quot;: &quot;pet&quot;,</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;description&quot;: &quot;pet&quot;,</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;levels&quot;: {</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 &quot;cat&quot;: &quot;Cat Owners&quot;,</span></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 &quot;dog&quot;: &quot;Dog Owners&quot;</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             },</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;dataType&quot;: &quot;string&quot;,</span></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;levelsOrdered&quot;: false</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         },</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         {</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;@type&quot;: &quot;PropertyValue&quot;,</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;name&quot;: &quot;happy&quot;,</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;description&quot;: &quot;Happiness Score&quot;,</span></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;dataType&quot;: &quot;float&quot;</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         }</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ]</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span></code></pre></div>
 <p>If you set <code>return</code> to “list”, you get the codebook in an R list that prints like this.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>cb &lt;-<span class="st"> </span><span class="kw">codebook</span>(pet_data, <span class="dt">return =</span> <span class="st">&quot;list&quot;</span>)</span>
-<span id="cb5-2"><a href="#cb5-2"></a><span class="co">#&gt; id set to dataType string</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="co">#&gt; pet set to dataType string</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="co">#&gt; happy set to dataType float</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a>cb</span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="co">#&gt; Codebook for pet_data (Psych-DS 0.1.0)</span></span>
-<span id="cb5-7"><a href="#cb5-7"></a><span class="co">#&gt; </span></span>
-<span id="cb5-8"><a href="#cb5-8"></a><span class="co">#&gt; Dataset Parameters</span></span>
-<span id="cb5-9"><a href="#cb5-9"></a><span class="co">#&gt; </span></span>
-<span id="cb5-10"><a href="#cb5-10"></a><span class="co">#&gt; * name: pet_data</span></span>
-<span id="cb5-11"><a href="#cb5-11"></a><span class="co">#&gt; * schemaVersion: Psych-DS 0.1.0</span></span>
-<span id="cb5-12"><a href="#cb5-12"></a><span class="co">#&gt; </span></span>
-<span id="cb5-13"><a href="#cb5-13"></a><span class="co">#&gt; Column Parameters</span></span>
-<span id="cb5-14"><a href="#cb5-14"></a><span class="co">#&gt; </span></span>
-<span id="cb5-15"><a href="#cb5-15"></a><span class="co">#&gt; * id (string): Subject ID</span></span>
-<span id="cb5-16"><a href="#cb5-16"></a><span class="co">#&gt; * pet (string)</span></span>
-<span id="cb5-17"><a href="#cb5-17"></a><span class="co">#&gt;   * Levels</span></span>
-<span id="cb5-18"><a href="#cb5-18"></a><span class="co">#&gt;     * cat: Cat Owners</span></span>
-<span id="cb5-19"><a href="#cb5-19"></a><span class="co">#&gt;     * dog: Dog Owners</span></span>
-<span id="cb5-20"><a href="#cb5-20"></a><span class="co">#&gt;   * Ordered: FALSE</span></span>
-<span id="cb5-21"><a href="#cb5-21"></a><span class="co">#&gt; * happy (float): Happiness Score</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cb <span class="ot">&lt;-</span> <span class="fu">codebook</span>(pet_data, <span class="at">return =</span> <span class="st">&quot;list&quot;</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; id set to dataType string</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; pet set to dataType string</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; happy set to dataType float</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>cb</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Codebook for pet_data (Psych-DS 0.1.0)</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Dataset Parameters</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * name: pet_data</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * schemaVersion: Psych-DS 0.1.0</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Column Parameters</span></span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * id (string): Subject ID</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * pet (string)</span></span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   * Levels</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * cat: Cat Owners</span></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * dog: Dog Owners</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   * Ordered: FALSE</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * happy (float): Happiness Score</span></span></code></pre></div>
 <p>But the codebook is actually a nested list formatted like this:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">str</span>(cb)</span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="co">#&gt; List of 5</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="co">#&gt;  $ @context        : chr &quot;https://schema.org/&quot;</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="co">#&gt;  $ @type           : chr &quot;Dataset&quot;</span></span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="co">#&gt;  $ name            : chr &quot;pet_data&quot;</span></span>
-<span id="cb6-6"><a href="#cb6-6"></a><span class="co">#&gt;  $ schemaVersion   : chr &quot;Psych-DS 0.1.0&quot;</span></span>
-<span id="cb6-7"><a href="#cb6-7"></a><span class="co">#&gt;  $ variableMeasured:List of 3</span></span>
-<span id="cb6-8"><a href="#cb6-8"></a><span class="co">#&gt;   ..$ :List of 4</span></span>
-<span id="cb6-9"><a href="#cb6-9"></a><span class="co">#&gt;   .. ..$ @type      : chr &quot;PropertyValue&quot;</span></span>
-<span id="cb6-10"><a href="#cb6-10"></a><span class="co">#&gt;   .. ..$ name       : chr &quot;id&quot;</span></span>
-<span id="cb6-11"><a href="#cb6-11"></a><span class="co">#&gt;   .. ..$ description: chr &quot;Subject ID&quot;</span></span>
-<span id="cb6-12"><a href="#cb6-12"></a><span class="co">#&gt;   .. ..$ dataType   : chr &quot;string&quot;</span></span>
-<span id="cb6-13"><a href="#cb6-13"></a><span class="co">#&gt;   ..$ :List of 6</span></span>
-<span id="cb6-14"><a href="#cb6-14"></a><span class="co">#&gt;   .. ..$ @type        : chr &quot;PropertyValue&quot;</span></span>
-<span id="cb6-15"><a href="#cb6-15"></a><span class="co">#&gt;   .. ..$ name         : chr &quot;pet&quot;</span></span>
-<span id="cb6-16"><a href="#cb6-16"></a><span class="co">#&gt;   .. ..$ description  : chr &quot;pet&quot;</span></span>
-<span id="cb6-17"><a href="#cb6-17"></a><span class="co">#&gt;   .. ..$ levels       :List of 2</span></span>
-<span id="cb6-18"><a href="#cb6-18"></a><span class="co">#&gt;   .. .. ..$ cat: chr &quot;Cat Owners&quot;</span></span>
-<span id="cb6-19"><a href="#cb6-19"></a><span class="co">#&gt;   .. .. ..$ dog: chr &quot;Dog Owners&quot;</span></span>
-<span id="cb6-20"><a href="#cb6-20"></a><span class="co">#&gt;   .. ..$ dataType     : chr &quot;string&quot;</span></span>
-<span id="cb6-21"><a href="#cb6-21"></a><span class="co">#&gt;   .. ..$ levelsOrdered: logi FALSE</span></span>
-<span id="cb6-22"><a href="#cb6-22"></a><span class="co">#&gt;   ..$ :List of 4</span></span>
-<span id="cb6-23"><a href="#cb6-23"></a><span class="co">#&gt;   .. ..$ @type      : chr &quot;PropertyValue&quot;</span></span>
-<span id="cb6-24"><a href="#cb6-24"></a><span class="co">#&gt;   .. ..$ name       : chr &quot;happy&quot;</span></span>
-<span id="cb6-25"><a href="#cb6-25"></a><span class="co">#&gt;   .. ..$ description: chr &quot;Happiness Score&quot;</span></span>
-<span id="cb6-26"><a href="#cb6-26"></a><span class="co">#&gt;   .. ..$ dataType   : chr &quot;float&quot;</span></span>
-<span id="cb6-27"><a href="#cb6-27"></a><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr [1:2] &quot;psychds_codebook&quot; &quot;list&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">str</span>(cb)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; List of 5</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ @context        : chr &quot;https://schema.org/&quot;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ @type           : chr &quot;Dataset&quot;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ name            : chr &quot;pet_data&quot;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ schemaVersion   : chr &quot;Psych-DS 0.1.0&quot;</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  $ variableMeasured:List of 3</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   ..$ :List of 4</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. ..$ @type      : chr &quot;PropertyValue&quot;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. ..$ name       : chr &quot;id&quot;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. ..$ description: chr &quot;Subject ID&quot;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. ..$ dataType   : chr &quot;string&quot;</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   ..$ :List of 6</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. ..$ @type        : chr &quot;PropertyValue&quot;</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. ..$ name         : chr &quot;pet&quot;</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. ..$ description  : chr &quot;pet&quot;</span></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. ..$ levels       :List of 2</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. .. ..$ cat: chr &quot;Cat Owners&quot;</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. .. ..$ dog: chr &quot;Dog Owners&quot;</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. ..$ dataType     : chr &quot;string&quot;</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. ..$ levelsOrdered: logi FALSE</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   ..$ :List of 4</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. ..$ @type      : chr &quot;PropertyValue&quot;</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. ..$ name       : chr &quot;happy&quot;</span></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. ..$ description: chr &quot;Happiness Score&quot;</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   .. ..$ dataType   : chr &quot;float&quot;</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;  - attr(*, &quot;class&quot;)= chr [1:2] &quot;psychds_codebook&quot; &quot;list&quot;</span></span></code></pre></div>
 <div id="variable-parameters" class="section level3">
 <h3>Variable parameters</h3>
-<p>Above you saw messages about the data type that codebook guesses for each column. You can override this by setting the values manually. Below, we’ll create a new column called <code>followup</code> consisting of 0 and 1 values, change the type of the column from integer to boolean (T/F) and also set descriptions for <code>id</code>, <code>pet</code> and <code>followup</code>. The <code>id</code> column had a description of “Subject ID” from the <code>sim_design</code> function, but properties set in using <code>vardesc</code> will override this. You can also add unobserved levels to a factor.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a></span>
-<span id="cb7-2"><a href="#cb7-2"></a>pet_data<span class="op">$</span>followup &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">1</span>, <span class="kw">nrow</span>(pet_data), <span class="ot">TRUE</span>)</span>
-<span id="cb7-3"><a href="#cb7-3"></a></span>
-<span id="cb7-4"><a href="#cb7-4"></a>vardesc &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
-<span id="cb7-5"><a href="#cb7-5"></a>  <span class="dt">type =</span> <span class="kw">list</span>(<span class="dt">followup =</span> <span class="st">&quot;b&quot;</span>),</span>
-<span id="cb7-6"><a href="#cb7-6"></a>  <span class="dt">description =</span> <span class="kw">c</span>(<span class="dt">id =</span> <span class="st">&quot;Pet ID&quot;</span>,</span>
-<span id="cb7-7"><a href="#cb7-7"></a>                  <span class="dt">pet =</span> <span class="st">&quot;Pet Type&quot;</span>,</span>
-<span id="cb7-8"><a href="#cb7-8"></a>                  <span class="dt">followup =</span> <span class="st">&quot;Followed up 2 weeks later&quot;</span></span>
-<span id="cb7-9"><a href="#cb7-9"></a>                  ),</span>
-<span id="cb7-10"><a href="#cb7-10"></a>  <span class="dt">levels =</span> <span class="kw">list</span>(<span class="dt">pet =</span> <span class="kw">c</span>(<span class="dt">cat =</span> <span class="st">&quot;Cat Owners&quot;</span>,</span>
-<span id="cb7-11"><a href="#cb7-11"></a>                        <span class="dt">dog =</span> <span class="st">&quot;Dog Owners&quot;</span>, </span>
-<span id="cb7-12"><a href="#cb7-12"></a>                        <span class="dt">ferret =</span> <span class="st">&quot;Ferret Owners&quot;</span>),</span>
-<span id="cb7-13"><a href="#cb7-13"></a>                <span class="dt">followup =</span> <span class="kw">c</span>(<span class="st">&quot;0&quot;</span> =<span class="st"> &quot;No&quot;</span>, <span class="st">&quot;1&quot;</span> =<span class="st"> &quot;Yes&quot;</span>)</span>
-<span id="cb7-14"><a href="#cb7-14"></a>            )</span>
-<span id="cb7-15"><a href="#cb7-15"></a>)</span>
-<span id="cb7-16"><a href="#cb7-16"></a>cb &lt;-<span class="st"> </span><span class="kw">codebook</span>(pet_data, <span class="dt">name =</span> <span class="st">&quot;pets&quot;</span>, vardesc, <span class="dt">return =</span> <span class="st">&quot;list&quot;</span>)</span>
-<span id="cb7-17"><a href="#cb7-17"></a><span class="co">#&gt; Warning in codebook(pet_data, name = &quot;pets&quot;, vardesc, return = &quot;list&quot;): The following variable properties are not standard: type</span></span>
-<span id="cb7-18"><a href="#cb7-18"></a><span class="co">#&gt; id set to dataType string</span></span>
-<span id="cb7-19"><a href="#cb7-19"></a><span class="co">#&gt; pet set to dataType string</span></span>
-<span id="cb7-20"><a href="#cb7-20"></a><span class="co">#&gt; happy set to dataType float</span></span>
-<span id="cb7-21"><a href="#cb7-21"></a><span class="co">#&gt; followup set to dataType int</span></span>
-<span id="cb7-22"><a href="#cb7-22"></a></span>
-<span id="cb7-23"><a href="#cb7-23"></a>cb</span>
-<span id="cb7-24"><a href="#cb7-24"></a><span class="co">#&gt; Codebook for pets (Psych-DS 0.1.0)</span></span>
-<span id="cb7-25"><a href="#cb7-25"></a><span class="co">#&gt; </span></span>
-<span id="cb7-26"><a href="#cb7-26"></a><span class="co">#&gt; Dataset Parameters</span></span>
-<span id="cb7-27"><a href="#cb7-27"></a><span class="co">#&gt; </span></span>
-<span id="cb7-28"><a href="#cb7-28"></a><span class="co">#&gt; * name: pets</span></span>
-<span id="cb7-29"><a href="#cb7-29"></a><span class="co">#&gt; * schemaVersion: Psych-DS 0.1.0</span></span>
-<span id="cb7-30"><a href="#cb7-30"></a><span class="co">#&gt; </span></span>
-<span id="cb7-31"><a href="#cb7-31"></a><span class="co">#&gt; Column Parameters</span></span>
-<span id="cb7-32"><a href="#cb7-32"></a><span class="co">#&gt; </span></span>
-<span id="cb7-33"><a href="#cb7-33"></a><span class="co">#&gt; * id (string): Pet ID</span></span>
-<span id="cb7-34"><a href="#cb7-34"></a><span class="co">#&gt; * pet (string): Pet Type</span></span>
-<span id="cb7-35"><a href="#cb7-35"></a><span class="co">#&gt;   * Levels</span></span>
-<span id="cb7-36"><a href="#cb7-36"></a><span class="co">#&gt;     * cat: Cat Owners</span></span>
-<span id="cb7-37"><a href="#cb7-37"></a><span class="co">#&gt;     * dog: Dog Owners</span></span>
-<span id="cb7-38"><a href="#cb7-38"></a><span class="co">#&gt;     * ferret: Ferret Owners</span></span>
-<span id="cb7-39"><a href="#cb7-39"></a><span class="co">#&gt;   * Ordered: FALSE</span></span>
-<span id="cb7-40"><a href="#cb7-40"></a><span class="co">#&gt; * happy (float): Happiness Score</span></span>
-<span id="cb7-41"><a href="#cb7-41"></a><span class="co">#&gt; * followup (int): Followed up 2 weeks later</span></span>
-<span id="cb7-42"><a href="#cb7-42"></a><span class="co">#&gt;   * Levels</span></span>
-<span id="cb7-43"><a href="#cb7-43"></a><span class="co">#&gt;     * 0: No</span></span>
-<span id="cb7-44"><a href="#cb7-44"></a><span class="co">#&gt;     * 1: Yes</span></span>
-<span id="cb7-45"><a href="#cb7-45"></a><span class="co">#&gt;   * Ordered: FALSE</span></span></code></pre></div>
-<p>You can change the type of a column in the codebook, but this won’t affect the data itself unless you set the <code>return</code> argument to “data”. This runs type conversion on each column and gives you a warning if type can’t be converted.</p>
+<p>Above you saw messages about the data type that codebook guesses for each column. You can override this by setting the values manually. Below, we’ll create a new column called <code>followup</code> consisting of 0 and 1 values, change the data type of the column from integer to boolean (T/F) and also set descriptions for <code>id</code>, <code>pet</code> and <code>followup</code>. The <code>id</code> column had a description of “Subject ID” from the <code>sim_design</code> function, but properties set in using <code>vardesc</code> will override this. You can also add unobserved levels to a factor.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>pet_data<span class="sc">$</span>followup <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">1</span>, <span class="fu">nrow</span>(pet_data), <span class="cn">TRUE</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>vardesc <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataType =</span> <span class="fu">list</span>(<span class="at">followup =</span> <span class="st">&quot;b&quot;</span>),</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">description =</span> <span class="fu">c</span>(<span class="at">id =</span> <span class="st">&quot;Pet ID&quot;</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">pet =</span> <span class="st">&quot;Pet Type&quot;</span>,</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>                  <span class="at">followup =</span> <span class="st">&quot;Followed up 2 weeks later&quot;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>                  ),</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> <span class="fu">list</span>(<span class="at">pet =</span> <span class="fu">c</span>(<span class="at">cat =</span> <span class="st">&quot;Cat Owners&quot;</span>,</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>                        <span class="at">dog =</span> <span class="st">&quot;Dog Owners&quot;</span>, </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>                        <span class="at">ferret =</span> <span class="st">&quot;Ferret Owners&quot;</span>),</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>                <span class="at">followup =</span> <span class="fu">c</span>(<span class="st">&quot;0&quot;</span> <span class="ot">=</span> <span class="st">&quot;No&quot;</span>, <span class="st">&quot;1&quot;</span> <span class="ot">=</span> <span class="st">&quot;Yes&quot;</span>)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>cb <span class="ot">&lt;-</span> <span class="fu">codebook</span>(pet_data, <span class="at">name =</span> <span class="st">&quot;pets&quot;</span>, vardesc, <span class="at">return =</span> <span class="st">&quot;list&quot;</span>)</span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; id set to dataType string</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; pet set to dataType string</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; happy set to dataType float</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>cb</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Codebook for pets (Psych-DS 0.1.0)</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Dataset Parameters</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * name: pets</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * schemaVersion: Psych-DS 0.1.0</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Column Parameters</span></span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * id (string): Pet ID</span></span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * pet (string): Pet Type</span></span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   * Levels</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * cat: Cat Owners</span></span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * dog: Dog Owners</span></span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * ferret: Ferret Owners</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   * Ordered: FALSE</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * happy (float): Happiness Score</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * followup (bool): Followed up 2 weeks later</span></span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   * Levels</span></span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * 0: No</span></span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * 1: Yes</span></span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   * Ordered: FALSE</span></span></code></pre></div>
+<p>You can change the data type of a column in the codebook, but this won’t affect the data itself unless you set the <code>return</code> argument to “data”. This runs type conversion on each column and gives you a warning if type can’t be converted.</p>
 <p>Note how we had to change the levels for the variable <code>followup</code> because we’re converting them to boolean (logical) values and how the names in the levels vector have to be strings.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>vardesc<span class="op">$</span>levels<span class="op">$</span>followup &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;FALSE&quot;</span> =<span class="st"> &quot;No&quot;</span>, <span class="st">&quot;TRUE&quot;</span> =<span class="st"> &quot;Yes&quot;</span>)</span>
-<span id="cb8-2"><a href="#cb8-2"></a>converted_data &lt;-<span class="st"> </span><span class="kw">codebook</span>(pet_data, <span class="st">&quot;pets&quot;</span>, vardesc, <span class="dt">return =</span> <span class="st">&quot;data&quot;</span>)</span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="co">#&gt; Warning in codebook(pet_data, &quot;pets&quot;, vardesc, return = &quot;data&quot;): The following variable properties are not standard: type</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="co">#&gt; id set to dataType string</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="co">#&gt; pet set to dataType string</span></span>
-<span id="cb8-6"><a href="#cb8-6"></a><span class="co">#&gt; happy set to dataType float</span></span>
-<span id="cb8-7"><a href="#cb8-7"></a><span class="co">#&gt; followup set to dataType int</span></span>
-<span id="cb8-8"><a href="#cb8-8"></a><span class="co">#&gt; Converting pet from int to string</span></span>
-<span id="cb8-9"><a href="#cb8-9"></a></span>
-<span id="cb8-10"><a href="#cb8-10"></a><span class="kw">head</span>(converted_data)</span>
-<span id="cb8-11"><a href="#cb8-11"></a><span class="co">#&gt;      id pet     happy followup</span></span>
-<span id="cb8-12"><a href="#cb8-12"></a><span class="co">#&gt; 1.1 S01 cat  9.646541        0</span></span>
-<span id="cb8-13"><a href="#cb8-13"></a><span class="co">#&gt; 1.2 S02 cat 10.324561        0</span></span>
-<span id="cb8-14"><a href="#cb8-14"></a><span class="co">#&gt; 1.3 S03 cat 15.552581        0</span></span>
-<span id="cb8-15"><a href="#cb8-15"></a><span class="co">#&gt; 1.4 S04 cat  9.906358        1</span></span>
-<span id="cb8-16"><a href="#cb8-16"></a><span class="co">#&gt; 1.5 S05 dog 15.950371        1</span></span>
-<span id="cb8-17"><a href="#cb8-17"></a><span class="co">#&gt; 1.6 S06 dog 11.421215        0</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>vardesc<span class="sc">$</span>levels<span class="sc">$</span>followup <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;FALSE&quot;</span> <span class="ot">=</span> <span class="st">&quot;No&quot;</span>, <span class="st">&quot;TRUE&quot;</span> <span class="ot">=</span> <span class="st">&quot;Yes&quot;</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>converted_data <span class="ot">&lt;-</span> <span class="fu">codebook</span>(pet_data, <span class="st">&quot;pets&quot;</span>, vardesc, <span class="at">return =</span> <span class="st">&quot;data&quot;</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; id set to dataType string</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; pet set to dataType string</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; happy set to dataType float</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Converting pet from int to string</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Converting followup from int to bool</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(converted_data)</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;    id pet     happy followup</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1 S01 cat  6.013671     TRUE</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2 S02 cat 12.887297     TRUE</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3 S03 cat  7.531165     TRUE</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4 S04 cat 18.117566     TRUE</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5 S05 dog 16.261664     TRUE</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6 S06 dog 15.948879    FALSE</span></span></code></pre></div>
 <p>The codebook is attached to the returned converted data as an attribute and can be accessed as follows.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">attr</span>(converted_data, <span class="st">&quot;codebook&quot;</span>)</span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="co">#&gt; Codebook for pets (Psych-DS 0.1.0)</span></span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="co">#&gt; </span></span>
-<span id="cb9-4"><a href="#cb9-4"></a><span class="co">#&gt; Dataset Parameters</span></span>
-<span id="cb9-5"><a href="#cb9-5"></a><span class="co">#&gt; </span></span>
-<span id="cb9-6"><a href="#cb9-6"></a><span class="co">#&gt; * name: pets</span></span>
-<span id="cb9-7"><a href="#cb9-7"></a><span class="co">#&gt; * schemaVersion: Psych-DS 0.1.0</span></span>
-<span id="cb9-8"><a href="#cb9-8"></a><span class="co">#&gt; </span></span>
-<span id="cb9-9"><a href="#cb9-9"></a><span class="co">#&gt; Column Parameters</span></span>
-<span id="cb9-10"><a href="#cb9-10"></a><span class="co">#&gt; </span></span>
-<span id="cb9-11"><a href="#cb9-11"></a><span class="co">#&gt; * id (string): Pet ID</span></span>
-<span id="cb9-12"><a href="#cb9-12"></a><span class="co">#&gt; * pet (string): Pet Type</span></span>
-<span id="cb9-13"><a href="#cb9-13"></a><span class="co">#&gt;   * Levels</span></span>
-<span id="cb9-14"><a href="#cb9-14"></a><span class="co">#&gt;     * cat: Cat Owners</span></span>
-<span id="cb9-15"><a href="#cb9-15"></a><span class="co">#&gt;     * dog: Dog Owners</span></span>
-<span id="cb9-16"><a href="#cb9-16"></a><span class="co">#&gt;     * ferret: Ferret Owners</span></span>
-<span id="cb9-17"><a href="#cb9-17"></a><span class="co">#&gt;   * Ordered: FALSE</span></span>
-<span id="cb9-18"><a href="#cb9-18"></a><span class="co">#&gt; * happy (float): Happiness Score</span></span>
-<span id="cb9-19"><a href="#cb9-19"></a><span class="co">#&gt; * followup (int): Followed up 2 weeks later</span></span>
-<span id="cb9-20"><a href="#cb9-20"></a><span class="co">#&gt;   * Levels</span></span>
-<span id="cb9-21"><a href="#cb9-21"></a><span class="co">#&gt;     * FALSE: No</span></span>
-<span id="cb9-22"><a href="#cb9-22"></a><span class="co">#&gt;     * TRUE: Yes</span></span>
-<span id="cb9-23"><a href="#cb9-23"></a><span class="co">#&gt;   * Ordered: FALSE</span></span></code></pre></div>
-<p>You can set other variable parameters than name, type, description, and levels. The variable parameters that Psych-DS currently supports are: “description”, “privacy”, “type”, “propertyID”, “minValue”, “maxValue”, “levels”, “ordered”, “na”, “naValues”, “alternateName”, and “unitCode”. See the <a href="https://docs.google.com/document/d/1u8o5jnWk0Iqp_J06PTu5NjBfVsdoPbBhstht6W0fFp0/edit">technical specs</a> for descriptions of these properties. You can add custom parameters, but will get a warning.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>cb &lt;-<span class="st"> </span><span class="kw">codebook</span>(pet_data, <span class="dt">vardesc =</span> <span class="kw">list</span>(<span class="dt">new_param =</span> <span class="kw">c</span>(<span class="dt">id =</span> <span class="st">&quot;YES&quot;</span>)))</span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="co">#&gt; Warning in codebook(pet_data, vardesc = list(new_param = c(id = &quot;YES&quot;))): The following variable properties are not standard: new_param</span></span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="co">#&gt; id set to dataType string</span></span>
-<span id="cb10-4"><a href="#cb10-4"></a><span class="co">#&gt; pet set to dataType string</span></span>
-<span id="cb10-5"><a href="#cb10-5"></a><span class="co">#&gt; happy set to dataType float</span></span>
-<span id="cb10-6"><a href="#cb10-6"></a><span class="co">#&gt; followup set to dataType int</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">attr</span>(converted_data, <span class="st">&quot;codebook&quot;</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Codebook for pets (Psych-DS 0.1.0)</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Dataset Parameters</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * name: pets</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * schemaVersion: Psych-DS 0.1.0</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Column Parameters</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * id (string): Pet ID</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * pet (string): Pet Type</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   * Levels</span></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * cat: Cat Owners</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * dog: Dog Owners</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * ferret: Ferret Owners</span></span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   * Ordered: FALSE</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * happy (float): Happiness Score</span></span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * followup (bool): Followed up 2 weeks later</span></span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   * Levels</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * FALSE: No</span></span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * TRUE: Yes</span></span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   * Ordered: FALSE</span></span></code></pre></div>
+<p>You can set other variable parameters than name, type, description, and levels. The variable parameters that Psych-DS currently supports are: “description”, “privacy”, “dataType”, “propertyID”, “minValue”, “maxValue”, “levels”, “ordered”, “na”, “naValues”, “alternateName”, and “unitCode”. See the <a href="https://docs.google.com/document/d/1u8o5jnWk0Iqp_J06PTu5NjBfVsdoPbBhstht6W0fFp0/edit">technical specs</a> for descriptions of these properties. You can add custom parameters, but will get a warning.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>cb <span class="ot">&lt;-</span> <span class="fu">codebook</span>(pet_data, <span class="at">vardesc =</span> <span class="fu">list</span>(<span class="at">new_param =</span> <span class="fu">c</span>(<span class="at">id =</span> <span class="st">&quot;YES&quot;</span>)))</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in codebook(pet_data, vardesc = list(new_param = c(id = &quot;YES&quot;))): The following variable properties are not standard: new_param</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; id set to dataType string</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; pet set to dataType string</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; happy set to dataType float</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; followup set to dataType int</span></span></code></pre></div>
 <p>If you have a column that is an ordered factor, the codebook will look like this:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>dat &lt;-<span class="st"> </span><span class="kw">data.frame</span>(</span>
-<span id="cb11-2"><a href="#cb11-2"></a>  <span class="dt">initial =</span> <span class="kw">sample</span>(LETTERS, <span class="dv">10</span>)</span>
-<span id="cb11-3"><a href="#cb11-3"></a>)</span>
-<span id="cb11-4"><a href="#cb11-4"></a></span>
-<span id="cb11-5"><a href="#cb11-5"></a>dat<span class="op">$</span>initial &lt;-<span class="st"> </span><span class="kw">factor</span>(dat<span class="op">$</span>initial, <span class="dt">levels =</span> LETTERS, <span class="dt">ordered =</span> <span class="ot">TRUE</span>)</span>
-<span id="cb11-6"><a href="#cb11-6"></a></span>
-<span id="cb11-7"><a href="#cb11-7"></a>alevels &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;The letter&quot;</span>, LETTERS)</span>
-<span id="cb11-8"><a href="#cb11-8"></a><span class="kw">names</span>(alevels) &lt;-<span class="st"> </span>LETTERS</span>
-<span id="cb11-9"><a href="#cb11-9"></a></span>
-<span id="cb11-10"><a href="#cb11-10"></a><span class="kw">codebook</span>(dat, <span class="dt">vardesc =</span> <span class="kw">list</span>(<span class="dt">levels =</span> <span class="kw">list</span>(<span class="dt">initial =</span> alevels)), <span class="dt">return =</span> <span class="st">&quot;list&quot;</span>)</span>
-<span id="cb11-11"><a href="#cb11-11"></a><span class="co">#&gt; initial set to dataType string</span></span>
-<span id="cb11-12"><a href="#cb11-12"></a><span class="co">#&gt; Codebook for dat (Psych-DS 0.1.0)</span></span>
-<span id="cb11-13"><a href="#cb11-13"></a><span class="co">#&gt; </span></span>
-<span id="cb11-14"><a href="#cb11-14"></a><span class="co">#&gt; Dataset Parameters</span></span>
-<span id="cb11-15"><a href="#cb11-15"></a><span class="co">#&gt; </span></span>
-<span id="cb11-16"><a href="#cb11-16"></a><span class="co">#&gt; * name: dat</span></span>
-<span id="cb11-17"><a href="#cb11-17"></a><span class="co">#&gt; * schemaVersion: Psych-DS 0.1.0</span></span>
-<span id="cb11-18"><a href="#cb11-18"></a><span class="co">#&gt; </span></span>
-<span id="cb11-19"><a href="#cb11-19"></a><span class="co">#&gt; Column Parameters</span></span>
-<span id="cb11-20"><a href="#cb11-20"></a><span class="co">#&gt; </span></span>
-<span id="cb11-21"><a href="#cb11-21"></a><span class="co">#&gt; * initial (string)</span></span>
-<span id="cb11-22"><a href="#cb11-22"></a><span class="co">#&gt;   * Levels</span></span>
-<span id="cb11-23"><a href="#cb11-23"></a><span class="co">#&gt;     * A: The letter A</span></span>
-<span id="cb11-24"><a href="#cb11-24"></a><span class="co">#&gt;     * B: The letter B</span></span>
-<span id="cb11-25"><a href="#cb11-25"></a><span class="co">#&gt;     * C: The letter C</span></span>
-<span id="cb11-26"><a href="#cb11-26"></a><span class="co">#&gt;     * D: The letter D</span></span>
-<span id="cb11-27"><a href="#cb11-27"></a><span class="co">#&gt;     * E: The letter E</span></span>
-<span id="cb11-28"><a href="#cb11-28"></a><span class="co">#&gt;     * F: The letter F</span></span>
-<span id="cb11-29"><a href="#cb11-29"></a><span class="co">#&gt;     * G: The letter G</span></span>
-<span id="cb11-30"><a href="#cb11-30"></a><span class="co">#&gt;     * H: The letter H</span></span>
-<span id="cb11-31"><a href="#cb11-31"></a><span class="co">#&gt;     * I: The letter I</span></span>
-<span id="cb11-32"><a href="#cb11-32"></a><span class="co">#&gt;     * J: The letter J</span></span>
-<span id="cb11-33"><a href="#cb11-33"></a><span class="co">#&gt;     * K: The letter K</span></span>
-<span id="cb11-34"><a href="#cb11-34"></a><span class="co">#&gt;     * L: The letter L</span></span>
-<span id="cb11-35"><a href="#cb11-35"></a><span class="co">#&gt;     * M: The letter M</span></span>
-<span id="cb11-36"><a href="#cb11-36"></a><span class="co">#&gt;     * N: The letter N</span></span>
-<span id="cb11-37"><a href="#cb11-37"></a><span class="co">#&gt;     * O: The letter O</span></span>
-<span id="cb11-38"><a href="#cb11-38"></a><span class="co">#&gt;     * P: The letter P</span></span>
-<span id="cb11-39"><a href="#cb11-39"></a><span class="co">#&gt;     * Q: The letter Q</span></span>
-<span id="cb11-40"><a href="#cb11-40"></a><span class="co">#&gt;     * R: The letter R</span></span>
-<span id="cb11-41"><a href="#cb11-41"></a><span class="co">#&gt;     * S: The letter S</span></span>
-<span id="cb11-42"><a href="#cb11-42"></a><span class="co">#&gt;     * T: The letter T</span></span>
-<span id="cb11-43"><a href="#cb11-43"></a><span class="co">#&gt;     * U: The letter U</span></span>
-<span id="cb11-44"><a href="#cb11-44"></a><span class="co">#&gt;     * V: The letter V</span></span>
-<span id="cb11-45"><a href="#cb11-45"></a><span class="co">#&gt;     * W: The letter W</span></span>
-<span id="cb11-46"><a href="#cb11-46"></a><span class="co">#&gt;     * X: The letter X</span></span>
-<span id="cb11-47"><a href="#cb11-47"></a><span class="co">#&gt;     * Y: The letter Y</span></span>
-<span id="cb11-48"><a href="#cb11-48"></a><span class="co">#&gt;     * Z: The letter Z</span></span>
-<span id="cb11-49"><a href="#cb11-49"></a><span class="co">#&gt;   * Ordered: TRUE</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">initial =</span> <span class="fu">sample</span>(LETTERS, <span class="dv">10</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>initial <span class="ot">&lt;-</span> <span class="fu">factor</span>(dat<span class="sc">$</span>initial, <span class="at">levels =</span> LETTERS, <span class="at">ordered =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>alevels <span class="ot">&lt;-</span> <span class="fu">paste</span>(<span class="st">&quot;The letter&quot;</span>, LETTERS)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(alevels) <span class="ot">&lt;-</span> LETTERS</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="fu">codebook</span>(dat, <span class="at">vardesc =</span> <span class="fu">list</span>(<span class="at">levels =</span> <span class="fu">list</span>(<span class="at">initial =</span> alevels)), <span class="at">return =</span> <span class="st">&quot;list&quot;</span>)</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; initial set to dataType string</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Codebook for dat (Psych-DS 0.1.0)</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Dataset Parameters</span></span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * name: dat</span></span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * schemaVersion: Psych-DS 0.1.0</span></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Column Parameters</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * initial (string)</span></span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   * Levels</span></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * A: The letter A</span></span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * B: The letter B</span></span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * C: The letter C</span></span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * D: The letter D</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * E: The letter E</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * F: The letter F</span></span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * G: The letter G</span></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * H: The letter H</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * I: The letter I</span></span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * J: The letter J</span></span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * K: The letter K</span></span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * L: The letter L</span></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * M: The letter M</span></span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * N: The letter N</span></span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * O: The letter O</span></span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * P: The letter P</span></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * Q: The letter Q</span></span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * R: The letter R</span></span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * S: The letter S</span></span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * T: The letter T</span></span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * U: The letter U</span></span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * V: The letter V</span></span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * W: The letter W</span></span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * X: The letter X</span></span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * Y: The letter Y</span></span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * Z: The letter Z</span></span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   * Ordered: TRUE</span></span></code></pre></div>
 </div>
 <div id="dataset-parameters" class="section level3">
 <h3>Dataset Parameters</h3>
 <p>You can add extra parameters to the whole data set. Psych-DS supports the following: “license”, “author”, “citation”, “funder”, “url”, “sameAs”, “keywords”, “temporalCoverage”, “spatialCoverage”, “datePublished”, “dateCreated”. As with variable parameters, you can add custom parameters and will just get a warning.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">codebook</span>(pet_data, <span class="dt">license =</span> <span class="st">&quot;CC-BY 3.0&quot;</span>, <span class="dt">author =</span> <span class="st">&quot;Lisa DeBruine&quot;</span>, <span class="dt">source =</span> <span class="st">&quot;faux&quot;</span>)</span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="co">#&gt; Warning in codebook(pet_data, license = &quot;CC-BY 3.0&quot;, author = &quot;Lisa DeBruine&quot;, : The following dataset properties are not standard: source</span></span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="co">#&gt; id set to dataType string</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a><span class="co">#&gt; pet set to dataType string</span></span>
-<span id="cb12-5"><a href="#cb12-5"></a><span class="co">#&gt; happy set to dataType float</span></span>
-<span id="cb12-6"><a href="#cb12-6"></a><span class="co">#&gt; followup set to dataType int</span></span>
-<span id="cb12-7"><a href="#cb12-7"></a><span class="co">#&gt; {</span></span>
-<span id="cb12-8"><a href="#cb12-8"></a><span class="co">#&gt;     &quot;@context&quot;: &quot;https://schema.org/&quot;,</span></span>
-<span id="cb12-9"><a href="#cb12-9"></a><span class="co">#&gt;     &quot;@type&quot;: &quot;Dataset&quot;,</span></span>
-<span id="cb12-10"><a href="#cb12-10"></a><span class="co">#&gt;     &quot;name&quot;: &quot;pet_data&quot;,</span></span>
-<span id="cb12-11"><a href="#cb12-11"></a><span class="co">#&gt;     &quot;schemaVersion&quot;: &quot;Psych-DS 0.1.0&quot;,</span></span>
-<span id="cb12-12"><a href="#cb12-12"></a><span class="co">#&gt;     &quot;license&quot;: &quot;CC-BY 3.0&quot;,</span></span>
-<span id="cb12-13"><a href="#cb12-13"></a><span class="co">#&gt;     &quot;author&quot;: &quot;Lisa DeBruine&quot;,</span></span>
-<span id="cb12-14"><a href="#cb12-14"></a><span class="co">#&gt;     &quot;source&quot;: &quot;faux&quot;,</span></span>
-<span id="cb12-15"><a href="#cb12-15"></a><span class="co">#&gt;     &quot;variableMeasured&quot;: [</span></span>
-<span id="cb12-16"><a href="#cb12-16"></a><span class="co">#&gt;         {</span></span>
-<span id="cb12-17"><a href="#cb12-17"></a><span class="co">#&gt;             &quot;@type&quot;: &quot;PropertyValue&quot;,</span></span>
-<span id="cb12-18"><a href="#cb12-18"></a><span class="co">#&gt;             &quot;name&quot;: &quot;id&quot;,</span></span>
-<span id="cb12-19"><a href="#cb12-19"></a><span class="co">#&gt;             &quot;description&quot;: &quot;Subject ID&quot;,</span></span>
-<span id="cb12-20"><a href="#cb12-20"></a><span class="co">#&gt;             &quot;dataType&quot;: &quot;string&quot;</span></span>
-<span id="cb12-21"><a href="#cb12-21"></a><span class="co">#&gt;         },</span></span>
-<span id="cb12-22"><a href="#cb12-22"></a><span class="co">#&gt;         {</span></span>
-<span id="cb12-23"><a href="#cb12-23"></a><span class="co">#&gt;             &quot;@type&quot;: &quot;PropertyValue&quot;,</span></span>
-<span id="cb12-24"><a href="#cb12-24"></a><span class="co">#&gt;             &quot;name&quot;: &quot;pet&quot;,</span></span>
-<span id="cb12-25"><a href="#cb12-25"></a><span class="co">#&gt;             &quot;description&quot;: &quot;pet&quot;,</span></span>
-<span id="cb12-26"><a href="#cb12-26"></a><span class="co">#&gt;             &quot;levels&quot;: {</span></span>
-<span id="cb12-27"><a href="#cb12-27"></a><span class="co">#&gt;                 &quot;cat&quot;: &quot;Cat Owners&quot;,</span></span>
-<span id="cb12-28"><a href="#cb12-28"></a><span class="co">#&gt;                 &quot;dog&quot;: &quot;Dog Owners&quot;</span></span>
-<span id="cb12-29"><a href="#cb12-29"></a><span class="co">#&gt;             },</span></span>
-<span id="cb12-30"><a href="#cb12-30"></a><span class="co">#&gt;             &quot;dataType&quot;: &quot;string&quot;,</span></span>
-<span id="cb12-31"><a href="#cb12-31"></a><span class="co">#&gt;             &quot;levelsOrdered&quot;: false</span></span>
-<span id="cb12-32"><a href="#cb12-32"></a><span class="co">#&gt;         },</span></span>
-<span id="cb12-33"><a href="#cb12-33"></a><span class="co">#&gt;         {</span></span>
-<span id="cb12-34"><a href="#cb12-34"></a><span class="co">#&gt;             &quot;@type&quot;: &quot;PropertyValue&quot;,</span></span>
-<span id="cb12-35"><a href="#cb12-35"></a><span class="co">#&gt;             &quot;name&quot;: &quot;happy&quot;,</span></span>
-<span id="cb12-36"><a href="#cb12-36"></a><span class="co">#&gt;             &quot;description&quot;: &quot;Happiness Score&quot;,</span></span>
-<span id="cb12-37"><a href="#cb12-37"></a><span class="co">#&gt;             &quot;dataType&quot;: &quot;float&quot;</span></span>
-<span id="cb12-38"><a href="#cb12-38"></a><span class="co">#&gt;         },</span></span>
-<span id="cb12-39"><a href="#cb12-39"></a><span class="co">#&gt;         {</span></span>
-<span id="cb12-40"><a href="#cb12-40"></a><span class="co">#&gt;             &quot;@type&quot;: &quot;PropertyValue&quot;,</span></span>
-<span id="cb12-41"><a href="#cb12-41"></a><span class="co">#&gt;             &quot;name&quot;: &quot;followup&quot;,</span></span>
-<span id="cb12-42"><a href="#cb12-42"></a><span class="co">#&gt;             &quot;description&quot;: &quot;followup&quot;,</span></span>
-<span id="cb12-43"><a href="#cb12-43"></a><span class="co">#&gt;             &quot;dataType&quot;: &quot;int&quot;</span></span>
-<span id="cb12-44"><a href="#cb12-44"></a><span class="co">#&gt;         }</span></span>
-<span id="cb12-45"><a href="#cb12-45"></a><span class="co">#&gt;     ]</span></span>
-<span id="cb12-46"><a href="#cb12-46"></a><span class="co">#&gt; }</span></span>
-<span id="cb12-47"><a href="#cb12-47"></a><span class="co">#&gt; </span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">codebook</span>(pet_data, <span class="at">license =</span> <span class="st">&quot;CC-BY 3.0&quot;</span>, <span class="at">author =</span> <span class="st">&quot;Lisa DeBruine&quot;</span>, <span class="at">source =</span> <span class="st">&quot;faux&quot;</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Warning in codebook(pet_data, license = &quot;CC-BY 3.0&quot;, author = &quot;Lisa DeBruine&quot;, : The following dataset properties are not standard: source</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; id set to dataType string</span></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; pet set to dataType string</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; happy set to dataType float</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; followup set to dataType int</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; {</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     &quot;@context&quot;: &quot;https://schema.org/&quot;,</span></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     &quot;@type&quot;: &quot;Dataset&quot;,</span></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     &quot;name&quot;: &quot;pet_data&quot;,</span></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     &quot;schemaVersion&quot;: &quot;Psych-DS 0.1.0&quot;,</span></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     &quot;license&quot;: &quot;CC-BY 3.0&quot;,</span></span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     &quot;author&quot;: &quot;Lisa DeBruine&quot;,</span></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     &quot;source&quot;: &quot;faux&quot;,</span></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     &quot;variableMeasured&quot;: [</span></span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         {</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;@type&quot;: &quot;PropertyValue&quot;,</span></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;name&quot;: &quot;id&quot;,</span></span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;description&quot;: &quot;Subject ID&quot;,</span></span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;dataType&quot;: &quot;string&quot;</span></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         },</span></span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         {</span></span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;@type&quot;: &quot;PropertyValue&quot;,</span></span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;name&quot;: &quot;pet&quot;,</span></span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;description&quot;: &quot;pet&quot;,</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;levels&quot;: {</span></span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 &quot;cat&quot;: &quot;Cat Owners&quot;,</span></span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;                 &quot;dog&quot;: &quot;Dog Owners&quot;</span></span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             },</span></span>
+<span id="cb12-30"><a href="#cb12-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;dataType&quot;: &quot;string&quot;,</span></span>
+<span id="cb12-31"><a href="#cb12-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;levelsOrdered&quot;: false</span></span>
+<span id="cb12-32"><a href="#cb12-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         },</span></span>
+<span id="cb12-33"><a href="#cb12-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         {</span></span>
+<span id="cb12-34"><a href="#cb12-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;@type&quot;: &quot;PropertyValue&quot;,</span></span>
+<span id="cb12-35"><a href="#cb12-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;name&quot;: &quot;happy&quot;,</span></span>
+<span id="cb12-36"><a href="#cb12-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;description&quot;: &quot;Happiness Score&quot;,</span></span>
+<span id="cb12-37"><a href="#cb12-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;dataType&quot;: &quot;float&quot;</span></span>
+<span id="cb12-38"><a href="#cb12-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         },</span></span>
+<span id="cb12-39"><a href="#cb12-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         {</span></span>
+<span id="cb12-40"><a href="#cb12-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;@type&quot;: &quot;PropertyValue&quot;,</span></span>
+<span id="cb12-41"><a href="#cb12-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;name&quot;: &quot;followup&quot;,</span></span>
+<span id="cb12-42"><a href="#cb12-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;description&quot;: &quot;followup&quot;,</span></span>
+<span id="cb12-43"><a href="#cb12-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;             &quot;dataType&quot;: &quot;int&quot;</span></span>
+<span id="cb12-44"><a href="#cb12-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         }</span></span>
+<span id="cb12-45"><a href="#cb12-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     ]</span></span>
+<span id="cb12-46"><a href="#cb12-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; }</span></span>
+<span id="cb12-47"><a href="#cb12-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span></code></pre></div>
 <p>You can also add parameters as lists.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>dat &lt;-<span class="st"> </span><span class="kw">sim_design</span>(<span class="dt">plot=</span> <span class="ot">FALSE</span>)</span>
-<span id="cb13-2"><a href="#cb13-2"></a></span>
-<span id="cb13-3"><a href="#cb13-3"></a>author_list &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
-<span id="cb13-4"><a href="#cb13-4"></a>  <span class="kw">list</span>(</span>
-<span id="cb13-5"><a href="#cb13-5"></a>    <span class="st">&quot;@type&quot;</span> =<span class="st"> &quot;Person&quot;</span>,</span>
-<span id="cb13-6"><a href="#cb13-6"></a>    <span class="st">&quot;name&quot;</span> =<span class="st"> &quot;Melissa Kline&quot;</span></span>
-<span id="cb13-7"><a href="#cb13-7"></a>  ),</span>
-<span id="cb13-8"><a href="#cb13-8"></a>  <span class="kw">list</span>(</span>
-<span id="cb13-9"><a href="#cb13-9"></a>    <span class="st">&quot;@type&quot;</span> =<span class="st"> &quot;Person&quot;</span>,</span>
-<span id="cb13-10"><a href="#cb13-10"></a>    <span class="st">&quot;name&quot;</span> =<span class="st"> &quot;Lisa DeBruine&quot;</span></span>
-<span id="cb13-11"><a href="#cb13-11"></a>  )</span>
-<span id="cb13-12"><a href="#cb13-12"></a>)</span>
-<span id="cb13-13"><a href="#cb13-13"></a></span>
-<span id="cb13-14"><a href="#cb13-14"></a></span>
-<span id="cb13-15"><a href="#cb13-15"></a><span class="kw">codebook</span>(dat, <span class="dt">return =</span> <span class="st">&quot;list&quot;</span>, </span>
-<span id="cb13-16"><a href="#cb13-16"></a>         <span class="dt">author =</span> author_list,</span>
-<span id="cb13-17"><a href="#cb13-17"></a>         <span class="dt">keywords =</span> <span class="kw">c</span>(<span class="st">&quot;test&quot;</span>, <span class="st">&quot;demo&quot;</span>))</span>
-<span id="cb13-18"><a href="#cb13-18"></a><span class="co">#&gt; id set to dataType string</span></span>
-<span id="cb13-19"><a href="#cb13-19"></a><span class="co">#&gt; y set to dataType float</span></span>
-<span id="cb13-20"><a href="#cb13-20"></a><span class="co">#&gt; Codebook for dat (Psych-DS 0.1.0)</span></span>
-<span id="cb13-21"><a href="#cb13-21"></a><span class="co">#&gt; </span></span>
-<span id="cb13-22"><a href="#cb13-22"></a><span class="co">#&gt; Dataset Parameters</span></span>
-<span id="cb13-23"><a href="#cb13-23"></a><span class="co">#&gt; </span></span>
-<span id="cb13-24"><a href="#cb13-24"></a><span class="co">#&gt; * name: dat</span></span>
-<span id="cb13-25"><a href="#cb13-25"></a><span class="co">#&gt; * schemaVersion: Psych-DS 0.1.0</span></span>
-<span id="cb13-26"><a href="#cb13-26"></a><span class="co">#&gt; * author: </span></span>
-<span id="cb13-27"><a href="#cb13-27"></a><span class="co">#&gt;     1. </span></span>
-<span id="cb13-28"><a href="#cb13-28"></a><span class="co">#&gt;         * @type: Person</span></span>
-<span id="cb13-29"><a href="#cb13-29"></a><span class="co">#&gt;         * name: Melissa Kline</span></span>
-<span id="cb13-30"><a href="#cb13-30"></a><span class="co">#&gt;     2. </span></span>
-<span id="cb13-31"><a href="#cb13-31"></a><span class="co">#&gt;         * @type: Person</span></span>
-<span id="cb13-32"><a href="#cb13-32"></a><span class="co">#&gt;         * name: Lisa DeBruine</span></span>
-<span id="cb13-33"><a href="#cb13-33"></a><span class="co">#&gt; * keywords: </span></span>
-<span id="cb13-34"><a href="#cb13-34"></a><span class="co">#&gt;     1. test</span></span>
-<span id="cb13-35"><a href="#cb13-35"></a><span class="co">#&gt;     2. demo</span></span>
-<span id="cb13-36"><a href="#cb13-36"></a><span class="co">#&gt; </span></span>
-<span id="cb13-37"><a href="#cb13-37"></a><span class="co">#&gt; Column Parameters</span></span>
-<span id="cb13-38"><a href="#cb13-38"></a><span class="co">#&gt; </span></span>
-<span id="cb13-39"><a href="#cb13-39"></a><span class="co">#&gt; * id (string)</span></span>
-<span id="cb13-40"><a href="#cb13-40"></a><span class="co">#&gt; * y (float): value</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">sim_design</span>(<span class="at">plot=</span> <span class="cn">FALSE</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>author_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;@type&quot;</span> <span class="ot">=</span> <span class="st">&quot;Person&quot;</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;name&quot;</span> <span class="ot">=</span> <span class="st">&quot;Melissa Kline&quot;</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">list</span>(</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;@type&quot;</span> <span class="ot">=</span> <span class="st">&quot;Person&quot;</span>,</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;name&quot;</span> <span class="ot">=</span> <span class="st">&quot;Lisa DeBruine&quot;</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a><span class="fu">codebook</span>(dat, <span class="at">return =</span> <span class="st">&quot;list&quot;</span>, </span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>         <span class="at">author =</span> author_list,</span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>         <span class="at">keywords =</span> <span class="fu">c</span>(<span class="st">&quot;test&quot;</span>, <span class="st">&quot;demo&quot;</span>))</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; id set to dataType string</span></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; y set to dataType float</span></span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Codebook for dat (Psych-DS 0.1.0)</span></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Dataset Parameters</span></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * name: dat</span></span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * schemaVersion: Psych-DS 0.1.0</span></span>
+<span id="cb13-26"><a href="#cb13-26" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * author: </span></span>
+<span id="cb13-27"><a href="#cb13-27" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     1. </span></span>
+<span id="cb13-28"><a href="#cb13-28" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         * @type: Person</span></span>
+<span id="cb13-29"><a href="#cb13-29" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         * name: Melissa Kline</span></span>
+<span id="cb13-30"><a href="#cb13-30" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     2. </span></span>
+<span id="cb13-31"><a href="#cb13-31" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         * @type: Person</span></span>
+<span id="cb13-32"><a href="#cb13-32" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;         * name: Lisa DeBruine</span></span>
+<span id="cb13-33"><a href="#cb13-33" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * keywords: </span></span>
+<span id="cb13-34"><a href="#cb13-34" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     1. test</span></span>
+<span id="cb13-35"><a href="#cb13-35" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     2. demo</span></span>
+<span id="cb13-36"><a href="#cb13-36" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-37"><a href="#cb13-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Column Parameters</span></span>
+<span id="cb13-38"><a href="#cb13-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb13-39"><a href="#cb13-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * id (string)</span></span>
+<span id="cb13-40"><a href="#cb13-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * y (float): value</span></span></code></pre></div>
 </div>
 </div>
 <div id="existing-data" class="section level2">
 <h2>Existing Data</h2>
 <p>You can run the codebook function on existing data not created in faux, but will need to manually input column descriptions and factor levels.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a></span>
-<span id="cb14-2"><a href="#cb14-2"></a>vardesc &lt;-<span class="st"> </span><span class="kw">list</span>(</span>
-<span id="cb14-3"><a href="#cb14-3"></a>  <span class="dt">description =</span> <span class="kw">list</span>(</span>
-<span id="cb14-4"><a href="#cb14-4"></a>    <span class="dt">mpg =</span> <span class="st">&quot;Miles/(US) gallon&quot;</span>,</span>
-<span id="cb14-5"><a href="#cb14-5"></a>    <span class="dt">cyl =</span> <span class="st">&quot;Number of cylinders&quot;</span>,</span>
-<span id="cb14-6"><a href="#cb14-6"></a>    <span class="dt">disp =</span> <span class="st">&quot;Displacement (cu.in.)&quot;</span>,</span>
-<span id="cb14-7"><a href="#cb14-7"></a>    <span class="dt">hp =</span> <span class="st">&quot;Gross horsepower&quot;</span>,</span>
-<span id="cb14-8"><a href="#cb14-8"></a>    <span class="dt">drat =</span> <span class="st">&quot;Rear axle ratio&quot;</span>,</span>
-<span id="cb14-9"><a href="#cb14-9"></a>    <span class="dt">wt =</span> <span class="st">&quot;Weight (1000 lbs)&quot;</span>,</span>
-<span id="cb14-10"><a href="#cb14-10"></a>    <span class="dt">qsec =</span> <span class="st">&quot;1/4 mile time&quot;</span>,</span>
-<span id="cb14-11"><a href="#cb14-11"></a>    <span class="dt">vs =</span> <span class="st">&quot;Engine&quot;</span>,</span>
-<span id="cb14-12"><a href="#cb14-12"></a>    <span class="dt">am =</span> <span class="st">&quot;Transmission&quot;</span>,</span>
-<span id="cb14-13"><a href="#cb14-13"></a>    <span class="dt">gear =</span> <span class="st">&quot;Number of forward gears&quot;</span>,</span>
-<span id="cb14-14"><a href="#cb14-14"></a>    <span class="dt">carb =</span> <span class="st">&quot;Number of carburetors&quot;</span></span>
-<span id="cb14-15"><a href="#cb14-15"></a>  ),</span>
-<span id="cb14-16"><a href="#cb14-16"></a>  <span class="co"># min and max values can be set manually or from data</span></span>
-<span id="cb14-17"><a href="#cb14-17"></a>  <span class="co"># min and max are often outside the observed range</span></span>
-<span id="cb14-18"><a href="#cb14-18"></a>  <span class="dt">minValue =</span> <span class="kw">list</span>(<span class="dt">mpg =</span> <span class="dv">0</span>, <span class="dt">cyl =</span> <span class="kw">min</span>(mtcars<span class="op">$</span>cyl)),</span>
-<span id="cb14-19"><a href="#cb14-19"></a>  <span class="dt">maxValue =</span> <span class="kw">list</span>(<span class="dt">cyl =</span> <span class="kw">max</span>(mtcars<span class="op">$</span>cyl)),</span>
-<span id="cb14-20"><a href="#cb14-20"></a>  <span class="dt">type =</span> <span class="kw">list</span>(</span>
-<span id="cb14-21"><a href="#cb14-21"></a>    <span class="dt">cyl =</span> <span class="st">&quot;integer&quot;</span>,</span>
-<span id="cb14-22"><a href="#cb14-22"></a>    <span class="dt">hp =</span> <span class="st">&quot;integer&quot;</span>,</span>
-<span id="cb14-23"><a href="#cb14-23"></a>    <span class="dt">vs =</span> <span class="st">&quot;integer&quot;</span>,</span>
-<span id="cb14-24"><a href="#cb14-24"></a>    <span class="dt">am =</span> <span class="st">&quot;integer&quot;</span>, </span>
-<span id="cb14-25"><a href="#cb14-25"></a>    <span class="dt">gear =</span> <span class="st">&quot;integer&quot;</span>,</span>
-<span id="cb14-26"><a href="#cb14-26"></a>    <span class="dt">carb =</span> <span class="st">&quot;integer&quot;</span></span>
-<span id="cb14-27"><a href="#cb14-27"></a>  ),</span>
-<span id="cb14-28"><a href="#cb14-28"></a>  <span class="co"># supply levels to mark factors</span></span>
-<span id="cb14-29"><a href="#cb14-29"></a>  <span class="dt">levels =</span> <span class="kw">list</span>(</span>
-<span id="cb14-30"><a href="#cb14-30"></a>    <span class="dt">vs =</span> <span class="kw">c</span>(<span class="st">&quot;0&quot;</span> =<span class="st"> &quot;V-shaped&quot;</span>, <span class="st">&quot;1&quot;</span> =<span class="st"> &quot;straight&quot;</span>),</span>
-<span id="cb14-31"><a href="#cb14-31"></a>    <span class="dt">am =</span> <span class="kw">c</span>(<span class="st">&quot;0&quot;</span> =<span class="st"> &quot;automatic&quot;</span>, <span class="st">&quot;1&quot;</span> =<span class="st"> &quot;manual&quot;</span>)</span>
-<span id="cb14-32"><a href="#cb14-32"></a>  )</span>
-<span id="cb14-33"><a href="#cb14-33"></a>)</span>
-<span id="cb14-34"><a href="#cb14-34"></a></span>
-<span id="cb14-35"><a href="#cb14-35"></a><span class="kw">codebook</span>(mtcars, <span class="st">&quot;Motor Trend Car Road Tests&quot;</span>, </span>
-<span id="cb14-36"><a href="#cb14-36"></a>         vardesc, <span class="dt">return =</span> <span class="st">&quot;list&quot;</span>)</span>
-<span id="cb14-37"><a href="#cb14-37"></a><span class="co">#&gt; Warning in codebook(mtcars, &quot;Motor Trend Car Road Tests&quot;, vardesc, return = &quot;list&quot;): The following variable properties are not standard: type</span></span>
-<span id="cb14-38"><a href="#cb14-38"></a><span class="co">#&gt; mpg set to dataType float</span></span>
-<span id="cb14-39"><a href="#cb14-39"></a><span class="co">#&gt; cyl set to dataType int</span></span>
-<span id="cb14-40"><a href="#cb14-40"></a><span class="co">#&gt; disp set to dataType float</span></span>
-<span id="cb14-41"><a href="#cb14-41"></a><span class="co">#&gt; hp set to dataType int</span></span>
-<span id="cb14-42"><a href="#cb14-42"></a><span class="co">#&gt; drat set to dataType float</span></span>
-<span id="cb14-43"><a href="#cb14-43"></a><span class="co">#&gt; wt set to dataType float</span></span>
-<span id="cb14-44"><a href="#cb14-44"></a><span class="co">#&gt; qsec set to dataType float</span></span>
-<span id="cb14-45"><a href="#cb14-45"></a><span class="co">#&gt; vs set to dataType int</span></span>
-<span id="cb14-46"><a href="#cb14-46"></a><span class="co">#&gt; am set to dataType int</span></span>
-<span id="cb14-47"><a href="#cb14-47"></a><span class="co">#&gt; gear set to dataType int</span></span>
-<span id="cb14-48"><a href="#cb14-48"></a><span class="co">#&gt; carb set to dataType int</span></span>
-<span id="cb14-49"><a href="#cb14-49"></a><span class="co">#&gt; Codebook for Motor Trend Car Road Tests (Psych-DS 0.1.0)</span></span>
-<span id="cb14-50"><a href="#cb14-50"></a><span class="co">#&gt; </span></span>
-<span id="cb14-51"><a href="#cb14-51"></a><span class="co">#&gt; Dataset Parameters</span></span>
-<span id="cb14-52"><a href="#cb14-52"></a><span class="co">#&gt; </span></span>
-<span id="cb14-53"><a href="#cb14-53"></a><span class="co">#&gt; * name: Motor Trend Car Road Tests</span></span>
-<span id="cb14-54"><a href="#cb14-54"></a><span class="co">#&gt; * schemaVersion: Psych-DS 0.1.0</span></span>
-<span id="cb14-55"><a href="#cb14-55"></a><span class="co">#&gt; </span></span>
-<span id="cb14-56"><a href="#cb14-56"></a><span class="co">#&gt; Column Parameters</span></span>
-<span id="cb14-57"><a href="#cb14-57"></a><span class="co">#&gt; </span></span>
-<span id="cb14-58"><a href="#cb14-58"></a><span class="co">#&gt; * mpg (float): Miles/(US) gallon</span></span>
-<span id="cb14-59"><a href="#cb14-59"></a><span class="co">#&gt; * cyl (int): Number of cylinders</span></span>
-<span id="cb14-60"><a href="#cb14-60"></a><span class="co">#&gt; * disp (float): Displacement (cu.in.)</span></span>
-<span id="cb14-61"><a href="#cb14-61"></a><span class="co">#&gt; * hp (int): Gross horsepower</span></span>
-<span id="cb14-62"><a href="#cb14-62"></a><span class="co">#&gt; * drat (float): Rear axle ratio</span></span>
-<span id="cb14-63"><a href="#cb14-63"></a><span class="co">#&gt; * wt (float): Weight (1000 lbs)</span></span>
-<span id="cb14-64"><a href="#cb14-64"></a><span class="co">#&gt; * qsec (float): 1/4 mile time</span></span>
-<span id="cb14-65"><a href="#cb14-65"></a><span class="co">#&gt; * vs (int): Engine</span></span>
-<span id="cb14-66"><a href="#cb14-66"></a><span class="co">#&gt;   * Levels</span></span>
-<span id="cb14-67"><a href="#cb14-67"></a><span class="co">#&gt;     * 0: V-shaped</span></span>
-<span id="cb14-68"><a href="#cb14-68"></a><span class="co">#&gt;     * 1: straight</span></span>
-<span id="cb14-69"><a href="#cb14-69"></a><span class="co">#&gt;   * Ordered: FALSE</span></span>
-<span id="cb14-70"><a href="#cb14-70"></a><span class="co">#&gt; * am (int): Transmission</span></span>
-<span id="cb14-71"><a href="#cb14-71"></a><span class="co">#&gt;   * Levels</span></span>
-<span id="cb14-72"><a href="#cb14-72"></a><span class="co">#&gt;     * 0: automatic</span></span>
-<span id="cb14-73"><a href="#cb14-73"></a><span class="co">#&gt;     * 1: manual</span></span>
-<span id="cb14-74"><a href="#cb14-74"></a><span class="co">#&gt;   * Ordered: FALSE</span></span>
-<span id="cb14-75"><a href="#cb14-75"></a><span class="co">#&gt; * gear (int): Number of forward gears</span></span>
-<span id="cb14-76"><a href="#cb14-76"></a><span class="co">#&gt; * carb (int): Number of carburetors</span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>vardesc <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">description =</span> <span class="fu">list</span>(</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">mpg =</span> <span class="st">&quot;Miles/(US) gallon&quot;</span>,</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">cyl =</span> <span class="st">&quot;Number of cylinders&quot;</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">disp =</span> <span class="st">&quot;Displacement (cu.in.)&quot;</span>,</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">hp =</span> <span class="st">&quot;Gross horsepower&quot;</span>,</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">drat =</span> <span class="st">&quot;Rear axle ratio&quot;</span>,</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">wt =</span> <span class="st">&quot;Weight (1000 lbs)&quot;</span>,</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">qsec =</span> <span class="st">&quot;1/4 mile time&quot;</span>,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">vs =</span> <span class="st">&quot;Engine&quot;</span>,</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">am =</span> <span class="st">&quot;Transmission&quot;</span>,</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">gear =</span> <span class="st">&quot;Number of forward gears&quot;</span>,</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">carb =</span> <span class="st">&quot;Number of carburetors&quot;</span></span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>  <span class="co"># min and max values can be set manually or from data</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>  <span class="co"># min and max are often outside the observed range</span></span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>  <span class="at">minValue =</span> <span class="fu">list</span>(<span class="at">mpg =</span> <span class="dv">0</span>, <span class="at">cyl =</span> <span class="fu">min</span>(mtcars<span class="sc">$</span>cyl)),</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a>  <span class="at">maxValue =</span> <span class="fu">list</span>(<span class="at">cyl =</span> <span class="fu">max</span>(mtcars<span class="sc">$</span>cyl)),</span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>  <span class="at">dataType =</span> <span class="fu">list</span>(</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">cyl =</span> <span class="st">&quot;integer&quot;</span>,</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">hp =</span> <span class="st">&quot;integer&quot;</span>,</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>    <span class="at">vs =</span> <span class="st">&quot;integer&quot;</span>,</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    <span class="at">am =</span> <span class="st">&quot;integer&quot;</span>, </span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">gear =</span> <span class="st">&quot;integer&quot;</span>,</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>    <span class="at">carb =</span> <span class="st">&quot;integer&quot;</span></span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>  ),</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>  <span class="co"># supply levels to mark factors</span></span>
+<span id="cb14-29"><a href="#cb14-29" aria-hidden="true" tabindex="-1"></a>  <span class="at">levels =</span> <span class="fu">list</span>(</span>
+<span id="cb14-30"><a href="#cb14-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">vs =</span> <span class="fu">c</span>(<span class="st">&quot;0&quot;</span> <span class="ot">=</span> <span class="st">&quot;V-shaped&quot;</span>, <span class="st">&quot;1&quot;</span> <span class="ot">=</span> <span class="st">&quot;straight&quot;</span>),</span>
+<span id="cb14-31"><a href="#cb14-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">am =</span> <span class="fu">c</span>(<span class="st">&quot;0&quot;</span> <span class="ot">=</span> <span class="st">&quot;automatic&quot;</span>, <span class="st">&quot;1&quot;</span> <span class="ot">=</span> <span class="st">&quot;manual&quot;</span>)</span>
+<span id="cb14-32"><a href="#cb14-32" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb14-33"><a href="#cb14-33" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb14-34"><a href="#cb14-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-35"><a href="#cb14-35" aria-hidden="true" tabindex="-1"></a><span class="fu">codebook</span>(mtcars, <span class="st">&quot;Motor Trend Car Road Tests&quot;</span>, </span>
+<span id="cb14-36"><a href="#cb14-36" aria-hidden="true" tabindex="-1"></a>         vardesc, <span class="at">return =</span> <span class="st">&quot;list&quot;</span>)</span>
+<span id="cb14-37"><a href="#cb14-37" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; mpg set to dataType float</span></span>
+<span id="cb14-38"><a href="#cb14-38" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; disp set to dataType float</span></span>
+<span id="cb14-39"><a href="#cb14-39" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; drat set to dataType float</span></span>
+<span id="cb14-40"><a href="#cb14-40" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; wt set to dataType float</span></span>
+<span id="cb14-41"><a href="#cb14-41" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; qsec set to dataType float</span></span>
+<span id="cb14-42"><a href="#cb14-42" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Codebook for Motor Trend Car Road Tests (Psych-DS 0.1.0)</span></span>
+<span id="cb14-43"><a href="#cb14-43" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-44"><a href="#cb14-44" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Dataset Parameters</span></span>
+<span id="cb14-45"><a href="#cb14-45" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-46"><a href="#cb14-46" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * name: Motor Trend Car Road Tests</span></span>
+<span id="cb14-47"><a href="#cb14-47" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * schemaVersion: Psych-DS 0.1.0</span></span>
+<span id="cb14-48"><a href="#cb14-48" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-49"><a href="#cb14-49" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; Column Parameters</span></span>
+<span id="cb14-50"><a href="#cb14-50" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb14-51"><a href="#cb14-51" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * mpg (float): Miles/(US) gallon</span></span>
+<span id="cb14-52"><a href="#cb14-52" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * cyl (int): Number of cylinders</span></span>
+<span id="cb14-53"><a href="#cb14-53" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * disp (float): Displacement (cu.in.)</span></span>
+<span id="cb14-54"><a href="#cb14-54" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * hp (int): Gross horsepower</span></span>
+<span id="cb14-55"><a href="#cb14-55" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * drat (float): Rear axle ratio</span></span>
+<span id="cb14-56"><a href="#cb14-56" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * wt (float): Weight (1000 lbs)</span></span>
+<span id="cb14-57"><a href="#cb14-57" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * qsec (float): 1/4 mile time</span></span>
+<span id="cb14-58"><a href="#cb14-58" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * vs (int): Engine</span></span>
+<span id="cb14-59"><a href="#cb14-59" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   * Levels</span></span>
+<span id="cb14-60"><a href="#cb14-60" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * 0: V-shaped</span></span>
+<span id="cb14-61"><a href="#cb14-61" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * 1: straight</span></span>
+<span id="cb14-62"><a href="#cb14-62" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   * Ordered: FALSE</span></span>
+<span id="cb14-63"><a href="#cb14-63" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * am (int): Transmission</span></span>
+<span id="cb14-64"><a href="#cb14-64" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   * Levels</span></span>
+<span id="cb14-65"><a href="#cb14-65" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * 0: automatic</span></span>
+<span id="cb14-66"><a href="#cb14-66" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     * 1: manual</span></span>
+<span id="cb14-67"><a href="#cb14-67" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;   * Ordered: FALSE</span></span>
+<span id="cb14-68"><a href="#cb14-68" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * gear (int): Number of forward gears</span></span>
+<span id="cb14-69"><a href="#cb14-69" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; * carb (int): Number of carburetors</span></span></code></pre></div>
 </div>
 <div id="interactive-editing" class="section level2">
 <h2>Interactive Editing</h2>
 <p>There is an experimental argument to edit the codebook interactively. It runs the codebook function, then asks you to confirm types and edit descriptions. Only run this in the console, not in an RMarkdown file or a script meant to be run non-interactively.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a></span>
-<span id="cb15-2"><a href="#cb15-2"></a>cb &lt;-<span class="st"> </span><span class="kw">codebook</span>(mtcars, <span class="dt">interactive =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>cb <span class="ot">&lt;-</span> <span class="fu">codebook</span>(mtcars, <span class="at">interactive =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 </div>
 
 

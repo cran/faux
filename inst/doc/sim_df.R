@@ -1,7 +1,5 @@
 ## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(
-  fig.width = 8,
-  fig.height = 5,
   collapse = TRUE,
   comment = "#>",
   out.width = "100%"
@@ -51,4 +49,23 @@ sim_df(mtcars, 50, between = "am") %>%
   ggplot(aes(hp, wt, color = transmission)) +
   geom_point() +
   geom_smooth(method = "lm", formula = "y~x")
+
+## -----------------------------------------------------------------------------
+data <- sim_design(2, 2, n = 10, plot = FALSE)
+data$A1[1:3] <- NA
+data$A2[1:6] <- NA
+data
+
+## -----------------------------------------------------------------------------
+simdat <- sim_df(data, between = "B", n = 1000, 
+                 missing = TRUE)
+
+## ---- echo = FALSE, results = 'asis'------------------------------------------
+simdat %>%
+  mutate(A1 = ifelse(is.na(A1), "NA", "not NA"),
+         A2 = ifelse(is.na(A2), "NA", "not NA")) %>%
+  count(B, A1, A2) %>%
+  group_by(B) %>%
+  mutate(n = round(n/sum(n), 2)) %>%
+  knitr::kable()
 

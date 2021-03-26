@@ -1,7 +1,5 @@
 ## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(
-  fig.width = 8,
-  fig.height = 5,
   collapse = TRUE,
   comment = "#>",
   out.width = "100%"
@@ -12,7 +10,7 @@ set.seed(8675309)
 ## ---- warning=FALSE, message=FALSE--------------------------------------------
 library(faux)
 
-## -----------------------------------------------------------------------------
+## ----sim-data-----------------------------------------------------------------
 pet_data <- sim_design(
   between = list(pet = c(cat = "Cat Owners", 
                          dog = "Dog Owners")),
@@ -20,7 +18,8 @@ pet_data <- sim_design(
   dv = list(happy = "Happiness Score"),
   id = list(id = "Subject ID"),
   mu = c(10, 12),
-  sd = 4
+  sd = 4,
+  plot = FALSE
 )
 
 ## -----------------------------------------------------------------------------
@@ -41,7 +40,7 @@ str(cb)
 pet_data$followup <- sample(0:1, nrow(pet_data), TRUE)
 
 vardesc <- list(
-  type = list(followup = "b"),
+  dataType = list(followup = "b"),
   description = c(id = "Pet ID",
                   pet = "Pet Type",
                   followup = "Followed up 2 weeks later"
@@ -122,7 +121,7 @@ vardesc <- list(
   # min and max are often outside the observed range
   minValue = list(mpg = 0, cyl = min(mtcars$cyl)),
   maxValue = list(cyl = max(mtcars$cyl)),
-  type = list(
+  dataType = list(
     cyl = "integer",
     hp = "integer",
     vs = "integer",

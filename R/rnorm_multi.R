@@ -10,7 +10,7 @@
 #' @param varnames optional names for the variables (string vector of length vars) defaults if r is a matrix with column names
 #' @param empirical logical. If true, mu, sd and r specify the empirical not population mean, sd and covariance 
 #' @param as.matrix logical. If true, returns a matrix
-#' @param seed DEPRECATED use set.seed() instead
+#' @param seed DEPRECATED use set.seed() instead before running this function
 #' 
 #' @return a tbl of vars vectors
 #' 

@@ -1,7 +1,5 @@
 ## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(
-  fig.width = 8,
-  fig.height = 5,
   collapse = TRUE,
   comment = "#>",
   out.width = "100%"
@@ -12,7 +10,7 @@ set.seed(8675309)
 ## ---- warning=FALSE, message=FALSE--------------------------------------------
 library(faux)
 
-## ----plot-sim-design, fig.width = 8, fig.height = 4---------------------------
+## ----plot-sim-design----------------------------------------------------------
 between <- list(pet = c(cat = "Cat Owners", 
                         dog = "Dog Owners"))
 within <- list(time = c("morning", "noon", "evening", "night"))
@@ -25,11 +23,11 @@ df <- sim_design(within, between,
                  n = 100, mu = mu, sd = 5, r = .5,
                  empirical = TRUE, plot = TRUE)
 
-## -----------------------------------------------------------------------------
+## ----anon---------------------------------------------------------------------
 df <- sim_design(within = c(2,3), between = c(2), 
                  n = 10, mu = 1:12, sd = 1, r = 0.5)
 
-## -----------------------------------------------------------------------------
+## ----vlist--------------------------------------------------------------------
 between <- list(
   pet = c("cat", "dog")
 )
@@ -40,6 +38,15 @@ within <- list(
 df <- sim_design(within, between, mu = 1:4)
 
 ## -----------------------------------------------------------------------------
+faux_options(sep = ".")
+
+sim_design(within, n = 5, plot = FALSE)
+
+## -----------------------------------------------------------------------------
+# put the separator back to _ for the rest of this vignette
+faux_options(sep = "_")
+
+## ----named-vectors------------------------------------------------------------
 between <- list(
   pet = c(cat = "Is a cat person", dog = "Is a dog person")
 )
@@ -156,7 +163,7 @@ r <- list(
 design <- check_design(within, between, r = r, plot = FALSE)
 design$r
 
-## -----------------------------------------------------------------------------
+## ----empirical----------------------------------------------------------------
 between <- list(pet  = c("cat", "dog"))
 within  <- list(time = c("day", "night"))
 mu <- list(
@@ -227,16 +234,18 @@ r <- list(
 ## -----------------------------------------------------------------------------
 df <- sim_design(within, between, n = 100, 
                  mu = mu, sd = 2, r = r, 
-                 dv = c(rt = "Reaction Time"), long = TRUE)
+                 dv = c(rt = "Reaction Time"), 
+                 plot = FALSE, long = TRUE)
+
+head(df)
 
 ## -----------------------------------------------------------------------------
 df <- sim_design(within = 2, between = 2, 
                  n = 50, mu = c(1, 1, 1, 1.5), 
-                 sd = 1, r = 0.5, 
+                 sd = 1, r = 0.5, plot = FALSE, 
                  long = TRUE, rep = 5)
 
-## ---- fig.width = 5, fig.height = 5-------------------------------------------
-plot_design(df)
+df
 
 ## -----------------------------------------------------------------------------
 # using tidyverse functions

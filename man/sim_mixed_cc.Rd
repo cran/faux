@@ -30,7 +30,7 @@ sim_mixed_cc(
 
 \item{empirical}{Should the returned data have these exact parameters? (versus be sampled from a population with these parameters)}
 
-\item{seed}{DEPRECATED use set.seed() instead}
+\item{seed}{DEPRECATED use set.seed() instead before running this function}
 }
 \value{
 a tbl

@@ -29,6 +29,33 @@ test_that("error messages", {
   expect_warning(sim_design(rep = 2.2), "rep should be an integer")
 })
 
+# set mu ----
+test_that("mu", {
+  x <- sim_design(within = 2, mu = 1, empirical = TRUE)
+  expect_equal(mean(x$A1), 1, tolerance = 1e3)
+  expect_equal(mean(x$A2), 1, tolerance = 1e3)
+  
+  x <- sim_design(within = 2, mu = c(1, 2), empirical = TRUE)
+  expect_equal(mean(x$A1), 1, tolerance = 1e3)
+  expect_equal(mean(x$A2), 2, tolerance = 1e3)
+  
+  x <- sim_design(within = 2, mu = c(A2 = 2, A1 = 1), empirical = TRUE)
+  expect_equal(mean(x$A1), 1, tolerance = 1e3)
+  expect_equal(mean(x$A2), 2, tolerance = 1e3)
+  
+  x <- sim_design(within = 2, mu = list(A2 = 2, A1 = 1), empirical = TRUE)
+  expect_equal(mean(x$A1), 1, tolerance = 1e3)
+  expect_equal(mean(x$A2), 2, tolerance = 1e3)
+  
+  x <- sim_design(within = 2, mu = data.frame(A2 = 2, A1 = 1), empirical = TRUE)
+  expect_equal(mean(x$A1), 1, tolerance = 1e3)
+  expect_equal(mean(x$A2), 2, tolerance = 1e3)
+  
+  x <- sim_design(within = 2, mu = data.frame(y = 2:1, row.names = c("A2", "A1")), empirical = TRUE)
+  expect_equal(mean(x$A1), 1, tolerance = 1e3)
+  expect_equal(mean(x$A2), 2, tolerance = 1e3)
+})
+
 # 2w ----
 test_that("2w", {
   within <- list(
@@ -48,7 +75,7 @@ test_that("2w", {
   
   comp <- data.frame(
     n = c(100, 100),
-    var = c("W1", "W2"),
+    var = factor(c("W1", "W2")),
     W1 = c(1.0, 0.3),
     W2 = c(0.3, 1.0),
     mean = c(1, 2),
@@ -82,7 +109,7 @@ test_that("2w*2w", {
 
   comp <- data.frame(
     n = rep(100, 4),
-    var = c("W1_X1", "W1_X2", "W2_X1", "W2_X2"),
+    var = factor(c("W1_X1", "W1_X2", "W2_X1", "W2_X2")),
     W1_X1 = c(1, 0, 0, 0),
     W1_X2 = c(0, 1, 0, 0),
     W2_X1 = c(0, 0, 1, 0),
@@ -182,7 +209,7 @@ test_that("2w*2b basic", {
   comp <- data.frame(
     B = factor(c("B1", "B1", "B2", "B2"), c("B1", "B2")),
     n = c(60, 60, 40, 40),
-    var = c("W1", "W2", "W1", "W2"),
+    var = factor(c("W1", "W2", "W1", "W2")),
     W1 = c(1, .2, 1, .5),
     W2 = c(.2, 1, .5, 1),
     mean = c(10, 20, 10, 30),
@@ -227,7 +254,7 @@ test_that("2w*2b alt", {
   comp <- data.frame(
     B = factor(c("B1", "B1", "B2", "B2"), c("B1", "B2")),
     n = c(60, 60, 40, 40),
-    var = c("W1", "W2", "W1", "W2"),
+    var = factor(c("W1", "W2", "W1", "W2")),
     W1 = c(1, .2, 1, .5),
     W2 = c(.2, 1, .5, 1),
     mean = c(10, 20, 10, 30),
@@ -265,7 +292,7 @@ test_that("2w*2b within order", {
   comp <- data.frame(
     B = factor(c("B1", "B1", "B2", "B2"), c("B1", "B2")),
     n = rep(50, 4),
-    var = c("W1", "W2", "W1", "W2"),
+    var = factor(c("W1", "W2", "W1", "W2")),
     W1 = c(1, .5, 1, .5),
     W2 = c(.5, 1, .5, 1),
     mean = c(10, 20, 10, 30),
@@ -312,7 +339,7 @@ test_that("2w*2b order", {
   comp <- data.frame(
     B = factor(c("B1", "B1", "B2", "B2"), c("B1", "B2")),
     n = c(60, 60, 40, 40),
-    var = c("W1", "W2", "W1", "W2"),
+    var = factor(c("W1", "W2", "W1", "W2")),
     W1 = c(1, .2, 1, .5),
     W2 = c(.2, 1, .5, 1),
     mean = c(10, 20, 10, 30),
@@ -387,41 +414,20 @@ test_that("long", {
   expect_equal(names(df), c("id", "B", "A", "W", "C", "N", "y"))
 })
 
-# complex names ----
+# names with the sep ----
 test_that("complex names", {
-  between <- list(
-    "My first between factor" = 
-      c("Factor B1 L1", "Factor B1 L2"),
-    "My second between factor" = 
-      c("Factor_B2_L1", "Factor_B2_L2")
-  )
-  within <- list(
-    "My first within factor" = 
-      c("Factor W1 L1", "Factor W1 L2"),
-    "My second within factor" = 
-      c("Factor_W2_L1", "Factor_W2_L2")
-  )
+  within <- list(A = c("A_1", "A_2"), Z = c("Z_1", "Z_2"))
 
-  df_long <- sim_design(within, between, 10, 0, 1, .5, long = TRUE)
-  df_wide <- sim_design(within, between, 10, 0, 1, .5)
+  expect_error(sim_design(within, long = TRUE))
+  expect_error(sim_design(within))
   
-  long_names <- c("id", "My first between factor", 
-                  "My second between factor", 
-                  "My first within factor", 
-                  "My second within factor",
-                  "y")
-  
-  wide_names <- c("id", "My first between factor", 
-                  "My second between factor", 
-                  "Factor W1 L1_Factor.W2.L1", 
-                  "Factor W1 L1_Factor.W2.L2", 
-                  "Factor W1 L2_Factor.W2.L1", 
-                  "Factor W1 L2_Factor.W2.L2")
-  
-  expect_equal(names(df_long), long_names)
-  expect_equal(names(df_wide), wide_names)
-  
-  # same factor level names
+  expect_silent(sim_design(within, long = TRUE, sep = "."))
+  expect_silent(sim_design(within, sep = "."))
+
+})
+
+# same factor level names ----
+test_that("same factor level names", {
   between <- list(
     pets = c("cats", "dogs"),
     pets2 = c("cats", "dogs")
@@ -633,3 +639,49 @@ test_that("interactive", {
   
   close(f)
 })
+
+# sep ----
+test_that("sep", {
+  within = list(A = c("A_1", "A.2", "A-3"),
+                B = c("B_1", "B.2", "B-3"))
+  
+  between = list(C = c("C_1", "C.2", "C-3"),
+                 D = c("D_1", "D.2", "D-3"))
+  
+  alevels <- factor(c("A_1", "A.2", "A-3"), levels = c("A_1", "A.2", "A-3"))
+  
+  faux_options(sep = "~")
+  datw <- sim_design(within, between, n=10)
+  datl <- sim_design(within, between, n=10, long = TRUE)
+  
+  nm <- c("id", "C", "D", 
+          "A_1~B_1", "A_1~B.2", "A_1~B-3", 
+          "A.2~B_1", "A.2~B.2", "A.2~B-3", 
+          "A-3~B_1", "A-3~B.2", "A-3~B-3")
+  expect_equal(names(datw), nm)
+  expect_equal(unique(datl$A), alevels) 
+
+  
+  # shirdekel example: ignore sep if <2 factors win or btwn
+  between <- list(condition = c(
+    control = "Control",
+    low_choice = "Low choice", 
+    high_choice = "High choice"
+  ))
+  within <- list(time = c("Pre-essay", "Post-essay"))
+  
+  faux_options(sep = "~")
+  mu <- data.frame(
+    control = c(2, 2),
+    low_choice = c(2, 3),
+    high_choice = c(2, 5),
+    row.names = within$time
+  )
+  
+  dat <- sim_design(within, between,
+             n = 10, mu = mu, sd = 2, r = .5,
+             empirical = TRUE, plot = FALSE
+  )
+})
+  
+faux_options(sep = "_")

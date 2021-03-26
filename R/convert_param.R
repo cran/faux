@@ -3,14 +3,17 @@
 #' Converts parameter specification from vector or list format
 #' 
 #' @param param the parameter (mu, sd, or n)
-#' @param cells_w a list of within-subject cells combinations
-#' @param cells_b a list of between-subject cell combinations
+#' @param cells_w a vector of within-subject cells combinations
+#' @param cells_b a vector of between-subject cell combinations
 #' @param type the name of the parameter (for error messages)
 #' 
 #' @return a list of parameters
 #' @keywords internal
 #' 
 convert_param <- function (param, cells_w, cells_b, type = "this parameter") {
+  # convert to vector format if list
+  cells_w <- unlist(cells_w) 
+  cells_b <- unlist(cells_b)
   w_n <- length(cells_w)
   b_n <- length(cells_b)
   all_n <- b_n*w_n
@@ -140,19 +143,23 @@ convert_param <- function (param, cells_w, cells_b, type = "this parameter") {
       stop("The names in the list ", type, " are not correct.")
     }
   } else if (is.numeric(param)) {
-    names_are_b <- !is.null(names(param)) & 
-      setdiff(names(param), cells_b) %>% length() == 0
-    names_are_w <- !is.null(names(param)) & 
-      setdiff(names(param), cells_w) %>% length() == 0
+    names_are_b <- !is.null(names(param)) && 
+      all(names(param) %in% cells_b) &&
+      all(cells_b %in% names(param))
+      # setdiff(names(param), cells_b) %>% length() == 0
+    names_are_w <- !is.null(names(param)) && 
+      all(names(param) %in% cells_w) &&
+      all(cells_w %in% names(param))
+      # setdiff(names(param), cells_w) %>% length() == 0
     
     if (length(param) == 1) { 
       param2 <- rep(param, all_n) 
-    } else if (length(param) == all_n) {
-      param2 <- param
     } else if (names_are_w) {
       param2 <- rep(param[cells_w], times = b_n) 
     } else if (names_are_b) {
       param2 <- rep(param[cells_b], each = w_n) 
+    } else if (length(param) == all_n) {
+      param2 <- param
     } else {
       stop("The number of ", type, " is not correct. Please specify 1, a vector of ", 
            all_n , ", or use the list format")

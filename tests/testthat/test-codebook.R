@@ -1,6 +1,8 @@
 user_opts <- faux_options("sep", "verbose", "plot", "connection")
 on.exit(faux_options(user_opts))
 
+faux_options(plot = FALSE)
+
 set.seed(8675309)
 data <- sim_design()
 
@@ -325,13 +327,13 @@ test_that("doi conversion", {
 
 # from design ----
 test_that("from design", {
-  win <- list(time = c(day = "Daytime", night = "Nighttime"),
+  within <- list(time = c(day = "Daytime", night = "Nighttime"),
               wave = c('1' = "First", '2' = "Second"))
-  btw <- list(pet = c(cat = "Cats", dog = "Dogs"))
+  between <- list(pet = c(cat = "Cats", dog = "Dogs"))
   vardesc <- list(description = list(time = "Time of Day",
                                      wave = "Wave of Study",
                                      pet = "Type of Pet"))
-  data <- sim_design(win, btw, 10, id = c(id = "ID"))
+  data <- sim_design(within, between, 10, id = c(id = "ID"), plot = FALSE)
   cb <- codebook(data, vardesc = vardesc, return = "list")
   
   names <- c("id", "pet", "day_1", "day_2", "night_1", "night_2")
@@ -345,7 +347,7 @@ test_that("from design", {
   expect_equal(descs, cb_descs)
   
   # long
-  data <- sim_design(win, btw, 10, , id = c(id = "ID"), 
+  data <- sim_design(within, between, 10, , id = c(id = "ID"), 
                      dv = c(y = "Score"), long = TRUE)
   cb <- codebook(data, vardesc = vardesc, return = "list")
   

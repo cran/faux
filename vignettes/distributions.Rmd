@@ -1,0 +1,237 @@
+---
+title: "Distribution Conversions"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Distribution Conversions}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  fig.width = 5,
+  fig.height = 5,
+  collapse = TRUE,
+  comment = "#>",
+  out.width = "100%"
+)
+ggplot2::theme_set(ggplot2::theme_bw())
+set.seed(8675309)
+```
+
+```{r, warning=FALSE, message=FALSE}
+library(faux)
+library(ggplot2)
+library(ggExtra)
+library(truncnorm)
+```
+
+For now, `sim_design()` only simulates multivariate normal distributions. You can use the conversion functions to convert values between distributions.
+
+
+## Truncated normal
+
+Imagine you're trying to simulate each participant's mean score on 50 trials with 1-7 Likert responses and you only have the mean and SD from a previous paper to go on. simulating from a normal distribution is likely to give you impossible values, but you can convert to a truncated normal distribution.
+
+Convert between a normal distribution with a mean of 3.5 and SD of 2.5 and a truncated normal distribution ranging from 1 to 7 with the same mean and sd. The red values below are outside the truncated range on the unbounded normal scale.
+
+```{r}
+mu = 3.5
+sd = 2.5
+min = 1
+max = 7
+
+x_n <- rnorm(1000, mu, sd)
+y_t <- norm2trunc(x_n, min, max)
+
+x_t <- rtruncnorm(1000, min, max, mu, sd)
+y_n <- trunc2norm(x_t, min , max)
+```
+
+```{r trunc-plot, echo = FALSE, fig.width = 10}
+grp <- x_n <=7 & x_n >=1
+n2t <- ggplot() + geom_point(aes(x_n, y_t, color = grp), show.legend = FALSE) +
+  labs(x = "Normal", y = "Truncated Normal", title = "Normal to Truncated Normal") +
+  scale_color_manual(values = c("red", "black"))
+gm_n2t <- ggMarginal(n2t, type = "histogram")
+
+grp <- y_n <=7 & y_n >=1
+t2n <- ggplot() + geom_point(aes(x_t, y_n, color = grp), show.legend = FALSE) +
+  labs(y = "Normal", x = "Truncated Normal", title = "Truncated Normal to Normal") +
+  scale_color_manual(values = c("red", "black"))
+gm_t2n <- ggMarginal(t2n, type = "histogram")
+
+cowplot::plot_grid(gm_n2t, gm_t2n)
+```
+
+
+If you omit the min and max values for `trunc2norm()`, it will set them outside the min and max of the data, but this can be really inaccurate, so set them yourself.
+
+## Likert
+
+You can convert a normal distribution to any sample distribution if you can specify the probability of each level. You can specify probability as counts or proportions. If you use a named vector, the output will be a factor with those named levels.
+
+```{r}
+mu = 0
+sd = 1
+prob = c('very low' = 50, 
+         'low' = 80, 
+         'medium' = 100, 
+         'high' = 40, 
+         'very high' = 20)
+
+
+x_n <- rnorm(1000, mu, sd)
+y_l <- norm2likert(x_n, prob)
+```
+
+```{r likert-plot, echo = FALSE, fig.height = 3}
+n2l <- ggplot() + geom_point(aes(x_n, as.numeric(y_l))) +
+  labs(x = "Normal", y = "Likert", title = "Normal to Likert") +
+  scale_y_continuous(labels = names(prob))
+ggMarginal(n2l, type = "histogram")
+```
+
+
+## Uniform
+
+Convert between a normal distribution with a mean of 0 and SD of 1 and a uniform distribution ranging from 0 to 10. If you omit the min and max values for `unif2norm()`, it will set them slightly outside the min and max of the data.
+
+```{r}
+mu = 0
+sd = 1
+min = 0
+max = 100
+
+x_n <- rnorm(1e3, mu, sd)
+y_u <- norm2unif(x_n, min, max)
+
+x_u <- runif(1e3, min, max)
+y_n <- unif2norm(x_u, mu, sd)
+```
+
+```{r unif-plot, echo = FALSE, fig.width = 10}
+n2u <- ggplot() + geom_point(aes(x_n, y_u)) +
+  labs(x = "Normal", y = "Uniform", title = "Normal to Uniform")
+gm_n2u <- ggMarginal(n2u, type = "histogram")
+
+u2n <- ggplot() + geom_point(aes(x_u, y_n)) +
+  labs(y = "Normal", x = "Uniform", title = "Uniform to Normal")
+gm_u2n <- ggMarginal(u2n, type = "histogram")
+
+cowplot::plot_grid(gm_n2u, gm_u2n)
+```
+
+
+By default, the function will try to guess the relevant parameters of the input distribution, but you can also specify them. This is especially useful if you know the actual min and max values, but don't have enough data for any of the observations to be near them.
+
+```{r}
+# cheating a little to make sure no values near min and max
+x <- runif(1e4, 0.1, 0.9) 
+y_guess <- unif2norm(x, mu = 100, sd = 10)
+y_spec <- unif2norm(x, mu = 100, sd = 10, min = 0, max = 1)
+```
+
+```{r, echo = FALSE, fig.width = 10}
+g_guess <- ggplot() + geom_point(aes(x, y_guess)) +
+  labs(y = "Normal", x = "Uniform",
+       title = "Range Guessed from x") +
+  xlim(0, 1) + ylim(60, 140)
+g_spec <- ggplot() + geom_point(aes(x, y_spec)) +
+  labs(y = "Normal", x = "Uniform",
+       title = "Range Specified with min/max") +
+  xlim(0, 1) + ylim(60, 140)
+gm_guess <- ggMarginal(g_guess, type = "histogram")
+gm_spec <- ggMarginal(g_spec, type = "histogram")
+
+cowplot::plot_grid(gm_guess, gm_spec)
+```
+
+## Binomial
+
+Convert between a normal distribution with a mean of 0 and SD of 1 to a binomial distribution with size of 20 and probability of 0.75 (e.g., sum scores on a 20-trial test with a mean of 75% correct). 
+
+Converting from binomial to normal can produce odd-looking distributions of the size is small or the probability is very high or low. If you don't specify the probability, it will be estimated from your data. If you don't specify the size, it will be set to the maximum value of x (which can be wrong, so set it yourself).
+
+```{r}
+mu = 0
+sd = 1
+size = 20
+prob = 0.75
+
+x_n <- rnorm(1e4, mu, sd)
+y_b <- norm2binom(x_n, size, prob)
+
+x_b <- rbinom(1e4, size, prob)
+y_n <- binom2norm(x_b, mu, sd, size)
+```
+
+```{r binom-plot, echo = FALSE, fig.width = 10}
+n2b <- ggplot() + geom_point(aes(x_n, y_b)) +
+  labs(x = "Normal", y = "Binomial", title = "Normal to Binomial")
+gm_n2b <- ggMarginal(n2b, type = "histogram")
+
+b2n <- ggplot() + geom_point(aes(x_b, y_n)) +
+  labs(y = "Normal", x = "Binomial", title = "Binomial to Normal")
+gm_b2n <- ggMarginal(b2n, type = "histogram")
+
+cowplot::plot_grid(gm_n2b, gm_b2n)
+```
+
+## Beta
+
+Convert between a normal distribution with a mean of 0 and SD of 1 and a beta distribution with shape parameters of 2 and 5. The function `beta2norm()` will try to guess the shape parameters from your data if you don't specify them.
+
+```{r}
+mu = 0
+sd = 1
+shape1 = 2
+shape2 = 5
+
+x_n <- rnorm(1e4, mu, sd)
+y_b <- norm2beta(x_n, shape1, shape2)
+
+x_b <- rbeta(1e4, shape1, shape2)
+y_n <- beta2norm(x_b, mu, sd)
+```
+
+```{r beta-plot, echo = FALSE, fig.width = 10}
+n2b <- ggplot() + geom_point(aes(x_n, y_b)) +
+  labs(x = "Normal", y = "Beta", title = "Normal to Beta")
+gm_n2b <- ggMarginal(n2b, type = "histogram")
+
+b2n <- ggplot() + geom_point(aes(x_b, y_n)) +
+  labs(y = "Normal", x = "Beta", title = "Beta to Normal")
+gm_b2n <- ggMarginal(b2n, type = "histogram")
+
+cowplot::plot_grid(gm_n2b, gm_b2n)
+```
+
+## Gamma
+
+Convert between a normal distribution with a mean of 0 and SD of 1 and a gamma distribution with a shape parameter of 2 and a rate of 1. The function `gamma2norm()` will try to guess the shape and rate parameters from your data if you don't specify them.
+
+```{r}
+mu = 0
+sd = 1
+shape = 2
+rate = 1
+
+x_n <- rnorm(1e4, mu, sd)
+y_g <- norm2gamma(x_n, shape, rate)
+
+x_g <- rgamma(1e4, shape, rate)
+y_n <- gamma2norm(x_g, mu, sd)
+```
+
+```{r gamma-plot, echo = FALSE, fig.width = 10}
+n2g <- ggplot() + geom_point(aes(x_n, y_g)) +
+  labs(x = "Normal", y = "Gamma", title = "Normal to Gamma")
+gm_n2g <- ggMarginal(n2g, type = "histogram")
+
+g2n <- ggplot() + geom_point(aes(x_g, y_n)) +
+  labs(y = "Normal", x = "Gamma", title = "Gamma to Normal")
+gm_g2n <- ggMarginal(g2n, type = "histogram")
+
+cowplot::plot_grid(gm_n2g, gm_g2n)
+```

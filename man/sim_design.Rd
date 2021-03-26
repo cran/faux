@@ -19,7 +19,8 @@ sim_design(
   interactive = FALSE,
   design = NULL,
   rep = 1,
-  seed = NULL
+  seed = NULL,
+  sep = faux_options("sep")
 )
 }
 \arguments{
@@ -51,7 +52,9 @@ sim_design(
 
 \item{rep}{the number of data frames to return (default 1); if greater than 1, the returned data frame is nested by rep}
 
-\item{seed}{DEPRECATED use set.seed() instead}
+\item{seed}{DEPRECATED use set.seed() instead before running this function}
+
+\item{sep}{separator for factor levels}
 }
 \value{
 a tbl

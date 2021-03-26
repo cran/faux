@@ -58,26 +58,57 @@ test_that("matrix specifications", {
   expect_equal(conv, target)
 })
 
-# vector specifications ----
-test_that("vector specifications", {
+# vector specifications 3b*2w ----
+test_that("vector specifications 3b*2w", {
   cells_b <- c("A1", "A2", "A3")
   cells_w <- c("B1", "B2")
   
-  # single number
+  # . single number ----
   param <- 10
   target <- list(A1 = list(B1 = 10, B2 = 10),
                  A2 = list(B1 = 10, B2 = 10),
                  A3 = list(B1 = 10, B2 = 10))
   expect_equal(convert_param(param, cells_w, cells_b), target)
   
-  # unnamed vector
+  # . unnamed vector ----
   param <- c(10, 15, 20, 25, 30, 35)
   target <- list(A1 = list(B1 = 10, B2 = 15),
                  A2 = list(B1 = 20, B2 = 25),
                  A3 = list(B1 = 30, B2 = 35))
   expect_equal(convert_param(param, cells_w, cells_b), target)
   
-  # named between list of unnamed vectors
+  # . named vector ----
+  # within
+  target <- list(A1 = list(B1 = 10, B2 = 15),
+                 A2 = list(B1 = 10, B2 = 15),
+                 A3 = list(B1 = 10, B2 = 15))
+  
+  param <- c(B1 = 10, B2 = 15)
+  expect_equal(convert_param(param, cells_w, cells_b), target)
+  
+  # change order
+  param <- c(B2 = 15, B1 = 10)
+  expect_equal(convert_param(param, cells_w, cells_b), target)
+  
+  # between 
+  target <- list(A1 = list(B1 = 10, B2 = 10),
+                 A2 = list(B1 = 20, B2 = 20),
+                 A3 = list(B1 = 30, B2 = 30))
+  
+  param <- c(A1 = 10, A2 = 20, A3 = 30)
+  expect_equal(convert_param(param, cells_w, cells_b), target)
+  
+  # change order
+  param <- c(A2 = 20, A1 = 10, A3 = 30)
+  expect_equal(convert_param(param, cells_w, cells_b), target)
+  
+  # . named list of unnamed vectors ----
+  
+  target <- list(A1 = list(B1 = 10, B2 = 15),
+                 A2 = list(B1 = 20, B2 = 25),
+                 A3 = list(B1 = 30, B2 = 35))
+  
+  # between
   param <- list(A1 = c(10, 15), 
                 A2 = c(20, 25), 
                 A3 = c(30, 35))
@@ -89,7 +120,7 @@ test_that("vector specifications", {
                 A3 = c(30, 35))
   expect_equal(convert_param(param, cells_w, cells_b), target)
   
-  # named within list of unnamed vectors
+  # within
   param <- list(B1 = c(10, 20, 30), 
                 B2 = c(15, 25, 35))
   expect_equal(convert_param(param, cells_w, cells_b), target)
@@ -99,7 +130,9 @@ test_that("vector specifications", {
                 B1 = c(10, 20, 30))
   expect_equal(convert_param(param, cells_w, cells_b), target)
 
-  # named between list of named vectors
+  # . named list of named vectors ----
+  
+  # between
   param <- list(A1 = c(B1 = 10, B2 = 15), 
                 A2 = c(B1 = 20, B2 = 25), 
                 A3 = c(B1 = 30, B2 = 35))
@@ -111,7 +144,7 @@ test_that("vector specifications", {
                 A3 = c(B1 = 30, B2 = 35))
   expect_equal(convert_param(param, cells_w, cells_b), target)
   
-  # named within list of named vectors
+  # within
   param <- list(B1 = c(A1 = 10, A2 = 20, A3 = 30), 
                 B2 = c(A1 = 15, A2 = 25, A3 = 35))
   expect_equal(convert_param(param, cells_w, cells_b), target)
@@ -120,27 +153,40 @@ test_that("vector specifications", {
   param <- list(B2 = c(A2 = 25, A1 = 15, A3 = 35),
                 B1 = c(A3 = 30, A1 = 10, A2 = 20))
   expect_equal(convert_param(param, cells_w, cells_b), target)
+})
+
+# vector specifications 2b ----
+test_that("vector specifications 2b", {
+  cells_b <- c("A1", "A2")
+  cells_w <- c("y")
   
-  # same for all within levels
-  target <- list(A1 = list(B1 = 10, B2 = 15),
-                 A2 = list(B1 = 10, B2 = 15),
-                 A3 = list(B1 = 10, B2 = 15))
-  
-  param <- c(B1 = 10, B2 = 15)
+  # . single number ----
+  param <- 10
+  target <- list(A1 = list(y = 10),
+                 A2 = list(y = 10))
   expect_equal(convert_param(param, cells_w, cells_b), target)
   
-  param <- c(B2 = 15, B1 = 10)
+  # . unnamed vector ----
+  param <- c(10, 15)
+  target <- list(A1 = list(y = 10),
+                 A2 = list(y = 15))
   expect_equal(convert_param(param, cells_w, cells_b), target)
   
-  # same for all between levels
-  target <- list(A1 = list(B1 = 10, B2 = 10),
-                 A2 = list(B1 = 20, B2 = 20),
-                 A3 = list(B1 = 30, B2 = 30))
-  
-  param <- c(A1 = 10, A2 = 20, A3 = 30)
+  # . named vector ----
+  param <- c(A1 = 10, A2 = 15)
   expect_equal(convert_param(param, cells_w, cells_b), target)
   
-  param <- c(A2 = 20, A1 = 10, A3 = 30)
+  # change order
+  param <- c(A2 = 15, A1 = 10)
+  expect_equal(faux:::convert_param(param, cells_w, cells_b), target)
+  
+  # . named list of named vectors ----
+  
+  param <- list(A1 = c(y = 10), A2 = c(y = 15))
+  expect_equal(convert_param(param, cells_w, cells_b), target)
+  
+  # change order
+  param <- list(A2 = c(y = 15), A1 = c(y = 10))
   expect_equal(convert_param(param, cells_w, cells_b), target)
 })
 

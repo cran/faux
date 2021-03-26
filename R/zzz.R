@@ -17,7 +17,7 @@
   paste(
     "\n************",
     "Welcome to faux. For support and examples visit:",
-    "http://debruine.github.io/faux/",
+    "https://debruine.github.io/faux/",
     "- Get and set global package options with: faux_options()",
     "************",
     sep = "\n"

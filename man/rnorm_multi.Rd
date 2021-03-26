@@ -33,7 +33,7 @@ rnorm_multi(
 
 \item{as.matrix}{logical. If true, returns a matrix}
 
-\item{seed}{DEPRECATED use set.seed() instead}
+\item{seed}{DEPRECATED use set.seed() instead before running this function}
 }
 \value{
 a tbl of vars vectors

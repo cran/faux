@@ -1,7 +1,5 @@
 ## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(
-  fig.width = 8,
-  fig.height = 5,
   collapse = TRUE,
   comment = "#>",
   out.width = "100%"

@@ -124,9 +124,8 @@ test_that("from design", {
   dv <- "rating"
   id <- "rater_id"
   data2 <- sim_design(within, between, n = 12,
-                      dv = dv, id = id, long = TRUE)
+                      dv = dv, id = id, long = TRUE, sep = "~")
   
-  data2["face_eth"] <- gsub("\\.", "_", data2[["face_eth"]])
   dwide2 <- long2wide(data2, within = "face_eth", between = "rater_sex", dv = "rating", id = "rater_id")
   expect_equal(names(dwide2), c("rater_id", "rater_sex", "black", "east_asian", "west_asian", "white"))
 })

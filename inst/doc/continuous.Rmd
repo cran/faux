@@ -9,8 +9,6 @@ vignette: >
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
-  fig.width = 8,
-  fig.height = 5,
   collapse = TRUE,
   comment = "#>",
   out.width = "100%"
@@ -101,13 +99,13 @@ long_dat <- dat %>%
 ```
 
 
-```{r echo = FALSE}
+```{r within-cont, echo = FALSE}
 ggplot(long_dat, aes(pred, dv, color = time)) +
   geom_point() + geom_smooth(formula = 'y~x', method = lm)
 ```
 
 
-## One continuous , one categorical predictor
+## One continuous, one categorical predictor
 
 In this design, the DV is 10 higher for group B than group A and the correlation between the predictor and DV is 0.5 for group A and 0.0 for group B.
 
@@ -122,7 +120,7 @@ dat <- sim_design(between = list(group = c("A", "B")),
 ```
 
 
-```{r echo = FALSE}
+```{r cont-cat, echo = FALSE}
 ggplot(dat, aes(predictor, dv, color = group)) + 
   geom_point() + geom_smooth(formula = 'y~x', method = lm)
 ```
@@ -146,7 +144,7 @@ dat$pred <- rnorm_pre(dat$y, 0, 1, 0.5)
 ```
 
 
-```{r echo = FALSE}
+```{r add-pred, echo = FALSE}
 ggplot(dat, aes(pred, y, color = group)) +
   geom_point() + geom_smooth(formula = 'y~x', method = lm)
 ```
@@ -168,3 +166,16 @@ ggplot(dat, aes(pred, y, color = group)) +
   geom_point() + geom_smooth(formula = 'y~x', method = lm)
 ```
 
+
+You can also specify correlations to more than one vector by setting the first argument to a data frame containing only the continuous columns and r to the correlation with each column.
+
+```{r}
+dat <- sim_design(2, r = 0.5, plot = FALSE)
+dat$B <- rnorm_pre(dat[, 2:3], r = c(A1 = 0.5, A2 = 0))
+cor(dat[, 2:4])
+```
+Not all correlation patterns are possible, so you'll get an error message if the correlations you ask for are impossible.
+
+```{r, error = TRUE, perl = FALSE}
+dat$C <- rnorm_pre(dat[, 2:4], r = c(A1 = 0.9, A2 = 0.9, B = -0.9))
+```

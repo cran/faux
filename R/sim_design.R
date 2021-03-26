@@ -16,7 +16,8 @@
 #' @param interactive whether to run the function interactively
 #' @param design a design list including within, between, n, mu, sd, r, dv, id
 #' @param rep the number of data frames to return (default 1); if greater than 1, the returned data frame is nested by rep
-#' @param seed DEPRECATED use set.seed() instead
+#' @param seed DEPRECATED use set.seed() instead before running this function
+#' @param sep separator for factor levels
 #' 
 #' @return a tbl
 #' 
@@ -29,21 +30,23 @@ sim_design <- function(within = list(), between = list(),
                        id = list(id = "id"),
                        plot = faux_options("plot"), 
                        interactive = FALSE, 
-                       design = NULL, rep = 1, seed = NULL) {
+                       design = NULL, rep = 1, seed = NULL,
+                       sep = faux_options("sep")) {
   # check the design is specified correctly
   if (interactive) {
     design <- interactive_design(plot = plot)
   } else if (!is.null(design)) { 
     #& !("design" %in% class(design))) {
     # double-check the entered design
-    design <- check_design(design = design, plot = plot)
+    
+    design <- check_design(design = design, plot = plot, sep = sep)
   } else if ("design" %in% class(within)) {
     # design given as first argument: not ideal but handle it
-    design <- check_design(design = within, plot = plot)
+    design <- check_design(design = within, plot = plot, sep = sep)
   } else {
     design <- check_design(within = within, between = between, 
                          n = n, mu = mu, sd = sd, r = r, 
-                         dv = dv, id = id, plot = plot)
+                         dv = dv, id = id, plot = plot, sep = sep)
   }
   
   if (!is.null(seed)) {
@@ -64,14 +67,13 @@ sim_design <- function(within = list(), between = list(),
 #' @param empirical logical. If true, mu, sd and r specify the empirical not population mean, sd and covariance 
 #' @param long Whether the returned tbl is in wide (default = FALSE) or long (TRUE) format
 #' @param rep the number of data frames to return (default 1); if greater than 1, the returned data frame is nested by rep
-#' @param sep separator for within-columns, defaults to _
-#' @param seed DEPRECATED use set.seed() instead
+#' @param seed DEPRECATED use set.seed() instead before running this function
 #' 
 #' @return a tbl
 #' @export
 #' 
 sim_data <- function(design, empirical = FALSE, long = FALSE, 
-                     rep = 1, sep = faux_options("sep"), seed = NULL) {
+                     rep = 1, seed = NULL) {
   if (!is.numeric(rep)) {
     stop("rep must be a number")
   } else if (rep < 1) {
@@ -94,16 +96,22 @@ sim_data <- function(design, empirical = FALSE, long = FALSE,
   mu <- 0
   sd <- 1
   r  <- 0
+  sep <- faux_options("sep")
   #override with values from design
   list2env(design, envir = environment())
+  
+  # set sep with within cells to something weird if it will never show up
+  wsep <- ifelse(long, "|~|", sep)
   
   # only use DV and ID names here
   dv <- names(dv)
   id <- names(id)
   
   # define columns
-  cells_w <- cell_combos(within, dv)
-  cells_b <- cell_combos(between, dv) 
+  cells_w <- cell_combos(within, dv, wsep)
+  cells_b <- cell_combos(between, dv, sep) 
+  cells_b2 <- cell_combos(between, dv, wsep)
+  names(cells_b2) <- cells_b
   
   # get factor names
   within_factors <- names(within)
@@ -125,7 +133,7 @@ sim_data <- function(design, empirical = FALSE, long = FALSE,
         varnames = cells_w, 
         empirical = empirical
       )
-      cell_vars$.btwn. <- cell
+      cell_vars$.btwn. <- cells_b2[cell]
       
       # add cell values to df
       if (cell == cells_b[1]) { 
@@ -150,7 +158,7 @@ sim_data <- function(design, empirical = FALSE, long = FALSE,
   sub_n <- unlist(n) %>% sum()
   
   # create wide dataframe
-  btwn <- strsplit(df$.btwn., sep) %>% 
+  btwn <- strsplit(df$.btwn., wsep, fixed = TRUE) %>% 
     unlist() %>% matrix(nrow = length(between_factors)) %>% 
     t() %>% as.data.frame()
   names(btwn) <- between_factors
@@ -174,11 +182,11 @@ sim_data <- function(design, empirical = FALSE, long = FALSE,
     
     df_long <- stats::reshape(
       df_wide, cells_w, direction = "long", 
-      idvar = c(".rep.", id),  v.names = dv, 
+      idvar = c(".rep.", id),  v.names = dv,
       timevar = ".win.")
     
     w_in <- cells_w[df_long$.win.] %>%
-      strsplit(sep) %>% 
+      strsplit(wsep, fixed = TRUE) %>% 
       unlist() %>% matrix(nrow = length(within_factors)) %>% 
       t() %>% as.data.frame()
     names(w_in) <- within_factors
@@ -210,5 +218,7 @@ sim_data <- function(design, empirical = FALSE, long = FALSE,
     df_return$data <- df_rep
     
   }
+  
+  rownames(df_return) <- c() # get rid of row names
   return(df_return)
 }

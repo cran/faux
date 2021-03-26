@@ -9,7 +9,7 @@
 #' @param item_sd the SD of item random intercepts (or an item_n-length named vector of random intercepts for each item)
 #' @param error_sd the SD of the error term
 #' @param empirical Should the returned data have these exact parameters? (versus be sampled from a population with these parameters)
-#' @param seed DEPRECATED use set.seed() instead
+#' @param seed DEPRECATED use set.seed() instead before running this function
 #'
 #' @return a tbl 
 #' @export

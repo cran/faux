@@ -9,8 +9,6 @@ vignette: >
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
-  fig.width = 8,
-  fig.height = 5,
   collapse = TRUE,
   comment = "#>",
   out.width = "100%"
@@ -29,7 +27,7 @@ Codebooks in faux follow the [Psych-DS 0.1.0 format](https://docs.google.com/doc
 
 When you simulate data with `sim_design`, the codebook function reads some parameters of the design.
 
-```{r}
+```{r sim-data}
 pet_data <- sim_design(
   between = list(pet = c(cat = "Cat Owners", 
                          dog = "Dog Owners")),
@@ -37,7 +35,8 @@ pet_data <- sim_design(
   dv = list(happy = "Happiness Score"),
   id = list(id = "Subject ID"),
   mu = c(10, 12),
-  sd = 4
+  sd = 4,
+  plot = FALSE
 )
 ```
 
@@ -68,14 +67,14 @@ str(cb)
 
 ### Variable parameters
 
-Above you saw messages about the data type that codebook guesses for each column. You can override this by setting the values manually. Below, we'll create a new column called `followup` consisting of 0 and 1 values, change the type of the column from integer to boolean (T/F) and also set descriptions for `id`, `pet` and `followup`. The `id` column had a description of "Subject ID" from the `sim_design` function, but properties set in using `vardesc` will override this. You can also add unobserved levels to a factor.
+Above you saw messages about the data type that codebook guesses for each column. You can override this by setting the values manually. Below, we'll create a new column called `followup` consisting of 0 and 1 values, change the data type of the column from integer to boolean (T/F) and also set descriptions for `id`, `pet` and `followup`. The `id` column had a description of "Subject ID" from the `sim_design` function, but properties set in using `vardesc` will override this. You can also add unobserved levels to a factor.
 
 ```{r}
 
 pet_data$followup <- sample(0:1, nrow(pet_data), TRUE)
 
 vardesc <- list(
-  type = list(followup = "b"),
+  dataType = list(followup = "b"),
   description = c(id = "Pet ID",
                   pet = "Pet Type",
                   followup = "Followed up 2 weeks later"
@@ -91,7 +90,7 @@ cb <- codebook(pet_data, name = "pets", vardesc, return = "list")
 cb
 ```
 
-You can change the type of a column in the codebook, but this won't affect the data itself unless you set the `return` argument to "data". This runs type conversion on each column and gives you a warning if type can't be converted.  
+You can change the data type of a column in the codebook, but this won't affect the data itself unless you set the `return` argument to "data". This runs type conversion on each column and gives you a warning if type can't be converted.
 
 Note how we had to change the levels for the variable `followup` because we're converting them to boolean (logical) values and how the names in the levels vector have to be strings.
 
@@ -109,7 +108,7 @@ attr(converted_data, "codebook")
 ```
 
 
-You can set other variable parameters than name, type, description, and levels. The variable parameters that Psych-DS currently supports are: "description", "privacy", "type", "propertyID", "minValue", "maxValue", "levels", "ordered", "na", "naValues", "alternateName", and "unitCode". See the [technical specs](https://docs.google.com/document/d/1u8o5jnWk0Iqp_J06PTu5NjBfVsdoPbBhstht6W0fFp0/edit) for descriptions of these properties. You can add custom parameters, but will get a warning.
+You can set other variable parameters than name, type, description, and levels. The variable parameters that Psych-DS currently supports are: "description", "privacy", "dataType", "propertyID", "minValue", "maxValue", "levels", "ordered", "na", "naValues", "alternateName", and "unitCode". See the [technical specs](https://docs.google.com/document/d/1u8o5jnWk0Iqp_J06PTu5NjBfVsdoPbBhstht6W0fFp0/edit) for descriptions of these properties. You can add custom parameters, but will get a warning.
 
 ```{r}
 cb <- codebook(pet_data, vardesc = list(new_param = c(id = "YES")))
@@ -140,6 +139,7 @@ codebook(pet_data, license = "CC-BY 3.0", author = "Lisa DeBruine", source = "fa
 ```
 
 You can also add parameters as lists.
+
 ```{r}
 dat <- sim_design(plot= FALSE)
 
@@ -185,7 +185,7 @@ vardesc <- list(
   # min and max are often outside the observed range
   minValue = list(mpg = 0, cyl = min(mtcars$cyl)),
   maxValue = list(cyl = max(mtcars$cyl)),
-  type = list(
+  dataType = list(
     cyl = "integer",
     hp = "integer",
     vs = "integer",

@@ -4,12 +4,14 @@
 \alias{cell_combos}
 \title{Cell combos}
 \usage{
-cell_combos(factors, dv = "y")
+cell_combos(factors, dv = "y", sep = faux_options("sep"))
 }
 \arguments{
 \item{factors}{A list of lists of named factor levels}
 
 \item{dv}{name of dv column ("y") to be used if there are no factors}
+
+\item{sep}{separator}
 }
 \value{
 a list

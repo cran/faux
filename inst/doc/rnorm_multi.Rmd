@@ -11,8 +11,6 @@ vignette: >
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
-  fig.width = 8,
-  fig.height = 5,
   collapse = TRUE,
   comment = "#>",
   out.width = "100%"
@@ -130,30 +128,42 @@ bvn <- rnorm_multi(100, 5, 0, 1, .3,
 `r get_params(bvn) %>% knitr::kable()`
 Table: Sample stats with empirical = TRUE
 
-## Pre-existing variable
+## Pre-existing variables
 
-Us `rnorm_pre()` to create a vector with a specified correlation to a pre-existing variable. The following code creates a vector called `sl.5` with a mean of 10, SD of 2 and a correlation of r = 0.5 to the `Sepal.Length` column in the built-in dataset `iris`.
+Us `rnorm_pre()` to create a vector with a specified correlation to one or more pre-existing variables. The following code creates a new column called `B` with a mean of 10, SD of 2 and a correlation of r = 0.5 to the `A` column.
 
 ```{r}
-sl <- iris$Sepal.Length
-
-sl.5.v1 <- rnorm_pre(sl, mu = 10, sd = 2, r = 0.5)
-sl.5.v2 <- rnorm_pre(sl, mu = 10, sd = 2, r = 0.5)
+dat <- rnorm_multi(varnames = "A") %>%
+  mutate(B = rnorm_pre(A, mu = 10, sd = 2, r = 0.5))
 ```
 
 ```{r, echo = FALSE, results='asis'}
-data.frame(sl, sl.5.v1, sl.5.v2) %>%
-  get_params() %>% knitr::kable(digits = 3, caption = "rnorm_pre")
+get_params(dat) %>% knitr::kable(digits = 3)
 ```
 
 Set `empirical = TRUE` to return a vector with the **exact** specified parameters.
 
 ```{r}
-sl.5.v1 <- rnorm_pre(sl, mu = 10, sd = 2, r = 0.5, empirical = TRUE)
-sl.5.v2 <- rnorm_pre(sl, mu = 10, sd = 2, r = 0.5, empirical = TRUE)
+dat$C <- rnorm_pre(dat$A, mu = 10, sd = 2, r = 0.5, empirical = TRUE)
 ```
 
 ```{r, echo = FALSE, results='asis'}
-data.frame(sl, sl.5.v1, sl.5.v2) %>%
-  get_params() %>% knitr::kable(digits = 3, caption = "rnorm_pre with empirical = TRUE")
+get_params(dat) %>% knitr::kable(digits = 3)
+```
+
+
+You can also specify correlations to more than one vector by setting the first argument to a data frame containing only the continuous columns and r to the correlation with each column.
+
+```{r}
+dat$D <- rnorm_pre(dat, r = c(.1, .2, .3), empirical = TRUE)
+```
+
+```{r, echo = FALSE, results='asis'}
+get_params(dat) %>% knitr::kable(digits = 3)
+```
+
+Not all correlation patterns are possible, so you'll get an error message if the correlations you ask for are impossible.
+
+```{r, error = TRUE, perl = FALSE}
+dat$E <- rnorm_pre(dat, r = .9)
 ```

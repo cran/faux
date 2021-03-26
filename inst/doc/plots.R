@@ -2,8 +2,6 @@
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.width = 10, 
-  fig.height = 7,
   out.width = "100%"
 )
 ggplot2::theme_set(ggplot2::theme_bw())

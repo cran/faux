@@ -9,9 +9,9 @@ convert_param(param, cells_w, cells_b, type = "this parameter")
 \arguments{
 \item{param}{the parameter (mu, sd, or n)}
 
-\item{cells_w}{a list of within-subject cells combinations}
+\item{cells_w}{a vector of within-subject cells combinations}
 
-\item{cells_b}{a list of between-subject cell combinations}
+\item{cells_b}{a vector of between-subject cell combinations}
 
 \item{type}{the name of the parameter (for error messages)}
 }

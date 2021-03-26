@@ -34,7 +34,7 @@ test_that("long", {
   
   expect_equal(checklong$B, c("B1", "B1", "B2", "B2") %>% as.factor())
   expect_equal(checklong$n, c(100,100,100,100))
-  expect_equal(checklong$var, c("A1", "A2", "A1", "A2"))
+  expect_equal(checklong$var, factor(c("A1", "A2", "A1", "A2")))
   expect_equal(checklong$mean, c(0,0,0,0))
   expect_equal(checklong$sd, c(1,1,1,1))
   expect_equal(checklong$A1, c(1,.5,1,.5))
@@ -50,3 +50,49 @@ test_that("is_pos_def", {
                         .9, -.2, 1), 3)
   expect_equal(is_pos_def(bad_matrix), FALSE)
 })
+
+
+# order ----
+test_that("order", {
+  x <- sim_design(
+    within = list(time = c("pre", "post"),
+                  condition = c("ctl", "exp"))
+  )
+  
+  p <- get_params(x)
+  expect_equal(as.character(p$var), names(p)[3:6])
+  
+  x <- sim_design(
+    between = list(grp = c("B", "A")),
+    within = list(time = c("pre", "post"),
+                  condition = c("ctl", "exp"))
+  )
+  p <- get_params(x, between = "grp")
+  expect_equal(as.character(p$grp), rep(LETTERS[2:1], each = 4))
+  expect_equal(as.character(p$var), rep(names(p)[4:7], 2))
+})
+
+
+# from design ----
+test_that("from design", {
+  x <- sim_design(
+    between = list(grp = c("B", "A")),
+    within = list(time = c("pre", "post"),
+                  condition = c("ctl", "exp"))
+  )
+  p <- get_params(x)
+  expect_equal(as.character(p$grp), rep(LETTERS[2:1], each = 4))
+  expect_equal(as.character(p$var), rep(names(p)[4:7], 2))
+  
+  # override between
+  p <- get_params(x, between = 0)
+  expect_true(!"grp" %in% names(p))
+  expect_equal(as.character(p$var), names(p)[3:6])
+  
+  # override dv
+  p <- get_params(x, dv = c("pre_exp", "post_ctl"))
+  expect_equal(as.character(p$grp), rep(LETTERS[2:1], each = 2))
+  expect_equal(as.character(p$var), rep(c("pre_exp", "post_ctl"), 2))
+})
+
+  

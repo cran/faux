@@ -13,17 +13,18 @@ sim_df(
   dv = "value",
   empirical = FALSE,
   long = FALSE,
-  seed = NULL
+  seed = NULL,
+  missing = FALSE
 )
 }
 \arguments{
-\item{data}{the existing tbl (must be in wide format)}
+\item{data}{the existing tbl}
 
 \item{n}{the number of samples to return per group}
 
-\item{within}{a list of the within-subject columns}
+\item{within}{a list of the within-subject factor columns (if long format)}
 
-\item{between}{a list of the between-subject columns}
+\item{between}{a list of the between-subject factor columns}
 
 \item{id}{the names of the column(s) for grouping observations}
 
@@ -33,7 +34,9 @@ sim_df(
 
 \item{long}{whether to return the data table in long format}
 
-\item{seed}{DEPRECATED use set.seed() instead}
+\item{seed}{DEPRECATED use set.seed() instead before running this function}
+
+\item{missing}{simulate missing data?}
 }
 \value{
 a tbl

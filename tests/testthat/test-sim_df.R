@@ -79,6 +79,21 @@ test_that("grouping by col number", {
   expect_equal(names(newdf)[2:6] %>% sort(), names(iris) %>% sort())
 })
 
+# missing data ----
+test_that("missing data", {
+  data <- messy(iris, c(.1, .2, .3, .4), 1:4)
+  newdf <- sim_df(data)
+  
+  expect_equal(nrow(newdf), 100)
+  expect_equal(ncol(newdf), 5)
+  expect_equal(names(newdf)[2:5], names(iris)[1:4])
+  
+  newdf <- sim_df(data, n = 1000, missing = TRUE)
+  
+  dplyr::mutate_all(newdf[2:5], is.na) %>%
+    dplyr::summarise_all(mean)
+})
+
 # within ----
 test_that("within", {
   long_iris <- wide2long(

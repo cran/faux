@@ -2,7 +2,7 @@
 % Please edit documentation in R/distribution_convertors.R
 \name{unif2norm}
 \alias{unif2norm}
-\title{Convert normal to uniform}
+\title{Convert uniform to normal}
 \usage{
 unif2norm(x, mu = 0, sd = 1, min = NULL, max = NULL)
 }

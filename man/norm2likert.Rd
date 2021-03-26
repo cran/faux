@@ -9,14 +9,14 @@ norm2likert(x, prob, mu = mean(x), sd = stats::sd(x))
 \arguments{
 \item{x}{the normally distributed vector}
 
-\item{prob}{a vector of probabilities}
+\item{prob}{a vector of probabilities or counts; if named, the output is a factor}
 
 \item{mu}{the mean of x (calculated from x if not given)}
 
 \item{sd}{the SD of x (calculated from x if not given)}
 }
 \value{
-a vector with a specified distribution
+a vector with the specified distribution
 }
 \description{
 Convert normal to likert
@@ -28,8 +28,11 @@ y <- norm2likert(x, c(.1, .2, .35, .2, .1, .05))
 g <- ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(x, y))
 ggExtra::ggMarginal(g, type = "histogram")
 
-y <- norm2likert(x, c(.4, .3, .2, .1))
+y <- norm2likert(x, c(40, 30, 20, 10))
 g <- ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(x, y))
 ggExtra::ggMarginal(g, type = "histogram")
 
+y <- norm2likert(x, c(lower = .5, upper = .5))
+g <- ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(x, y))
+ggExtra::ggMarginal(g, type = "histogram")
 }

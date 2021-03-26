@@ -19,7 +19,8 @@
 #' @param vardesc a list of variable descriptions having the names of the within- and between-subject factors
 #' @param plot whether to show a plot of the design
 #' @param design a design list including within, between, n, mu, sd, r, dv, id
-#' @param fix_names fix variable names so special characters become . or _ (default TRUE)
+#' @param fix_names deprecated
+#' @param sep separator for factor levels
 #' 
 #' @return list
 #' 
@@ -43,9 +44,10 @@ check_design <- function(within = list(), between = list(),
                          id = list(id = "id"), 
                          vardesc = list(),
                          plot = faux_options("plot"), 
-                         design = NULL, fix_names = TRUE) {
+                         design = NULL, fix_names = FALSE,
+                         sep = faux_options("sep")) {
   # design passed as design list
-  if (!is.null(design)) {
+  if (!is.null(design) && is.list(design)) {
     # double-check the entered design
     list2env(design, envir = environment())
   } else if ("design" %in% class(within)) {
@@ -54,12 +56,12 @@ check_design <- function(within = list(), between = list(),
   }
   
   # name anonymous factors ----
-  if (is.numeric(within) && all(within %in% 2:10)) { # vector of level numbers
+  if (is.numeric(within) && all(within %in% 2:20)) { # vector of level numbers
     within_names <- LETTERS[1:length(within)]
     indices <- lapply(within, function(.) seq(1:.))
     within <- mapply(paste0, within_names, indices, SIMPLIFY = FALSE)
   }
-  if (is.numeric(between) && all(between %in% 2:10)) { # vector of level numbers
+  if (is.numeric(between) && all(between %in% 2:20)) { # vector of level numbers
     between_names <- LETTERS[(length(within)+1):(length(within)+length(between))]
     indices <- lapply(between, function(.) seq(1:.))
     between <- mapply(paste0, between_names, indices, SIMPLIFY = FALSE)
@@ -72,13 +74,35 @@ check_design <- function(within = list(), between = list(),
   
   # if within or between factors are named vectors, 
   # use their names as column names and values as labels for plots
-  pattern <- NULL
-  if (fix_names) pattern <- "_"
-  between <- lapply(between, fix_name_labels, pattern = pattern)
-  within <- lapply(within, fix_name_labels, pattern = pattern)
+  between <- lapply(between, fix_name_labels, pattern = NULL)
+  within <- lapply(within, fix_name_labels, pattern = NULL)
   dv <- fix_name_labels(dv, pattern = NULL)
   id <- fix_name_labels(id, pattern = NULL)
   
+  # check if sep is in any level names
+  all_levels <- lapply(c(between, within), names) %>% 
+    unlist() %>% unname()
+  has_sep <- grepl(sep, all_levels, fixed = TRUE)
+  if (any(has_sep)) {
+    # see which separators are safe
+    seps <- c("_", ".", "-", "~", "_x_", "*")
+    names(seps) <- seps
+    safe_sep <- lapply(seps, grepl, x = all_levels, fixed = TRUE) %>%
+      sapply(any)
+    
+    stop("These level names have the separator '", sep, "' in them: ", 
+            paste(all_levels[has_sep], collapse = ", "),
+            "\nPlease change the names (see fix_name_labels) or choose another separator character using the sep argument or faux_options(sep = '~')\n",
+         "safe separators for your factor labels are: ",
+         paste(seps[safe_sep], collapse = ","))
+  }
+  
+  # if (fix_names) {
+  #   pattern <- gsub("([.|()\\^{}+$*?]|\\[|\\])", "\\\\\\1", sep)
+  #   between <- lapply(between, fix_name_labels, pattern = pattern)
+  #   within <- lapply(within, fix_name_labels, pattern = pattern)
+  # }
+
   # check for duplicate factor names ----
   all_names <- c(names(within), names(between))
   factor_overlap <- duplicated(all_names)
@@ -105,11 +129,11 @@ check_design <- function(within = list(), between = list(),
   }
   
   # define columns ----
-  cells_w <- cell_combos(within, names(dv))
-  cells_b <- cell_combos(between, names(dv)) 
+  cells_w <- cell_combos(within, names(dv), sep)
+  cells_b <- cell_combos(between, names(dv), sep) 
   
   # convert n, mu and sd  ----
-  cell_n  <- convert_param(n,  cells_w, cells_b, "Ns")
+  cell_n  <- convert_param(n, cells_w, cells_b, "Ns")
   for (i in names(cell_n)) {
     cell_n[[i]] <- cell_n[[i]][[1]]
   }
@@ -181,6 +205,7 @@ check_design <- function(within = list(), between = list(),
     mu = cell_mu,
     sd = cell_sd,
     r = cell_r,
+    sep = sep,
     params = d
   )
   

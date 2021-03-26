@@ -1,5 +1,3 @@
-context("test-check_design")
-
 faux_options(plot = FALSE)
 
 # errors ----
@@ -7,7 +5,11 @@ test_that("errors", {
   expect_error(check_design(n = -1), "All n must be >= 0")
   expect_warning(check_design(n = 0), "Some cell Ns are 0. Make sure this is intentional.")
   expect_warning(check_design(n = 10.3), "Some cell Ns are not integers. They have been rounded up to the nearest integer.")
-  
+})
+
+
+# params ----
+test_that("params", {
   # numeric n
   expect_silent(check_design(between = 2, n = list("A1" = 10, "A2" = 20)))
   expect_silent(check_design(between = 2, n = list("A1" = 10, "A2" = "20")))
@@ -47,7 +49,7 @@ test_that("errors", {
                err, fixed = TRUE)
 })
 
-# no factors
+# no factors ----
 test_that("no factors", {
   design <- check_design()
   expect_equal(design$within, list())
@@ -186,11 +188,26 @@ test_that("design spec", {
   
   design <- check_design(within, between, n, mu, sd, r, dv, id)
   
-  design_elements <- c("within", "between", "dv", "id", "n", "mu", "sd", "r", "params")
+  design_elements <- c("within", "between", "dv", "id", "n", "mu", "sd", "r", "sep", "params")
   
   expect_equal(names(design), design_elements)
   expect_equal(design$dv, dv)
   expect_equal(design$id, id)
+})
+
+# interactions ----
+test_that("interactions", {
+  faux_options(sep = "_")
+  n <- list(
+    B1_C1 = 10, 
+    B1_C2 = 20, 
+    B2_C1 = 30, 
+    B2_C2 = 40
+  )
+
+  design <- check_design(2, c(2,2), n = n, plot = FALSE)
+  
+  expect_equal(design$n, n)
 })
 
 # anon factors ----
@@ -213,13 +230,10 @@ test_that("anon factors", {
 
 # wierd factor names ----
 test_that("wierd factor names", {
-  # only replaces undervalues
+  # only replaces underscores
   within <- list("A" = c("A_1", "A 2"),
                  "B" = c("B~1", "B'2"))
-  design <- check_design(within)
-  
-  expect_equal(design$within$A %>% names(), c("A.1", "A 2"))
-  expect_equal(design$within$B %>% names(), c("B~1", "B'2"))
+  expect_error(check_design(within))
 })
 
 # make_id ----
@@ -312,4 +326,25 @@ test_that("params table", {
   expect_equal(op[1:length(expected)], expected)
 })
 
+# sep ----
+test_that("sep", {
+  faux_options(sep = ".")
+  design <- check_design(
+    within = list(
+      A = c("A_1", "A_2"),
+      B = c("B_1", "B_2")
+    ),
+    n = 5,
+    plot = FALSE
+  )
+  
+  wide <- sim_data(design = design)
+  expect_equal(names(wide), c("id", "A_1.B_1", "A_1.B_2", "A_2.B_1", "A_2.B_2"))
+  
+  long <- sim_data(design = design, long = TRUE)
+  expect_equal(unique(long$A), factor(c("A_1", "A_2")))
+  expect_equal(unique(long$B), factor(c("B_1", "B_2")))
+})
+
 faux_options(plot = TRUE)
+faux_options(sep = "_")

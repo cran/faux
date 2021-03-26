@@ -1,7 +1,5 @@
 ## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(
-  fig.width = 8,
-  fig.height = 5,
   collapse = TRUE,
   comment = "#>",
   out.width = "100%"
@@ -67,7 +65,7 @@ long_dat <- dat %>%
   separate(var, c("time", "var")) %>%
   pivot_wider(names_from = var, values_from = value)
 
-## ----echo = FALSE-------------------------------------------------------------
+## ----within-cont, echo = FALSE------------------------------------------------
 ggplot(long_dat, aes(pred, dv, color = time)) +
   geom_point() + geom_smooth(formula = 'y~x', method = lm)
 
@@ -80,7 +78,7 @@ dat <- sim_design(between = list(group = c("A", "B")),
                             B = c(dv =  10, predictor = 1)),
                   r  = list(A = 0.5, B = 0), plot = FALSE)
 
-## ----echo = FALSE-------------------------------------------------------------
+## ----cont-cat, echo = FALSE---------------------------------------------------
 ggplot(dat, aes(predictor, dv, color = group)) + 
   geom_point() + geom_smooth(formula = 'y~x', method = lm)
 
@@ -91,7 +89,7 @@ dat <- sim_design(between = list(group = c("A", "B")),
 ## -----------------------------------------------------------------------------
 dat$pred <- rnorm_pre(dat$y, 0, 1, 0.5)
 
-## ----echo = FALSE-------------------------------------------------------------
+## ----add-pred, echo = FALSE---------------------------------------------------
 ggplot(dat, aes(pred, y, color = group)) +
   geom_point() + geom_smooth(formula = 'y~x', method = lm)
 
@@ -106,4 +104,12 @@ dat <- bind_rows(A, B)
 ## ----echo = FALSE-------------------------------------------------------------
 ggplot(dat, aes(pred, y, color = group)) +
   geom_point() + geom_smooth(formula = 'y~x', method = lm)
+
+## -----------------------------------------------------------------------------
+dat <- sim_design(2, r = 0.5, plot = FALSE)
+dat$B <- rnorm_pre(dat[, 2:3], r = c(A1 = 0.5, A2 = 0))
+cor(dat[, 2:4])
+
+## ---- error = TRUE, perl = FALSE----------------------------------------------
+dat$C <- rnorm_pre(dat[, 2:4], r = c(A1 = 0.9, A2 = 0.9, B = -0.9))
 

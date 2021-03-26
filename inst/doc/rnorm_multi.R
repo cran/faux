@@ -1,7 +1,5 @@
 ## ----setup, include = FALSE---------------------------------------------------
 knitr::opts_chunk$set(
-  fig.width = 8,
-  fig.height = 5,
   collapse = TRUE,
   comment = "#>",
   out.width = "100%"
@@ -57,20 +55,24 @@ bvn <- rnorm_multi(100, 5, 0, 1, .3,
                   empirical = T)
 
 ## -----------------------------------------------------------------------------
-sl <- iris$Sepal.Length
-
-sl.5.v1 <- rnorm_pre(sl, mu = 10, sd = 2, r = 0.5)
-sl.5.v2 <- rnorm_pre(sl, mu = 10, sd = 2, r = 0.5)
+dat <- rnorm_multi(varnames = "A") %>%
+  mutate(B = rnorm_pre(A, mu = 10, sd = 2, r = 0.5))
 
 ## ---- echo = FALSE, results='asis'--------------------------------------------
-data.frame(sl, sl.5.v1, sl.5.v2) %>%
-  get_params() %>% knitr::kable(digits = 3, caption = "rnorm_pre")
+get_params(dat) %>% knitr::kable(digits = 3)
 
 ## -----------------------------------------------------------------------------
-sl.5.v1 <- rnorm_pre(sl, mu = 10, sd = 2, r = 0.5, empirical = TRUE)
-sl.5.v2 <- rnorm_pre(sl, mu = 10, sd = 2, r = 0.5, empirical = TRUE)
+dat$C <- rnorm_pre(dat$A, mu = 10, sd = 2, r = 0.5, empirical = TRUE)
 
 ## ---- echo = FALSE, results='asis'--------------------------------------------
-data.frame(sl, sl.5.v1, sl.5.v2) %>%
-  get_params() %>% knitr::kable(digits = 3, caption = "rnorm_pre with empirical = TRUE")
+get_params(dat) %>% knitr::kable(digits = 3)
+
+## -----------------------------------------------------------------------------
+dat$D <- rnorm_pre(dat, r = c(.1, .2, .3), empirical = TRUE)
+
+## ---- echo = FALSE, results='asis'--------------------------------------------
+get_params(dat) %>% knitr::kable(digits = 3)
+
+## ---- error = TRUE, perl = FALSE----------------------------------------------
+dat$E <- rnorm_pre(dat, r = .9)
 

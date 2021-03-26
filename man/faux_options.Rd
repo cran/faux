@@ -13,7 +13,7 @@ faux_options(...)
 a list of options, values of an option, or nothing
 }
 \description{
-Global afex options are used, for example, to set the default separator for cell names.
+Global faux options are used, for example, to set the default separator for cell names.
 }
 \examples{
 

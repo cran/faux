@@ -11,8 +11,6 @@ vignette: >
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(
-  fig.width = 8,
-  fig.height = 5,
   collapse = TRUE,
   comment = "#>",
   out.width = "100%"
@@ -28,7 +26,7 @@ library(tidyr)
 library(faux)
 ```
 
-The `sim_df()` function produces a dataframe with the same distributions and correlations as an existing dataframe. It only returns numeric columns and simulates all numeric variables from a continuous normal distribution (for now).
+The `sim_df()` function produces a data table with the same distributions and correlations as an existing data table. It simulates all numeric variables from a continuous normal distribution (for now).
 
 For example, here is the relationship between speed and distance in the built-in dataset `cars`. 
 
@@ -91,4 +89,33 @@ sim_df(mtcars, 50, between = "am") %>%
   geom_point() +
   geom_smooth(method = "lm", formula = "y~x")
 ```
+
+## Missing data
+
+As of faux 0.0.1.8, if you want to simulate missing data, set `missing = TRUE` and `sim_df` will simulate missing data with the same joint probabilities as your data. In the dataset below, in condition B1 30% of A1 values are missing and 60% of A2 values are missing. This is correlated so that there is a 100% chance that A2 is missing if A1 is. There is no missing data for condition B2.
+
+```{r}
+data <- sim_design(2, 2, n = 10, plot = FALSE)
+data$A1[1:3] <- NA
+data$A2[1:6] <- NA
+data
+```
+
+The simulated data will have the same pattern of missingness (sampled from the joint distribution, so it won't be exact).
+
+```{r}
+simdat <- sim_df(data, between = "B", n = 1000, 
+                 missing = TRUE)
+```
+
+```{r, echo = FALSE, results = 'asis'}
+simdat %>%
+  mutate(A1 = ifelse(is.na(A1), "NA", "not NA"),
+         A2 = ifelse(is.na(A2), "NA", "not NA")) %>%
+  count(B, A1, A2) %>%
+  group_by(B) %>%
+  mutate(n = round(n/sum(n), 2)) %>%
+  knitr::kable()
+```
+
 

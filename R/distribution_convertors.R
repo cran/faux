@@ -1,4 +1,4 @@
-#' Convert normal to uniform
+#' Convert uniform to normal
 #'
 #' Convert a uniform distribution to a normal (gaussian) distribution with specified mu and sd
 #' 
@@ -21,9 +21,130 @@
 unif2norm <- function(x, mu = 0, sd = 1, min = NULL, max = NULL) {
   # tol prevents min and max values returning as -Inf and Inf
   tol <- 1/length(x)
-  if (is.null(min)) min <- min(x) - tol
-  if (is.null(max)) max <- max(x) + tol
+  if (is.null(min)) {
+    min <- min(x, na.rm = TRUE) - tol
+    message("min was set to ", min)
+  }
+  if (is.null(max)) {
+    max <- max(x, na.rm = TRUE) + tol
+    message("max was set to ", max)
+  }
+  
   p <- stats::punif(x, min, max)
+  stats::qnorm(p, mu, sd)
+}
+
+#' Convert binomial to normal
+#'
+#' Convert a binomial distribution to a normal (gaussian) distribution with specified mu and sd
+#' 
+#' @param x the binomially distributed vector
+#' @param mu the mean of the normal distribution to return
+#' @param sd the SD of the normal distribution to return
+#' @param size number of trials (set to max value of x if not specified)
+#' @param prob the probability of success on each trial (set to mean probability if not specified)
+#'
+#' @return a vector with a gaussian distribution
+#' @export
+#'
+#' @examples
+#' 
+#' x <- rbinom(10000, 20, 0.75)
+#' y <- binom2norm(x, 0, 1, 20, 0.75)
+#' g <- ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(x, y))
+#' ggExtra::ggMarginal(g, type = "histogram")
+#' 
+binom2norm <- function(x, mu = 0, sd = 1, size = NULL, prob = NULL) {
+  if (!all(as.integer(x) == x, na.rm = TRUE)) stop("all values in x must be integers or NA")
+  
+  minx <- min(x, na.rm = TRUE)
+  maxx <- max(x, na.rm = TRUE)
+  if (is.null(size)) {
+    size <- maxx
+    message("size was set to ", size)
+  }
+  if (is.null(prob)) {
+    prob <- mean(x, na.rm = TRUE)/size
+    message("prob was set to ", prob)
+  }
+  
+  if (size < maxx) stop("size cannot be smaller than the largest value")
+  if (size < 2) stop("size cannot be smaller than 2")
+  if (minx < 0) stop("the smallest possible value in a binomial distribution is 0")
+  if (prob <0 || prob>1) stop("prob must be between 0 and 1")
+  
+  # replace infinite values (where x_i == size)
+  a <- stats::pbinom((size-2):(size-1), size, prob) %>%
+    stats::qnorm(mu, sd)
+  replace_inf <- a[2] + (a[2]-a[1])
+  
+  p <- stats::pbinom(x, size, prob)
+  x2 <- stats::qnorm(p, mu, sd)
+  x2[x2==Inf] <- replace_inf
+  
+  x2
+}
+
+#' Convert gamma to normal
+#'
+#' @param x the gamma distributed vector
+#' @param mu the mean of the normal distribution to convert to
+#' @param sd the SD of the normal distribution to convert to
+#' @param shape gamma distribution parameter (must be positive)
+#' @param scale gamma distribution parameter (must be positive)
+#' @param rate	an alternative way to specify the scale
+#'
+#' @return a vector with a normal distribution
+#' @export
+#'
+#' @examples
+#' 
+#' x <- rgamma(10000, 2)
+#' y <- gamma2norm(x)
+#' g <- ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(x, y))
+#' ggExtra::ggMarginal(g, type = "histogram")
+#' 
+gamma2norm <- function(x, mu = 0, sd = 1, shape = NULL, rate = 1, scale = 1/rate) {
+  if (scale != 1) rate <- 1/scale
+  if (is.null(shape)) {
+    shape = mean(x) * rate
+    message("shape was set to ", shape)
+  }
+  p <- stats::pgamma(x, shape, rate = rate)
+  stats::qnorm(p, mu, sd)
+}
+
+#' Convert beta to normal
+#'
+#' @param x the gamma distributed vector
+#' @param mu the mean of the normal distribution to convert to
+#' @param sd the SD of the normal distribution to convert to
+#' @param shape1,shape2 non-negative parameters of the beta distribution
+#' @param ... further arguments to pass to pbeta (e.g., ncp)
+#'
+#' @return a vector with a normal distribution
+#' @export
+#'
+#' @examples
+#' 
+#' x <- rbeta(10000, 2, 3)
+#' y <- beta2norm(x)
+#' g <- ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(x, y))
+#' ggExtra::ggMarginal(g, type = "histogram")
+#' 
+beta2norm <- function(x, mu = 0, sd = 1, shape1 = NULL, shape2 = NULL, ...) {
+  xmu <- mean(x, na.rm = TRUE)
+  xsd <- stats::sd(x, na.rm = TRUE)
+  if (is.null(shape1)) {
+    shape1 = ((1 - xmu) / xsd^2 - 1 / xmu) * xmu^2
+    message("shape1 was set to ", shape1)
+  }
+  if (is.null(shape2)) {
+    shape2 <- shape1 * (1 / xmu - 1)
+    message("shape2 was set to ", shape2)
+  }
+  
+  p <- stats::pbeta(x, shape1, shape2, ...)
   stats::qnorm(p, mu, sd)
 }
 
@@ -56,7 +177,7 @@ norm2pois <- function(x, lambda, mu = mean(x), sd = stats::sd(x)) {
 #' @param shape1,shape2 non-negative parameters of the distribution to return
 #' @param mu the mean of x (calculated from x if not given)
 #' @param sd the SD of x (calculated from x if not given)
-#' @param ... further arguments to qbeta
+#' @param ... further arguments to pass to qbeta (e.g., ncp)
 #'
 #' @return a vector with a beta distribution
 #' @export
@@ -71,6 +192,33 @@ norm2pois <- function(x, lambda, mu = mean(x), sd = stats::sd(x)) {
 norm2beta <- function(x, shape1, shape2, mu = mean(x), sd = stats::sd(x), ...) {
   p <- stats::pnorm(x, mu, sd)
   stats::qbeta(p, shape1, shape2, ...)
+}
+
+
+#' Convert normal to gamma
+#'
+#' @param x the normally distributed vector
+#' @param shape gamma distribution parameter (must be positive)
+#' @param scale gamma distribution parameter (must be positive)
+#' @param rate	an alternative way to specify the scale
+#' @param mu the mean of x (calculated from x if not given)
+#' @param sd the SD of x (calculated from x if not given)
+#'
+#' @return a vector with a gamma distribution
+#' @export
+#'
+#' @examples
+#' 
+#' x <- rnorm(10000)
+#' y <- norm2gamma(x, shape = 2)
+#' g <- ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(x, y))
+#' ggExtra::ggMarginal(g, type = "histogram")
+#' 
+norm2gamma <- function(x, shape, rate = 1, scale = 1/rate, 
+                       mu = mean(x), sd = stats::sd(x)) {
+  p <- stats::pnorm(x, mu, sd)
+  if (rate == 1 && scale != 1) rate <- 1/scale
+  stats::qgamma(p, shape, rate = rate)
 }
 
 
@@ -168,26 +316,18 @@ norm2trunc <- function(x, min = -Inf, max = Inf, mu = mean(x), sd = stats::sd(x)
 #' g <- ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(x, y))
 #' ggExtra::ggMarginal(g, type = "histogram")
 #' 
-trunc2norm <- function(x, min = NA, max = NA, 
-                       mu = NA, sd = NA) {
-  if (is.na(mu)) {
-    mu <- mean(x)
-    message("mu was set to ", mu)
-  }
-  if (is.na(sd)) {
-    sd <- stats::sd(x)
-    message("sd was set to ", sd)
-  }
+trunc2norm <- function(x, min = NULL, max = NULL, 
+                       mu = mean(x), sd = stats::sd(x)) {
   n <- length(x)
   
   # if not specified, set min and max 
-  if (is.na(min)) {
+  if (is.null(min)) {
     #min <- mu - (1.5*sd + 0.22*sd*log2(n))
     min <- mu - 3*sd
     message("min was set to ", min, 
             " (min(x) = ", min(x), ")")
   }
-  if (is.na(max)) {
+  if (is.null(max)) {
     #max <- mu + (1.5*sd + 0.22*sd*log2(n))
     max <- mu + 3*sd
     message("max was set to ", max, 
@@ -211,11 +351,11 @@ trunc2norm <- function(x, min = NA, max = NA,
 #' Convert normal to likert
 #'
 #' @param x the normally distributed vector
-#' @param prob a vector of probabilities 
+#' @param prob a vector of probabilities or counts; if named, the output is a factor
 #' @param mu the mean of x (calculated from x if not given)
 #' @param sd the SD of x (calculated from x if not given)
 #'
-#' @return a vector with a specified distribution
+#' @return a vector with the specified distribution
 #' @export
 #'
 #' @examples
@@ -225,19 +365,26 @@ trunc2norm <- function(x, min = NA, max = NA,
 #' g <- ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(x, y))
 #' ggExtra::ggMarginal(g, type = "histogram")
 #' 
-#' y <- norm2likert(x, c(.4, .3, .2, .1))
+#' y <- norm2likert(x, c(40, 30, 20, 10))
 #' g <- ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(x, y))
 #' ggExtra::ggMarginal(g, type = "histogram")
 #' 
+#' y <- norm2likert(x, c(lower = .5, upper = .5))
+#' g <- ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(x, y))
+#' ggExtra::ggMarginal(g, type = "histogram")
 norm2likert <- function(x, prob, mu = mean(x), sd = stats::sd(x)) {
+  prob <- prob / sum(prob)
   cprob <- cumsum(prob)
   n <- length(cprob)
-  if (abs(cprob[n] - 1) > .01) {
-    # TODO: better checks for valid prob (check existing funcs)
-    stop("argument \"prob\" must add up to 1")
-  }
+  
   p <- stats::pnorm(x, mu, sd)
-  sapply(p, function(a) n + 1 - sum(a < cprob))
+  x2 <- sapply(p, function(a) n + 1 - sum(a < cprob))
+  
+  if (!is.null(names(prob))) {
+    x2 <- factor(x2, levels = 1:n, labels = names(prob))
+  }
+  
+  x2
 }
 
 
