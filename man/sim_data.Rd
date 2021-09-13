@@ -4,7 +4,14 @@
 \alias{sim_data}
 \title{Simulate data from design (internal)}
 \usage{
-sim_data(design, empirical = FALSE, long = FALSE, rep = 1, seed = NULL)
+sim_data(
+  design,
+  empirical = FALSE,
+  long = FALSE,
+  rep = 1,
+  nested = TRUE,
+  seed = NULL
+)
 }
 \arguments{
 \item{design}{A list of design parameters created by check_design()}
@@ -15,6 +22,8 @@ sim_data(design, empirical = FALSE, long = FALSE, rep = 1, seed = NULL)
 
 \item{rep}{the number of data frames to return (default 1); if greater than 1, the returned data frame is nested by rep}
 
+\item{nested}{Whether to nest data frames by rep if rep > 1}
+
 \item{seed}{DEPRECATED use set.seed() instead before running this function}
 }
 \value{
@@ -23,3 +32,4 @@ a tbl
 \description{
 Simulate data from design (internal)
 }
+\keyword{internal}

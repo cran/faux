@@ -1,5 +1,21 @@
 context("test-plot_design")
 
+factor_maker <- function(factors) {
+  if (is.numeric(factors)) factors <- LETTERS[factors]
+  factors %>% stats::setNames(., .) %>% as.list() %>%
+    lapply(function(x) {
+      obj <- paste0("Level ", x, 1:2)
+      nm <- paste0(x, 1:2)
+      stats::setNames(obj, nm)
+    })
+}
+
+vardesc_maker <- function(factors) {
+  if (is.numeric(factors)) factors <- LETTERS[factors]
+  
+  factors %>% stats::setNames(paste("Factor", .), .)
+}
+
 user_opts <- faux_options("sep", "verbose", "plot", "connection")
 on.exit(faux_options(user_opts))
 
@@ -33,20 +49,59 @@ test_that("wide2long", {
   expect_equal(class(p2), c("gg", "ggplot"))
   
   skip_on_cran()
-  expect_equal(p1, p2)
+  expect_true(all.equal.function(p1, p2))
 })
 
 # order ----
 test_that("order", {
   des <- check_design(c(2,2,2,2,2,2))
   
-  p <- plot_design(des, "F", "E", "D", "C", "B", "A")
+  p <- plot_design(des, "W6", "W5", "W4", "W3", "W2", "W1")
   
-  expect_equal(p$labels$x, "E")
-  expect_equal(p$labels$fill, "F")
-  expect_equal(p$labels$colour, "F")
-  expect_equal(p$facet$params$rows %>% names(), c("D", "C"))
-  expect_equal(p$facet$params$cols %>% names(), c("B", "A"))
+  expect_equal(p$labels$x, "W5")
+  expect_equal(p$labels$fill, "W6")
+  expect_equal(p$labels$colour, "W6")
+  expect_equal(p$facet$params$rows %>% names(), c("W4", "W3"))
+  expect_equal(p$facet$params$cols %>% names(), c("W2", "W1"))
+})
+
+# subset ----
+test_that("subset", {
+  des <- check_design(c(2,2,2,2,2,2))
+  p1 <- plot_design(des, "W1")
+  expect_equal(p1$labels$x, "W1")
+  expect_equal(p1$labels$fill, "W1")
+  expect_equal(p1$labels$colour, "W1")
+  expect_equal(p1$facet$params$rows %>% names(), NULL)
+  expect_equal(p1$facet$params$cols %>% names(), NULL)
+  
+  p2 <- plot_design(des, "W2", "W1")
+  expect_equal(p2$labels$x, "W1")
+  expect_equal(p2$labels$fill, "W2")
+  expect_equal(p2$labels$colour, "W2")
+  expect_equal(p2$facet$params$rows %>% names(), NULL)
+  expect_equal(p2$facet$params$cols %>% names(), NULL)
+  
+  p3 <- plot_design(des, "W3", "W2", "W1")
+  expect_equal(p3$labels$x, "W2")
+  expect_equal(p3$labels$fill, "W3")
+  expect_equal(p3$labels$colour, "W3")
+  expect_equal(p3$facet$params$rows %>% names(), "W1")
+  expect_equal(p3$facet$params$cols %>% names(), character(0))
+  
+  p4 <- plot_design(des, "W4", "W3", "W2", "W1")
+  expect_equal(p4$labels$x, "W3")
+  expect_equal(p4$labels$fill, "W4")
+  expect_equal(p4$labels$colour, "W4")
+  expect_equal(p4$facet$params$rows %>% names(), "W2")
+  expect_equal(p4$facet$params$cols %>% names(), "W1")
+  
+  p5 <- plot_design(des, "W5", "W4", "W3", "W2", "W1")
+  expect_equal(p5$labels$x, "W4")
+  expect_equal(p5$labels$fill, "W5")
+  expect_equal(p5$labels$colour, "W5")
+  expect_equal(p5$facet$params$rows %>% names(), "W3")
+  expect_equal(p5$facet$params$cols %>% names(), c("W2", "W1"))
 })
 
 # from design ----
@@ -65,45 +120,45 @@ test_that("from design", {
   expect_equal(s0$labels$colour, "colour")
   expect_equal(s0$facet$params, list())
   
-  expect_equal(s1$labels$x, "A")
+  expect_equal(s1$labels$x, "W1")
   expect_equal(s1$labels$y, "value")
-  expect_equal(s1$labels$fill, "A")
-  expect_equal(s1$labels$colour, "A")
+  expect_equal(s1$labels$fill, "W1")
+  expect_equal(s1$labels$colour, "W1")
   expect_equal(s1$facet$params, list())
   
-  expect_equal(s6$labels$x, "B")
-  expect_equal(s6$labels$y, "value")
-  expect_equal(s6$labels$fill, "A")
-  expect_equal(s6$labels$colour, "A")
+  expect_equal(s2$labels$x, "W2")
+  expect_equal(s2$labels$y, "value")
+  expect_equal(s2$labels$fill, "W1")
+  expect_equal(s2$labels$colour, "W1")
   expect_equal(s2$facet$params, list())
   
-  expect_equal(s6$labels$x, "B")
-  expect_equal(s6$labels$y, "value")
-  expect_equal(s6$labels$fill, "A")
-  expect_equal(s6$labels$colour, "A")
-  expect_equal(s3$facet$params$rows %>% names(), c("C"))
+  expect_equal(s3$labels$x, "W2")
+  expect_equal(s3$labels$y, "value")
+  expect_equal(s3$labels$fill, "W1")
+  expect_equal(s3$labels$colour, "W1")
+  expect_equal(s3$facet$params$rows %>% names(), c("W3"))
   expect_equal(s3$facet$params$cols %>% names(), character(0))
   
-  expect_equal(s6$labels$x, "B")
-  expect_equal(s6$labels$y, "value")
-  expect_equal(s6$labels$fill, "A")
-  expect_equal(s6$labels$colour, "A")
-  expect_equal(s4$facet$params$rows %>% names(), c("C"))
-  expect_equal(s4$facet$params$cols %>% names(), c("D"))
+  expect_equal(s4$labels$x, "W2")
+  expect_equal(s4$labels$y, "value")
+  expect_equal(s4$labels$fill, "W1")
+  expect_equal(s4$labels$colour, "W1")
+  expect_equal(s4$facet$params$rows %>% names(), c("W3"))
+  expect_equal(s4$facet$params$cols %>% names(), c("W4"))
   
-  expect_equal(s6$labels$x, "B")
-  expect_equal(s6$labels$y, "value")
-  expect_equal(s6$labels$fill, "A")
-  expect_equal(s6$labels$colour, "A")
-  expect_equal(s5$facet$params$rows %>% names(), c("C"))
-  expect_equal(s5$facet$params$cols %>% names(), c("D", "E"))
+  expect_equal(s5$labels$x, "W2")
+  expect_equal(s5$labels$y, "value")
+  expect_equal(s5$labels$fill, "W1")
+  expect_equal(s5$labels$colour, "W1")
+  expect_equal(s5$facet$params$rows %>% names(), c("W3"))
+  expect_equal(s5$facet$params$cols %>% names(), c("W4", "W5"))
   
-  expect_equal(s6$labels$x, "B")
+  expect_equal(s6$labels$x, "W2")
   expect_equal(s6$labels$y, "value")
-  expect_equal(s6$labels$fill, "A")
-  expect_equal(s6$labels$colour, "A")
-  expect_equal(s6$facet$params$rows %>% names(), c("C", "D"))
-  expect_equal(s6$facet$params$cols %>% names(), c("E", "F"))
+  expect_equal(s6$labels$fill, "W1")
+  expect_equal(s6$labels$colour, "W1")
+  expect_equal(s6$facet$params$rows %>% names(), c("W3", "W4"))
+  expect_equal(s6$facet$params$cols %>% names(), c("W5", "W6"))
 })
 
 # from data ----
@@ -122,45 +177,45 @@ test_that("from data", {
   expect_equal(s0$labels$colour, "colour")
   expect_equal(s0$facet$params, list())
   
-  expect_equal(s1$labels$x, "A")
+  expect_equal(s1$labels$x, "W1")
   expect_equal(s1$labels$y, "value")
-  expect_equal(s1$labels$fill, "A")
-  expect_equal(s1$labels$colour, "A")
+  expect_equal(s1$labels$fill, "W1")
+  expect_equal(s1$labels$colour, "W1")
   expect_equal(s1$facet$params, list())
   
-  expect_equal(s6$labels$x, "B")
-  expect_equal(s6$labels$y, "value")
-  expect_equal(s6$labels$fill, "A")
-  expect_equal(s6$labels$colour, "A")
+  expect_equal(s2$labels$x, "W2")
+  expect_equal(s2$labels$y, "value")
+  expect_equal(s2$labels$fill, "W1")
+  expect_equal(s2$labels$colour, "W1")
   expect_equal(s2$facet$params, list())
   
-  expect_equal(s6$labels$x, "B")
-  expect_equal(s6$labels$y, "value")
-  expect_equal(s6$labels$fill, "A")
-  expect_equal(s6$labels$colour, "A")
-  expect_equal(s3$facet$params$rows %>% names(), c("C"))
+  expect_equal(s3$labels$x, "W2")
+  expect_equal(s3$labels$y, "value")
+  expect_equal(s3$labels$fill, "W1")
+  expect_equal(s3$labels$colour, "W1")
+  expect_equal(s3$facet$params$rows %>% names(), c("W3"))
   expect_equal(s3$facet$params$cols %>% names(), character(0))
   
-  expect_equal(s6$labels$x, "B")
-  expect_equal(s6$labels$y, "value")
-  expect_equal(s6$labels$fill, "A")
-  expect_equal(s6$labels$colour, "A")
-  expect_equal(s4$facet$params$rows %>% names(), c("C"))
-  expect_equal(s4$facet$params$cols %>% names(), c("D"))
+  expect_equal(s4$labels$x, "W2")
+  expect_equal(s4$labels$y, "value")
+  expect_equal(s4$labels$fill, "W1")
+  expect_equal(s4$labels$colour, "W1")
+  expect_equal(s4$facet$params$rows %>% names(), c("W3"))
+  expect_equal(s4$facet$params$cols %>% names(), c("W4"))
   
-  expect_equal(s6$labels$x, "B")
-  expect_equal(s6$labels$y, "value")
-  expect_equal(s6$labels$fill, "A")
-  expect_equal(s6$labels$colour, "A")
-  expect_equal(s5$facet$params$rows %>% names(), c("C"))
-  expect_equal(s5$facet$params$cols %>% names(), c("D", "E"))
+  expect_equal(s5$labels$x, "W2")
+  expect_equal(s5$labels$y, "value")
+  expect_equal(s5$labels$fill, "W1")
+  expect_equal(s5$labels$colour, "W1")
+  expect_equal(s5$facet$params$rows %>% names(), c("W3"))
+  expect_equal(s5$facet$params$cols %>% names(), c("W4", "W5"))
   
-  expect_equal(s6$labels$x, "B")
+  expect_equal(s6$labels$x, "W2")
   expect_equal(s6$labels$y, "value")
-  expect_equal(s6$labels$fill, "A")
-  expect_equal(s6$labels$colour, "A")
-  expect_equal(s6$facet$params$rows %>% names(), c("C", "D"))
-  expect_equal(s6$facet$params$cols %>% names(), c("E", "F"))
+  expect_equal(s6$labels$fill, "W1")
+  expect_equal(s6$labels$colour, "W1")
+  expect_equal(s6$facet$params$rows %>% names(), c("W3", "W4"))
+  expect_equal(s6$facet$params$cols %>% names(), c("W5", "W6"))
 })
 
 # 2w ----
@@ -284,8 +339,8 @@ test_that("geoms", {
   sd$plot_env$geoms <- NULL
   
   skip_on_cran()
-  expect_equal(se_sd, sd_se)
-  expect_equal(sd, sd_se)
+  expect_true(all.equal.function(se_sd, sd_se))
+  expect_true(all.equal.function(sd, sd_se))
 })
 
 # S3 functions ----
@@ -312,6 +367,60 @@ test_that("reps", {
   p <- plot_design(data)
   
   expect_equal(p$facet$params, list())
+})
+
+# vardesc ----
+test_that("vardesc", {
+  between <- factor_maker("B")
+  within <- factor_maker("W")
+  vardesc <- vardesc_maker(c("B", "W"))
+  
+  # 1 factor
+  p <- check_design(within, vardesc = vardesc) %>% plot_design()
+  expect_equal(p$labels$x, vardesc[["W"]])
+  
+  # 2 factors
+  p <- check_design(within, between, vardesc = vardesc) %>% plot_design()
+  expect_equal(p$labels$x, vardesc[["B"]])
+  expect_equal(p$labels$colour, vardesc[["W"]])
+  expect_equal(p$labels$fill, vardesc[["W"]])
+  
+  # 6 factors
+  within <- factor_maker(1:6)
+  vardesc <- vardesc_maker(1:6)
+  p <- check_design(within, vardesc = vardesc) %>% plot_design()
+  expect_equal(p$labels$x, vardesc[["B"]])
+  expect_equal(p$labels$colour, vardesc[["A"]])
+  expect_equal(p$labels$fill, vardesc[["A"]])
+  
+  expect_equal(names(p$facet$params$rows), c("C", "D"))
+  expect_equal(names(p$facet$params$cols), c("E", "F"))
+  
+  # check custom labeller
+  design <- check_design(within, vardesc = vardesc)
+  p_value_st <- plot_design(design, labeller = "label_value")
+  p_both_st  <- plot_design(design, labeller = "label_both")
+  p_value_fu <- plot_design(design, labeller = label_value)
+  p_both_fu  <- plot_design(design, labeller = label_both)
+  
+  df <- c(design$within, design$between) %>%
+    `[`(LETTERS[3:6]) %>%
+    lapply(unlist) %>%
+    as.data.frame()
+  # or get from plot
+  # df <- ggplot_build(p_both_st)$layout$layout[LETTERS[3:6]]
+  
+  both_labs <- LETTERS[3:6] %>%
+    lapply(function(x) paste0("Factor ", x, ": Level ", x , 1:2)) %>%
+    stats::setNames(LETTERS[3:6])
+  value_labs <- LETTERS[3:6] %>%
+    lapply(function(x) paste0("Level ", x , 1:2)) %>%
+    stats::setNames(LETTERS[3:6])
+  
+  expect_equal(p_value_st$facet$params$labeller(df), value_labs)
+  expect_equal(p_both_st$facet$params$labeller(df), both_labs)
+  expect_equal(p_value_fu$facet$params$labeller(df), value_labs)
+  expect_equal(p_both_fu$facet$params$labeller(df), both_labs)
 })
 
 faux_options(plot = TRUE)

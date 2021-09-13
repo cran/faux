@@ -12,7 +12,7 @@
 
 <meta name="author" content="Lisa DeBruine" />
 
-<meta name="date" content="2021-03-24" />
+<meta name="date" content="2021-09-13" />
 
 <title>Simulate from Existing Data</title>
 
@@ -141,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <h1 class="title toc-ignore">Simulate from Existing Data</h1>
 <h4 class="author">Lisa DeBruine</h4>
-<h4 class="date">2021-03-24</h4>
+<h4 class="date">2021-09-13</h4>
 
 
 
@@ -222,68 +222,108 @@ Simulated iris dataset (rounded)
 </div>
 <div id="missing-data" class="section level2">
 <h2>Missing data</h2>
-<p>As of faux 0.0.1.8, if you want to simulate missing data, set <code>missing = TRUE</code> and <code>sim_df</code> will simulate missing data with the same joint probabilities as your data. In the dataset below, in condition B1 30% of A1 values are missing and 60% of A2 values are missing. This is correlated so that there is a 100% chance that A2 is missing if A1 is. There is no missing data for condition B2.</p>
+<p>As of faux 0.0.1.8, if you want to simulate missing data, set <code>missing = TRUE</code> and <code>sim_df</code> will simulate missing data with the same joint probabilities as your data. In the dataset below, in condition B1a, 30% of W1a values are missing and 60% of W1b values are missing. This is correlated so that there is a 100% chance that W1b is missing if W1a is. There is no missing data for condition B1b.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">sim_design</span>(<span class="dv">2</span>, <span class="dv">2</span>, <span class="at">n =</span> <span class="dv">10</span>, <span class="at">plot =</span> <span class="cn">FALSE</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>A1[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>A2[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>W1a[<span class="dv">1</span><span class="sc">:</span><span class="dv">3</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>data<span class="sc">$</span>W1b[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
 <span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>data</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     id  B          A1          A2</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  S01 B1          NA          NA</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  S02 B1          NA          NA</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  S03 B1          NA          NA</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  S04 B1 -0.87577954          NA</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  S05 B1  0.27931928          NA</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  S06 B1  0.46277729          NA</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7  S07 B1 -0.11678369 -0.66795544</span></span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8  S08 B1  1.34454748  2.30398889</span></span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9  S09 B1 -1.26771349  0.55738252</span></span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 S10 B1 -0.71258675  0.09183975</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11 S11 B2 -0.39607245  0.85023624</span></span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12 S12 B2 -1.15357665 -0.18013489</span></span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 13 S13 B2 -0.21533313  1.08873598</span></span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 14 S14 B2 -0.42370435  0.94812875</span></span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15 S15 B2 -0.05717782  0.63667947</span></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 16 S16 B2 -0.12733224 -1.47331528</span></span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 17 S17 B2  0.21208884  0.69005635</span></span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 18 S18 B2 -0.20401676 -1.01059002</span></span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 19 S19 B2 -1.14885697 -0.50127757</span></span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 20 S20 B2  0.87586766  1.47606428</span></span></code></pre></div>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt;     id  B1     W1a     W1b</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 1  S01 B1a      NA      NA</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 2  S02 B1a      NA      NA</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 3  S03 B1a      NA      NA</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 4  S04 B1a -0.8758      NA</span></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 5  S05 B1a  0.2793      NA</span></span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 6  S06 B1a  0.4628      NA</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 7  S07 B1a -0.1168 -0.6680</span></span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 8  S08 B1a  1.3445  2.3040</span></span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 9  S09 B1a -1.2677  0.5574</span></span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 10 S10 B1a -0.7126  0.0918</span></span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 11 S11 B1b -0.3961  0.8502</span></span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 12 S12 B1b -1.1536 -0.1801</span></span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 13 S13 B1b -0.2153  1.0887</span></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 14 S14 B1b -0.4237  0.9481</span></span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 15 S15 B1b -0.0572  0.6367</span></span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 16 S16 B1b -0.1273 -1.4733</span></span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 17 S17 B1b  0.2121  0.6901</span></span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 18 S18 B1b -0.2040 -1.0106</span></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 19 S19 B1b -1.1489 -0.5013</span></span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; 20 S20 B1b  0.8759  1.4761</span></span></code></pre></div>
 <p>The simulated data will have the same pattern of missingness (sampled from the joint distribution, so it won’t be exact).</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>simdat <span class="ot">&lt;-</span> <span class="fu">sim_df</span>(data, <span class="at">between =</span> <span class="st">&quot;B&quot;</span>, <span class="at">n =</span> <span class="dv">1000</span>, </span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>simdat <span class="ot">&lt;-</span> <span class="fu">sim_df</span>(data, <span class="at">between =</span> <span class="st">&quot;B1&quot;</span>, <span class="at">n =</span> <span class="dv">1000</span>, </span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                 <span class="at">missing =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <table>
 <thead>
-<tr class="header">
-<th align="left">B</th>
-<th align="left">A1</th>
-<th align="left">A2</th>
-<th align="right">n</th>
+<tr>
+<th style="text-align:left;">
+B1
+</th>
+<th style="text-align:left;">
+W1a
+</th>
+<th style="text-align:left;">
+W1b
+</th>
+<th style="text-align:right;">
+n
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="left">B1</td>
-<td align="left">NA</td>
-<td align="left">NA</td>
-<td align="right">0.31</td>
+<tr>
+<td style="text-align:left;">
+B1a
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+0.31
+</td>
 </tr>
-<tr class="even">
-<td align="left">B1</td>
-<td align="left">not NA</td>
-<td align="left">NA</td>
-<td align="right">0.31</td>
+<tr>
+<td style="text-align:left;">
+B1a
+</td>
+<td style="text-align:left;">
+not NA
+</td>
+<td style="text-align:left;">
+NA
+</td>
+<td style="text-align:right;">
+0.31
+</td>
 </tr>
-<tr class="odd">
-<td align="left">B1</td>
-<td align="left">not NA</td>
-<td align="left">not NA</td>
-<td align="right">0.38</td>
+<tr>
+<td style="text-align:left;">
+B1a
+</td>
+<td style="text-align:left;">
+not NA
+</td>
+<td style="text-align:left;">
+not NA
+</td>
+<td style="text-align:right;">
+0.38
+</td>
 </tr>
-<tr class="even">
-<td align="left">B2</td>
-<td align="left">not NA</td>
-<td align="left">not NA</td>
-<td align="right">1.00</td>
+<tr>
+<td style="text-align:left;">
+B1b
+</td>
+<td style="text-align:left;">
+not NA
+</td>
+<td style="text-align:left;">
+not NA
+</td>
+<td style="text-align:right;">
+1.00
+</td>
 </tr>
 </tbody>
 </table>

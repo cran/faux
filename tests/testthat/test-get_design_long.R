@@ -26,29 +26,29 @@ test_that("get_design_long", {
   df_long <- sim_design(design = design, long = TRUE, empirical = TRUE)
   d <- get_design_long(df_long)
   
-  n <- list(B1 = 10, B2 = 10)
-  mu <- list(B1 = list(A1 = 5, A2 = 5), B2 = list(A1 = 5, A2 = 5))
-  sd <- list(B1 = list(A1 = 2, A2 = 2), B2 = list(A1 = 2, A2 = 2))
-  r <- data.frame(A1 = c(1, .5), A2 = c(.5, 1), row.names = c("A1", "A2")) %>% as.matrix()
+  n <- list(B1a = 10, B1b = 10)
+  mu <- list(B1a = list(W1a = 5, W1b = 5), B1b = list(W1a = 5, W1b = 5))
+  sd <- list(B1a = list(W1a = 2, W1b = 2), B1b = list(W1a = 2, W1b = 2))
+  r <- data.frame(W1a = c(1, .5), W1b = c(.5, 1), row.names = c("W1a", "W1b")) %>% as.matrix()
   
-  expect_equal(d$within, list(A = list(A1="A1", A2="A2")))
-  expect_equal(d$between, list(B = list(B1="B1", B2="B2")))
+  expect_equal(d$within, list(W1 = list(W1a="W1a", W1b="W1b")))
+  expect_equal(d$between, list(B1 = list(B1a="B1a", B1b="B1b")))
   expect_equal(d$n, n)
   expect_equal(d$mu, mu)
   expect_equal(d$sd, sd)
-  expect_equal(d$r$B1, r)
-  expect_equal(d$r$B2, r)
+  expect_equal(d$r$B1a, r)
+  expect_equal(d$r$B1b, r)
   
   df_long <- sim_design(c(2, 2, 2), c(2, 2, 2), long = TRUE, 
                         empirical = TRUE)
   d <- get_design_long(df_long)
   
   expect_equal(d$mu[[1]] %>% names(), 
-               c("A1_B1_C1", "A1_B1_C2", "A1_B2_C1", "A1_B2_C2", 
-                 "A2_B1_C1", "A2_B1_C2", "A2_B2_C1", "A2_B2_C2"))
+               c("W1a_W2a_W3a", "W1a_W2a_W3b", "W1a_W2b_W3a", "W1a_W2b_W3b", 
+                 "W1b_W2a_W3a", "W1b_W2a_W3b", "W1b_W2b_W3a", "W1b_W2b_W3b"))
   expect_equal(d$mu %>% names(), 
-               c("D1_E1_F1", "D1_E1_F2", "D1_E2_F1", "D1_E2_F2",
-                 "D2_E1_F1", "D2_E1_F2", "D2_E2_F1", "D2_E2_F2"))
+               c("B1a_B2a_B3a", "B1a_B2a_B3b", "B1a_B2b_B3a", "B1a_B2b_B3b",
+                 "B1b_B2a_B3a", "B1b_B2a_B3b", "B1b_B2b_B3a", "B1b_B2b_B3b"))
   expect_equal(d$n %>% unlist() %>% unname(), rep(100, 8))
   expect_equal(d$mu %>% unlist() %>% unname(), rep(0, 64))
   expect_equal(d$sd %>% unlist() %>% unname(), rep(1, 64))

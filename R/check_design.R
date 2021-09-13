@@ -57,13 +57,13 @@ check_design <- function(within = list(), between = list(),
   
   # name anonymous factors ----
   if (is.numeric(within) && all(within %in% 2:20)) { # vector of level numbers
-    within_names <- LETTERS[1:length(within)]
-    indices <- lapply(within, function(.) seq(1:.))
+    within_names <- paste0("W", 1:length(within))
+    indices <- lapply(within, function(.) letters[seq(1:.)])
     within <- mapply(paste0, within_names, indices, SIMPLIFY = FALSE)
   }
   if (is.numeric(between) && all(between %in% 2:20)) { # vector of level numbers
-    between_names <- LETTERS[(length(within)+1):(length(within)+length(between))]
-    indices <- lapply(between, function(.) seq(1:.))
+    between_names <- paste0("B", 1:length(between))
+    indices <- lapply(between, function(.) letters[seq(1:.)])
     between <- mapply(paste0, between_names, indices, SIMPLIFY = FALSE)
   }
   
@@ -113,6 +113,23 @@ check_design <- function(within = list(), between = list(),
          "). Please give all factors unique names.")
   }
   
+  # check vardesc ----
+  if (length(vardesc) == 0) {
+    vardesc <- stats::setNames(all_names, all_names)
+  } else {
+    # handle missing or extra names
+    missing_names <- setdiff(all_names, names(vardesc))
+    if (length(missing_names) > 0) {
+      warning("vardesc is missing definitions for factors: ",
+              paste(missing_names, collapse = ", "))
+    }
+    missing_vardesc <- stats::setNames(missing_names, missing_names)
+    inclued_names <- intersect(all_names, names(vardesc))
+    included_vardesc <- vardesc[inclued_names]
+    vardesc <- c(included_vardesc, missing_vardesc)
+  }
+  vardesc <- as.list(vardesc)
+  
   # check for duplicate level names within any factor ----
   dupes <- c(within, between) %>%
     lapply(duplicated) %>%
@@ -133,6 +150,10 @@ check_design <- function(within = list(), between = list(),
   cells_b <- cell_combos(between, names(dv), sep) 
   
   # convert n, mu and sd  ----
+  
+  if (is.atomic(n) && !is.matrix(n) && is.null(names(n)) && length(n) > 1) {
+    n <- as.list(n) # unnamed vector Ns have problems if there are within factors
+  }
   cell_n  <- convert_param(n, cells_w, cells_b, "Ns")
   for (i in names(cell_n)) {
     cell_n[[i]] <- cell_n[[i]][[1]]
@@ -201,6 +222,7 @@ check_design <- function(within = list(), between = list(),
     between = between,
     dv = dv,
     id = id,
+    vardesc = vardesc,
     n = cell_n,
     mu = cell_mu,
     sd = cell_sd,
@@ -226,19 +248,69 @@ check_design <- function(within = list(), between = list(),
 print.design <- function(x, ...) {
   if (!"quote" %in% names(list(...))) quote <- ""
   
-  txt <- "Design\n\n"
+  # add factor labels from vardesc
+  if (!is.null(x$vardesc)) {
+    wn <- names(x$within)
+    wv <- x$vardesc[wn]
+    if (!setequal(wn, wv)) names(x$within) <- paste0(wn, ": ", wv)
+    bn <- names(x$between)
+    bv <- x$vardesc[bn]
+    if (!setequal(bn, bv)) names(x$between) <- paste0(bn, ": ", bv)
+  }
+  
+  txt <- "" #"Design\n\n"
   txt <- sprintf("%s* [DV] %s: %s%s%s  \n", 
                  txt, names(x$dv), quote, x$dv, quote)
-  txt <- sprintf("%s* [ID] %s: %s%s%s  \n\n", 
+  txt <- sprintf("%s* [ID] %s: %s%s%s  \n", 
                  txt, names(x$id), quote, x$id, quote)
-  txt <- sprintf("%sWithin-subject variables:\n\n%s\n\n", 
-                 txt, nested_list(x$within, quote = quote))
-  txt <- sprintf("%sBetween-subject variables:\n\n%s\n\n", 
-                 txt, nested_list(x$between, quote = quote))
+  txt <- sprintf("%s* Within-subject variables:\n%s\n", 
+                 txt, nested_list(x$within, quote = quote, pre = "    "))
+  txt <- sprintf("%s* Between-subject variables:\n%s\n", 
+                 txt, nested_list(x$between, quote = quote, pre = "    "))
   txt <- knitr::kable(x$params) %>%
-    paste(collapse = "\n") %>%
-    sprintf("%sParameters:\n\n%s\n\n",  txt, .)
+    paste(collapse = "\n    ") %>%
+    sprintf("%s* Parameters:\n    %s\n\n",  txt, .)
   
   cat(txt)
+}
+
+
+#' Get design
+#' 
+#' Get the design specification from a data table created in faux. This can be used to create more simulated data with the same design.
+#'
+#' @param data The data table to check
+#'
+#' @return list with class design
+#' @export
+#'
+#' @examples
+#' data <- sim_design(2, 2, plot = FALSE)
+#' design <- get_design(data)
+#' data2 <- sim_design(design, plot = FALSE)
+get_design <- function(data) {
+  attributes(data)$design
+}
+
+
+#' Set design
+#' 
+#' Add a design specification to a data table
+#'
+#' @param data The data table
+#' @param design The design list
+#'
+#' @return A data frame with a design attribute
+#' @export
+#'
+#' @examples
+#' design <- check_design()
+#' data <- data.frame(id = 1:100, y = rnorm(100)) %>%
+#'   set_design(design)
+set_design <- function(data, design) {
+  attr(data, "design") <- design
+  class(data) <- c("faux", "data.frame")
+  
+  data
 }
 

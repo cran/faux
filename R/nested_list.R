@@ -20,7 +20,7 @@
 #'   f = "single item vector",
 #'   g = list()
 #' )
-#' nested_list(x)
+#' nested_list(x) 
 nested_list <- function(x, pre = "", quote = "") {
   txt <- c()
   
@@ -29,8 +29,7 @@ nested_list <- function(x, pre = "", quote = "") {
       jsonlite::toJSON() %>%
       jsonlite::fromJSON()
     
-    txt <- c("```r", fnc, "```") %>%
-      paste0(pre, .)
+    txt <- c("```r", fnc, "```") %>% paste0(pre, .)
   } else if (!is.null(x) & !is.atomic(x) & !is.vector(x) & !is.list(x)) {
     # not a displayable type
     txt <- class(x)[1] %>% paste0("{", ., "}")

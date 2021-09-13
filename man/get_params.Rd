@@ -10,7 +10,7 @@ get_params(
   between = NULL,
   within = NULL,
   dv = NULL,
-  id = "id",
+  id = NULL,
   digits = 2
 )
 
@@ -19,7 +19,7 @@ check_sim_stats(
   between = NULL,
   within = NULL,
   dv = NULL,
-  id = "id",
+  id = NULL,
   digits = 2
 )
 }

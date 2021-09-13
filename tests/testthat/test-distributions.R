@@ -470,7 +470,7 @@ test_that("norm2likert", {
 
 # std_alpha2average_r ----
 test_that("std_alpha2average_r", {
-  skip_on_cran()
+  skip("Too variable")
   set.seed(10)
   
   replicate(10, {

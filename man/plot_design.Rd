@@ -6,7 +6,7 @@
 \alias{plot.faux}
 \title{Plot design}
 \usage{
-plot_design(x, ..., geoms = NULL, palette = "Dark2")
+plot_design(x, ..., geoms = NULL, palette = "Dark2", labeller = "label_value")
 
 \method{plot}{design}(x, ...)
 
@@ -15,11 +15,13 @@ plot_design(x, ..., geoms = NULL, palette = "Dark2")
 \arguments{
 \item{x}{A list of design parameters created by check_design() or a data tbl (in long format)}
 
-\item{...}{A list of factor names to determine visualisation (see vignette)}
+\item{...}{A list of factor names to determine visualisation (see vignette) in the order color, x, facet row(s), facet col(s)}
 
 \item{geoms}{A list of ggplot2 geoms to display, defaults to "pointrangeSD" (mean ± 1SD) for designs and c("violin", "box") for data, options are: pointrangeSD, pointrangeSE, violin, box, jitter}
 
-\item{palette}{A brewer palette, defaults to "Dark2"}
+\item{palette}{A brewer palette, defaults to "Dark2" (see ggplot2::scale_colour_brewer)}
+
+\item{labeller}{How to label the facets (see ggplot2::facet_grid). "label_value" is used by default.}
 }
 \value{
 plot

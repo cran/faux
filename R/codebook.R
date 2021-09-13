@@ -91,7 +91,7 @@ codebook <- function(data, name = NULL, vardesc = list(), ...,
   schema <- c(schema, datadesc)
   
   # get vardesc from design
-  design <- attr(data, "design")
+  design <- get_design(data)
   if (!is.null(design)) {
     win <- ifelse(length(design$within) > 0,
                   names(design$within), "")

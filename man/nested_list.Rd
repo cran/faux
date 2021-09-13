@@ -32,5 +32,5 @@ x <- list(
   f = "single item vector",
   g = list()
 )
-nested_list(x)
+nested_list(x) 
 }

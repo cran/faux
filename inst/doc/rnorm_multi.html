@@ -12,7 +12,7 @@
 
 <meta name="author" content="Lisa DeBruine" />
 
-<meta name="date" content="2021-03-24" />
+<meta name="date" content="2021-09-13" />
 
 <title>Simulate Correlated Variables</title>
 
@@ -141,7 +141,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <h1 class="title toc-ignore">Simulate Correlated Variables</h1>
 <h4 class="author">Lisa DeBruine</h4>
-<h4 class="date">2021-03-24</h4>
+<h4 class="date">2021-09-13</h4>
 
 
 
@@ -153,56 +153,111 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="quick-example" class="section level2">
 <h2>Quick example</h2>
 <p>For example, the following creates a sample that has 100 observations of 3 variables, drawn from a population where A has a mean of 0 and SD of 1, while B and C have means of 20 and SDs of 5. A correlates with B and C with r = 0.5, and B and C correlate with r = 0.25.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">rnorm_multi</span>(<span class="at">n =</span> <span class="dv">100</span>, </span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">mu =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">20</span>),</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">sd =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">5</span>),</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">r =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.25</span>), </span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">varnames =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>),</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>                  <span class="at">empirical =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>dat <span class="ot">&lt;-</span> <span class="fu">rnorm_multi</span>(<span class="at">n =</span> <span class="dv">100</span>, </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">mu =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">20</span>, <span class="dv">20</span>),</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">sd =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">5</span>, <span class="dv">5</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                  <span class="at">r =</span> <span class="fu">c</span>(<span class="fl">0.5</span>, <span class="fl">0.5</span>, <span class="fl">0.25</span>), </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">varnames =</span> <span class="fu">c</span>(<span class="st">&quot;A&quot;</span>, <span class="st">&quot;B&quot;</span>, <span class="st">&quot;C&quot;</span>),</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                  <span class="at">empirical =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <table>
-<caption>Sample stats</caption>
 <thead>
-<tr class="header">
-<th align="right">n</th>
-<th align="left">var</th>
-<th align="right">A</th>
-<th align="right">B</th>
-<th align="right">C</th>
-<th align="right">mean</th>
-<th align="right">sd</th>
+<tr>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:left;">
+var
+</th>
+<th style="text-align:right;">
+A
+</th>
+<th style="text-align:right;">
+B
+</th>
+<th style="text-align:right;">
+C
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="right">100</td>
-<td align="left">A</td>
-<td align="right">1.00</td>
-<td align="right">0.49</td>
-<td align="right">0.51</td>
-<td align="right">-0.04</td>
-<td align="right">1.04</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.49
+</td>
+<td style="text-align:right;">
+0.51
+</td>
+<td style="text-align:right;">
+-0.04
+</td>
+<td style="text-align:right;">
+1.04
+</td>
 </tr>
-<tr class="even">
-<td align="right">100</td>
-<td align="left">B</td>
-<td align="right">0.49</td>
-<td align="right">1.00</td>
-<td align="right">0.19</td>
-<td align="right">19.95</td>
-<td align="right">4.91</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+0.49
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.19
+</td>
+<td style="text-align:right;">
+19.95
+</td>
+<td style="text-align:right;">
+4.91
+</td>
 </tr>
-<tr class="odd">
-<td align="right">100</td>
-<td align="left">C</td>
-<td align="right">0.51</td>
-<td align="right">0.19</td>
-<td align="right">1.00</td>
-<td align="right">19.64</td>
-<td align="right">4.61</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:right;">
+0.51
+</td>
+<td style="text-align:right;">
+0.19
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+19.64
+</td>
+<td style="text-align:right;">
+4.61
+</td>
 </tr>
 </tbody>
 </table>
+<p>Table: Sample stats</p>
 <div id="spec_r" class="section level3">
 <h3>Specify correlations</h3>
 <p>You can specify the correlations in one of four ways:</p>
@@ -217,78 +272,186 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>If you want all the pairs to have the same correlation, just specify a single number.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>bvn <span class="ot">&lt;-</span> <span class="fu">rnorm_multi</span>(<span class="dv">100</span>, <span class="dv">5</span>, <span class="dv">0</span>, <span class="dv">1</span>, .<span class="dv">3</span>, <span class="at">varnames =</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>])</span></code></pre></div>
 <table>
-<caption>Sample stats from a single rho</caption>
 <thead>
-<tr class="header">
-<th align="right">n</th>
-<th align="left">var</th>
-<th align="right">a</th>
-<th align="right">b</th>
-<th align="right">c</th>
-<th align="right">d</th>
-<th align="right">e</th>
-<th align="right">mean</th>
-<th align="right">sd</th>
+<tr>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:left;">
+var
+</th>
+<th style="text-align:right;">
+a
+</th>
+<th style="text-align:right;">
+b
+</th>
+<th style="text-align:right;">
+c
+</th>
+<th style="text-align:right;">
+d
+</th>
+<th style="text-align:right;">
+e
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="right">100</td>
-<td align="left">a</td>
-<td align="right">1.00</td>
-<td align="right">0.18</td>
-<td align="right">0.29</td>
-<td align="right">0.33</td>
-<td align="right">0.31</td>
-<td align="right">0.04</td>
-<td align="right">1.03</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+a
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.18
+</td>
+<td style="text-align:right;">
+0.29
+</td>
+<td style="text-align:right;">
+0.33
+</td>
+<td style="text-align:right;">
+0.31
+</td>
+<td style="text-align:right;">
+0.04
+</td>
+<td style="text-align:right;">
+1.03
+</td>
 </tr>
-<tr class="even">
-<td align="right">100</td>
-<td align="left">b</td>
-<td align="right">0.18</td>
-<td align="right">1.00</td>
-<td align="right">0.18</td>
-<td align="right">0.33</td>
-<td align="right">0.30</td>
-<td align="right">0.13</td>
-<td align="right">1.06</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+b
+</td>
+<td style="text-align:right;">
+0.18
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.18
+</td>
+<td style="text-align:right;">
+0.33
+</td>
+<td style="text-align:right;">
+0.30
+</td>
+<td style="text-align:right;">
+0.13
+</td>
+<td style="text-align:right;">
+1.06
+</td>
 </tr>
-<tr class="odd">
-<td align="right">100</td>
-<td align="left">c</td>
-<td align="right">0.29</td>
-<td align="right">0.18</td>
-<td align="right">1.00</td>
-<td align="right">0.14</td>
-<td align="right">0.20</td>
-<td align="right">0.07</td>
-<td align="right">0.99</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+c
+</td>
+<td style="text-align:right;">
+0.29
+</td>
+<td style="text-align:right;">
+0.18
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.14
+</td>
+<td style="text-align:right;">
+0.20
+</td>
+<td style="text-align:right;">
+0.07
+</td>
+<td style="text-align:right;">
+0.99
+</td>
 </tr>
-<tr class="even">
-<td align="right">100</td>
-<td align="left">d</td>
-<td align="right">0.33</td>
-<td align="right">0.33</td>
-<td align="right">0.14</td>
-<td align="right">1.00</td>
-<td align="right">0.28</td>
-<td align="right">0.15</td>
-<td align="right">1.06</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+d
+</td>
+<td style="text-align:right;">
+0.33
+</td>
+<td style="text-align:right;">
+0.33
+</td>
+<td style="text-align:right;">
+0.14
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.28
+</td>
+<td style="text-align:right;">
+0.15
+</td>
+<td style="text-align:right;">
+1.06
+</td>
 </tr>
-<tr class="odd">
-<td align="right">100</td>
-<td align="left">e</td>
-<td align="right">0.31</td>
-<td align="right">0.30</td>
-<td align="right">0.20</td>
-<td align="right">0.28</td>
-<td align="right">1.00</td>
-<td align="right">0.03</td>
-<td align="right">1.03</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+e
+</td>
+<td style="text-align:right;">
+0.31
+</td>
+<td style="text-align:right;">
+0.30
+</td>
+<td style="text-align:right;">
+0.20
+</td>
+<td style="text-align:right;">
+0.28
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.03
+</td>
+<td style="text-align:right;">
+1.03
+</td>
 </tr>
 </tbody>
 </table>
+<p>Table: Sample stats from a single rho</p>
 </div>
 <div id="matrix" class="section level4">
 <h4>Matrix</h4>
@@ -297,62 +460,142 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>bvn <span class="ot">&lt;-</span> <span class="fu">rnorm_multi</span>(<span class="dv">100</span>, <span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">1</span>, cmat, </span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">varnames =</span> <span class="fu">colnames</span>(cmat))</span></code></pre></div>
 <table>
-<caption>Sample stats from a correlation matrix</caption>
 <thead>
-<tr class="header">
-<th align="right">n</th>
-<th align="left">var</th>
-<th align="right">Sepal.Length</th>
-<th align="right">Sepal.Width</th>
-<th align="right">Petal.Length</th>
-<th align="right">Petal.Width</th>
-<th align="right">mean</th>
-<th align="right">sd</th>
+<tr>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:left;">
+var
+</th>
+<th style="text-align:right;">
+Sepal.Length
+</th>
+<th style="text-align:right;">
+Sepal.Width
+</th>
+<th style="text-align:right;">
+Petal.Length
+</th>
+<th style="text-align:right;">
+Petal.Width
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="right">100</td>
-<td align="left">Sepal.Length</td>
-<td align="right">1.00</td>
-<td align="right">-0.24</td>
-<td align="right">0.87</td>
-<td align="right">0.82</td>
-<td align="right">0.09</td>
-<td align="right">0.98</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+Sepal.Length
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+-0.24
+</td>
+<td style="text-align:right;">
+0.87
+</td>
+<td style="text-align:right;">
+0.82
+</td>
+<td style="text-align:right;">
+0.09
+</td>
+<td style="text-align:right;">
+0.98
+</td>
 </tr>
-<tr class="even">
-<td align="right">100</td>
-<td align="left">Sepal.Width</td>
-<td align="right">-0.24</td>
-<td align="right">1.00</td>
-<td align="right">-0.58</td>
-<td align="right">-0.52</td>
-<td align="right">0.07</td>
-<td align="right">1.08</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+Sepal.Width
+</td>
+<td style="text-align:right;">
+-0.24
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+-0.58
+</td>
+<td style="text-align:right;">
+-0.52
+</td>
+<td style="text-align:right;">
+0.07
+</td>
+<td style="text-align:right;">
+1.08
+</td>
 </tr>
-<tr class="odd">
-<td align="right">100</td>
-<td align="left">Petal.Length</td>
-<td align="right">0.87</td>
-<td align="right">-0.58</td>
-<td align="right">1.00</td>
-<td align="right">0.96</td>
-<td align="right">0.04</td>
-<td align="right">1.03</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+Petal.Length
+</td>
+<td style="text-align:right;">
+0.87
+</td>
+<td style="text-align:right;">
+-0.58
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.96
+</td>
+<td style="text-align:right;">
+0.04
+</td>
+<td style="text-align:right;">
+1.03
+</td>
 </tr>
-<tr class="even">
-<td align="right">100</td>
-<td align="left">Petal.Width</td>
-<td align="right">0.82</td>
-<td align="right">-0.52</td>
-<td align="right">0.96</td>
-<td align="right">1.00</td>
-<td align="right">0.05</td>
-<td align="right">1.04</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+Petal.Width
+</td>
+<td style="text-align:right;">
+0.82
+</td>
+<td style="text-align:right;">
+-0.52
+</td>
+<td style="text-align:right;">
+0.96
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.05
+</td>
+<td style="text-align:right;">
+1.04
+</td>
 </tr>
 </tbody>
 </table>
+<p>Table: Sample stats from a correlation matrix</p>
 </div>
 <div id="vector-varsvars" class="section level4">
 <h4>Vector (vars*vars)</h4>
@@ -363,48 +606,104 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>bvn <span class="ot">&lt;-</span> <span class="fu">rnorm_multi</span>(<span class="dv">100</span>, <span class="dv">3</span>, <span class="dv">0</span>, <span class="dv">1</span>, cmat, </span>
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>                  <span class="at">varnames =</span> <span class="fu">c</span>(<span class="st">&quot;first&quot;</span>, <span class="st">&quot;second&quot;</span>, <span class="st">&quot;third&quot;</span>))</span></code></pre></div>
 <table>
-<caption>Sample stats from a vars*vars vector</caption>
 <thead>
-<tr class="header">
-<th align="right">n</th>
-<th align="left">var</th>
-<th align="right">first</th>
-<th align="right">second</th>
-<th align="right">third</th>
-<th align="right">mean</th>
-<th align="right">sd</th>
+<tr>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:left;">
+var
+</th>
+<th style="text-align:right;">
+first
+</th>
+<th style="text-align:right;">
+second
+</th>
+<th style="text-align:right;">
+third
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="right">100</td>
-<td align="left">first</td>
-<td align="right">1.00</td>
-<td align="right">0.31</td>
-<td align="right">0.48</td>
-<td align="right">0.05</td>
-<td align="right">1.02</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+first
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.31
+</td>
+<td style="text-align:right;">
+0.48
+</td>
+<td style="text-align:right;">
+0.05
+</td>
+<td style="text-align:right;">
+1.02
+</td>
 </tr>
-<tr class="even">
-<td align="right">100</td>
-<td align="left">second</td>
-<td align="right">0.31</td>
-<td align="right">1.00</td>
-<td align="right">0.01</td>
-<td align="right">-0.14</td>
-<td align="right">0.86</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+second
+</td>
+<td style="text-align:right;">
+0.31
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.01
+</td>
+<td style="text-align:right;">
+-0.14
+</td>
+<td style="text-align:right;">
+0.86
+</td>
 </tr>
-<tr class="odd">
-<td align="right">100</td>
-<td align="left">third</td>
-<td align="right">0.48</td>
-<td align="right">0.01</td>
-<td align="right">1.00</td>
-<td align="right">0.02</td>
-<td align="right">1.12</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+third
+</td>
+<td style="text-align:right;">
+0.48
+</td>
+<td style="text-align:right;">
+0.01
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.02
+</td>
+<td style="text-align:right;">
+1.12
+</td>
 </tr>
 </tbody>
 </table>
+<p>Table: Sample stats from a vars*vars vector</p>
 </div>
 <div id="vector-varsvars-12" class="section level4">
 <h4>Vector (vars*(vars-1)/2)</h4>
@@ -419,62 +718,142 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>bvn <span class="ot">&lt;-</span> <span class="fu">rnorm_multi</span>(<span class="dv">100</span>, <span class="dv">4</span>, <span class="dv">0</span>, <span class="dv">1</span>, cmat, </span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>                  <span class="at">varnames =</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])</span></code></pre></div>
 <table>
-<caption>Sample stats from a (vars*(vars-1)/2) vector</caption>
 <thead>
-<tr class="header">
-<th align="right">n</th>
-<th align="left">var</th>
-<th align="right">a</th>
-<th align="right">b</th>
-<th align="right">c</th>
-<th align="right">d</th>
-<th align="right">mean</th>
-<th align="right">sd</th>
+<tr>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:left;">
+var
+</th>
+<th style="text-align:right;">
+a
+</th>
+<th style="text-align:right;">
+b
+</th>
+<th style="text-align:right;">
+c
+</th>
+<th style="text-align:right;">
+d
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="right">100</td>
-<td align="left">a</td>
-<td align="right">1.00</td>
-<td align="right">0.29</td>
-<td align="right">0.61</td>
-<td align="right">0.41</td>
-<td align="right">-0.10</td>
-<td align="right">1.06</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+a
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.29
+</td>
+<td style="text-align:right;">
+0.61
+</td>
+<td style="text-align:right;">
+0.41
+</td>
+<td style="text-align:right;">
+-0.10
+</td>
+<td style="text-align:right;">
+1.06
+</td>
 </tr>
-<tr class="even">
-<td align="right">100</td>
-<td align="left">b</td>
-<td align="right">0.29</td>
-<td align="right">1.00</td>
-<td align="right">0.23</td>
-<td align="right">-0.03</td>
-<td align="right">0.09</td>
-<td align="right">1.14</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+b
+</td>
+<td style="text-align:right;">
+0.29
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.23
+</td>
+<td style="text-align:right;">
+-0.03
+</td>
+<td style="text-align:right;">
+0.09
+</td>
+<td style="text-align:right;">
+1.14
+</td>
 </tr>
-<tr class="odd">
-<td align="right">100</td>
-<td align="left">c</td>
-<td align="right">0.61</td>
-<td align="right">0.23</td>
-<td align="right">1.00</td>
-<td align="right">-0.28</td>
-<td align="right">0.08</td>
-<td align="right">1.17</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+c
+</td>
+<td style="text-align:right;">
+0.61
+</td>
+<td style="text-align:right;">
+0.23
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+-0.28
+</td>
+<td style="text-align:right;">
+0.08
+</td>
+<td style="text-align:right;">
+1.17
+</td>
 </tr>
-<tr class="even">
-<td align="right">100</td>
-<td align="left">d</td>
-<td align="right">0.41</td>
-<td align="right">-0.03</td>
-<td align="right">-0.28</td>
-<td align="right">1.00</td>
-<td align="right">-0.12</td>
-<td align="right">0.97</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+d
+</td>
+<td style="text-align:right;">
+0.41
+</td>
+<td style="text-align:right;">
+-0.03
+</td>
+<td style="text-align:right;">
+-0.28
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+-0.12
+</td>
+<td style="text-align:right;">
+0.97
+</td>
 </tr>
 </tbody>
 </table>
+<p>Table: Sample stats from a (vars*(vars-1)/2) vector</p>
 </div>
 </div>
 <div id="empirical" class="section level3">
@@ -484,78 +863,186 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                  <span class="at">varnames =</span> letters[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>], </span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>                  <span class="at">empirical =</span> T)</span></code></pre></div>
 <table>
-<caption>Sample stats with empirical = TRUE</caption>
 <thead>
-<tr class="header">
-<th align="right">n</th>
-<th align="left">var</th>
-<th align="right">a</th>
-<th align="right">b</th>
-<th align="right">c</th>
-<th align="right">d</th>
-<th align="right">e</th>
-<th align="right">mean</th>
-<th align="right">sd</th>
+<tr>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:left;">
+var
+</th>
+<th style="text-align:right;">
+a
+</th>
+<th style="text-align:right;">
+b
+</th>
+<th style="text-align:right;">
+c
+</th>
+<th style="text-align:right;">
+d
+</th>
+<th style="text-align:right;">
+e
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="right">100</td>
-<td align="left">a</td>
-<td align="right">1.0</td>
-<td align="right">0.3</td>
-<td align="right">0.3</td>
-<td align="right">0.3</td>
-<td align="right">0.3</td>
-<td align="right">0</td>
-<td align="right">1</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+a
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
 </tr>
-<tr class="even">
-<td align="right">100</td>
-<td align="left">b</td>
-<td align="right">0.3</td>
-<td align="right">1.0</td>
-<td align="right">0.3</td>
-<td align="right">0.3</td>
-<td align="right">0.3</td>
-<td align="right">0</td>
-<td align="right">1</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+b
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
 </tr>
-<tr class="odd">
-<td align="right">100</td>
-<td align="left">c</td>
-<td align="right">0.3</td>
-<td align="right">0.3</td>
-<td align="right">1.0</td>
-<td align="right">0.3</td>
-<td align="right">0.3</td>
-<td align="right">0</td>
-<td align="right">1</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+c
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
 </tr>
-<tr class="even">
-<td align="right">100</td>
-<td align="left">d</td>
-<td align="right">0.3</td>
-<td align="right">0.3</td>
-<td align="right">0.3</td>
-<td align="right">1.0</td>
-<td align="right">0.3</td>
-<td align="right">0</td>
-<td align="right">1</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+d
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
 </tr>
-<tr class="odd">
-<td align="right">100</td>
-<td align="left">e</td>
-<td align="right">0.3</td>
-<td align="right">0.3</td>
-<td align="right">0.3</td>
-<td align="right">0.3</td>
-<td align="right">1.0</td>
-<td align="right">0</td>
-<td align="right">1</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+e
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+0
+</td>
+<td style="text-align:right;">
+1
+</td>
 </tr>
 </tbody>
 </table>
+<p>Table: Sample stats with empirical = TRUE</p>
 </div>
 </div>
 <div id="pre-existing-variables" class="section level2">
@@ -565,31 +1052,67 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">B =</span> <span class="fu">rnorm_pre</span>(A, <span class="at">mu =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">2</span>, <span class="at">r =</span> <span class="fl">0.5</span>))</span></code></pre></div>
 <table>
 <thead>
-<tr class="header">
-<th align="right">n</th>
-<th align="left">var</th>
-<th align="right">A</th>
-<th align="right">B</th>
-<th align="right">mean</th>
-<th align="right">sd</th>
+<tr>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:left;">
+var
+</th>
+<th style="text-align:right;">
+A
+</th>
+<th style="text-align:right;">
+B
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="right">100</td>
-<td align="left">A</td>
-<td align="right">1.00</td>
-<td align="right">0.37</td>
-<td align="right">-0.03</td>
-<td align="right">1.10</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.37
+</td>
+<td style="text-align:right;">
+-0.03
+</td>
+<td style="text-align:right;">
+1.10
+</td>
 </tr>
-<tr class="even">
-<td align="right">100</td>
-<td align="left">B</td>
-<td align="right">0.37</td>
-<td align="right">1.00</td>
-<td align="right">10.02</td>
-<td align="right">2.28</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+0.37
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+10.02
+</td>
+<td style="text-align:right;">
+2.28
+</td>
 </tr>
 </tbody>
 </table>
@@ -597,43 +1120,99 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>C <span class="ot">&lt;-</span> <span class="fu">rnorm_pre</span>(dat<span class="sc">$</span>A, <span class="at">mu =</span> <span class="dv">10</span>, <span class="at">sd =</span> <span class="dv">2</span>, <span class="at">r =</span> <span class="fl">0.5</span>, <span class="at">empirical =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <table>
 <thead>
-<tr class="header">
-<th align="right">n</th>
-<th align="left">var</th>
-<th align="right">A</th>
-<th align="right">B</th>
-<th align="right">C</th>
-<th align="right">mean</th>
-<th align="right">sd</th>
+<tr>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:left;">
+var
+</th>
+<th style="text-align:right;">
+A
+</th>
+<th style="text-align:right;">
+B
+</th>
+<th style="text-align:right;">
+C
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="right">100</td>
-<td align="left">A</td>
-<td align="right">1.00</td>
-<td align="right">0.37</td>
-<td align="right">0.50</td>
-<td align="right">-0.03</td>
-<td align="right">1.10</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.37
+</td>
+<td style="text-align:right;">
+0.50
+</td>
+<td style="text-align:right;">
+-0.03
+</td>
+<td style="text-align:right;">
+1.10
+</td>
 </tr>
-<tr class="even">
-<td align="right">100</td>
-<td align="left">B</td>
-<td align="right">0.37</td>
-<td align="right">1.00</td>
-<td align="right">0.15</td>
-<td align="right">10.02</td>
-<td align="right">2.28</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+0.37
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.15
+</td>
+<td style="text-align:right;">
+10.02
+</td>
+<td style="text-align:right;">
+2.28
+</td>
 </tr>
-<tr class="odd">
-<td align="right">100</td>
-<td align="left">C</td>
-<td align="right">0.50</td>
-<td align="right">0.15</td>
-<td align="right">1.00</td>
-<td align="right">10.00</td>
-<td align="right">2.00</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:right;">
+0.50
+</td>
+<td style="text-align:right;">
+0.15
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+10.00
+</td>
+<td style="text-align:right;">
+2.00
+</td>
 </tr>
 </tbody>
 </table>
@@ -641,57 +1220,137 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dat<span class="sc">$</span>D <span class="ot">&lt;-</span> <span class="fu">rnorm_pre</span>(dat, <span class="at">r =</span> <span class="fu">c</span>(.<span class="dv">1</span>, .<span class="dv">2</span>, .<span class="dv">3</span>), <span class="at">empirical =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <table>
 <thead>
-<tr class="header">
-<th align="right">n</th>
-<th align="left">var</th>
-<th align="right">A</th>
-<th align="right">B</th>
-<th align="right">C</th>
-<th align="right">D</th>
-<th align="right">mean</th>
-<th align="right">sd</th>
+<tr>
+<th style="text-align:right;">
+n
+</th>
+<th style="text-align:left;">
+var
+</th>
+<th style="text-align:right;">
+A
+</th>
+<th style="text-align:right;">
+B
+</th>
+<th style="text-align:right;">
+C
+</th>
+<th style="text-align:right;">
+D
+</th>
+<th style="text-align:right;">
+mean
+</th>
+<th style="text-align:right;">
+sd
+</th>
 </tr>
 </thead>
 <tbody>
-<tr class="odd">
-<td align="right">100</td>
-<td align="left">A</td>
-<td align="right">1.00</td>
-<td align="right">0.37</td>
-<td align="right">0.50</td>
-<td align="right">0.1</td>
-<td align="right">-0.03</td>
-<td align="right">1.10</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+A
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.37
+</td>
+<td style="text-align:right;">
+0.50
+</td>
+<td style="text-align:right;">
+0.1
+</td>
+<td style="text-align:right;">
+-0.03
+</td>
+<td style="text-align:right;">
+1.10
+</td>
 </tr>
-<tr class="even">
-<td align="right">100</td>
-<td align="left">B</td>
-<td align="right">0.37</td>
-<td align="right">1.00</td>
-<td align="right">0.15</td>
-<td align="right">0.2</td>
-<td align="right">10.02</td>
-<td align="right">2.28</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+B
+</td>
+<td style="text-align:right;">
+0.37
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.15
+</td>
+<td style="text-align:right;">
+0.2
+</td>
+<td style="text-align:right;">
+10.02
+</td>
+<td style="text-align:right;">
+2.28
+</td>
 </tr>
-<tr class="odd">
-<td align="right">100</td>
-<td align="left">C</td>
-<td align="right">0.50</td>
-<td align="right">0.15</td>
-<td align="right">1.00</td>
-<td align="right">0.3</td>
-<td align="right">10.00</td>
-<td align="right">2.00</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+C
+</td>
+<td style="text-align:right;">
+0.50
+</td>
+<td style="text-align:right;">
+0.15
+</td>
+<td style="text-align:right;">
+1.00
+</td>
+<td style="text-align:right;">
+0.3
+</td>
+<td style="text-align:right;">
+10.00
+</td>
+<td style="text-align:right;">
+2.00
+</td>
 </tr>
-<tr class="even">
-<td align="right">100</td>
-<td align="left">D</td>
-<td align="right">0.10</td>
-<td align="right">0.20</td>
-<td align="right">0.30</td>
-<td align="right">1.0</td>
-<td align="right">0.00</td>
-<td align="right">1.00</td>
+<tr>
+<td style="text-align:right;">
+100
+</td>
+<td style="text-align:left;">
+D
+</td>
+<td style="text-align:right;">
+0.10
+</td>
+<td style="text-align:right;">
+0.20
+</td>
+<td style="text-align:right;">
+0.30
+</td>
+<td style="text-align:right;">
+1.0
+</td>
+<td style="text-align:right;">
+0.00
+</td>
+<td style="text-align:right;">
+1.00
+</td>
 </tr>
 </tbody>
 </table>

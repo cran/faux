@@ -1,6 +1,64 @@
-# faux 1.0.0
+# faux 1.1.0 (2021-09-13)
 
-* Ready for a new release.
+## Breaking changes
+
+* `sim_design()` now names anonymous within and between factors like W and B or W1, W2, W3, ..., and B1, B2, ... instead of A, B, C, ... 
+
+## New features
+
+* `add_contrast()` and associated contr_code_*** functions
+* `add_random()` and associated mixed design building functions
+
+## Minor improvements and fixes
+
+* `get_params()` doesn't need between, within, id, and dv set for date created by `sim_design()`
+* `plot_design()` can display a subset of factors
+* `sim_design()` fixed a bug in when setting n with an unnamed vector and within-subjects factors
+
+# faux 1.0.0.9006 (2021-09-13)
+
+* Added a vignette about creating random reports using the mixed effects building functions.
+
+# faux 1.0.0.9006 (2021-08-30)
+
+* fixed a bug in `sim_design()` when setting n with an unnamed vector and within-subjects factors (wouldn't run before).
+* Updated `add_between()` and `add_within()` to make new columns factors with the same ordering as the specification
+* Updated contrast functions to work with non-factor columns
+* `add_between()` .prob argument works as expected now (and has tests)
+
+# faux 1.0.0.9005 (2021-08-11)
+
+* Updated contrasts vignette
+* renamed `contr_code_deviation()` to `contr_code_anova()`
+
+# faux 1.0.0.9004 (2021-08-10)
+
+* Updated contrasts vignette
+* new `add_contrast()` function
+* renamed the contrast functions to all start with `contr_code_`
+
+# faux 1.0.0.9003 (2021-08-09)
+
+* added new contrast functions and changed labelling of others
+* updated contrasts vignette 
+
+# faux 1.0.0.9002 (2021-08-08)
+
+* `plot_design()` can display a subset of factors
+* updated plotting vignette to explain changing palettes
+* updated mixed effects builder functions to avoid column name clashes
+* added experimental contrast functions and vignette
+
+# faux 1.0.0.9001 (2021-03-27)
+
+* added new mixed effect builder functions
+* updated mixed effects vignette
+* anonymous within and between factors in `sim_design()` are now named W and B or W1, W2, W3, ..., B1, B2, ... instead of A, B, C, ... (and fixed relevant tests and vignette code)
+* fixed `get_params()` so it doesn't need between, within, id, and dv set for date created by `sim_design()`
+
+# faux 1.0.0 (2021-03-27)
+
+* Released on CRAN
 * Fixed a typo in faceratings for one face_eth ("eats asian/white" => "east asian/white")
 
 # faux 0.0.1.65 (2021-03-23)

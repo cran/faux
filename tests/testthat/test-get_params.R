@@ -30,15 +30,15 @@ test_that("defaults with between", {
 test_that("long", {
   df_long <- sim_design(within = 2, between = 2, r = 0.5, 
                         empirical = TRUE, long = TRUE, plot = FALSE)
-  checklong <- get_params(df_long, within = "A", between = "B")
+  checklong <- get_params(df_long)
   
-  expect_equal(checklong$B, c("B1", "B1", "B2", "B2") %>% as.factor())
+  expect_equal(checklong$B1, c("B1a", "B1a", "B1b", "B1b") %>% as.factor())
   expect_equal(checklong$n, c(100,100,100,100))
-  expect_equal(checklong$var, factor(c("A1", "A2", "A1", "A2")))
+  expect_equal(checklong$var, factor(c("W1a", "W1b", "W1a", "W1b")))
   expect_equal(checklong$mean, c(0,0,0,0))
   expect_equal(checklong$sd, c(1,1,1,1))
-  expect_equal(checklong$A1, c(1,.5,1,.5))
-  expect_equal(checklong$A2, c(.5,1,.5,1))
+  expect_equal(checklong$W1a, c(1,.5,1,.5))
+  expect_equal(checklong$W1b, c(.5,1,.5,1))
 })
 
 # is_pos_def ----
@@ -93,6 +93,17 @@ test_that("from design", {
   p <- get_params(x, dv = c("pre_exp", "post_ctl"))
   expect_equal(as.character(p$grp), rep(LETTERS[2:1], each = 2))
   expect_equal(as.character(p$var), rep(c("pre_exp", "post_ctl"), 2))
+  
+  # when long
+  x <- sim_design(
+    between = list(grp = c("B", "A")),
+    within = list(time = c("pre", "post"),
+                  condition = c("ctl", "exp")),
+    long = TRUE
+  )
+  p <- get_params(x)
+  expect_equal(as.character(p$grp), rep(LETTERS[2:1], each = 4))
+  expect_equal(as.character(p$var), rep(names(p)[4:7], 2))
 })
 
   

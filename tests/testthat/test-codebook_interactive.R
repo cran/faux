@@ -9,7 +9,9 @@ on.exit({
 })
 
 set.seed(1)
-data <- sim_design(2, 2, plot = FALSE)
+data <- sim_design(within = list(A = c("A1","A2")), 
+                   between = list(B = c("B1","B2")), 
+                   plot = FALSE)
 
 test_that("interactive", {
   desc <- c("Subject ID", "Factor B", "Level 1 of Factor A", "Level 2 of Factor A")

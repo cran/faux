@@ -15,10 +15,12 @@ sim_design(
   long = FALSE,
   dv = list(y = "value"),
   id = list(id = "id"),
+  vardesc = list(),
   plot = faux_options("plot"),
   interactive = FALSE,
   design = NULL,
   rep = 1,
+  nested = TRUE,
   seed = NULL,
   sep = faux_options("sep")
 )
@@ -34,7 +36,7 @@ sim_design(
 
 \item{sd}{the standard deviations of the variables}
 
-\item{r}{the correlations among the variables (can be a single number, full correlation matrix as a matric or vector, or a vector of the upper right triangle of the correlation matrix}
+\item{r}{the correlations among the variables (can be a single number, full correlation matrix as a matrix or vector, or a vector of the upper right triangle of the correlation matrix}
 
 \item{empirical}{logical. If true, mu, sd and r specify the empirical not population mean, sd and covariance}
 
@@ -44,13 +46,17 @@ sim_design(
 
 \item{id}{the name of the id column (defaults to id)}
 
+\item{vardesc}{a list of variable descriptions having the names of the within- and between-subject factors}
+
 \item{plot}{whether to show a plot of the design}
 
 \item{interactive}{whether to run the function interactively}
 
-\item{design}{a design list including within, between, n, mu, sd, r, dv, id}
+\item{design}{a design list including within, between, n, mu, sd, r, dv, id, and vardesc}
 
-\item{rep}{the number of data frames to return (default 1); if greater than 1, the returned data frame is nested by rep}
+\item{rep}{the number of data frames to return (default 1); if greater than 1, the returned data frame is nested by rep (if nested = TRUE)}
+
+\item{nested}{Whether to nest data frames by rep if rep > 1}
 
 \item{seed}{DEPRECATED use set.seed() instead before running this function}
 
@@ -60,5 +66,5 @@ sim_design(
 a tbl
 }
 \description{
-Generates a data table with a specified within and between design. See \href{../doc/sim_design.html}{\code{vignette("sim_design", package = "faux")}} for examples and details.
+Generates a data table with a specified within and between design. See \href{https://debruine.github.io/faux/articles/sim_design.html}{\code{vignette("sim_design", package = "faux")}} for examples and details.
 }

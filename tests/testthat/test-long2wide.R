@@ -5,48 +5,48 @@ faux_options(plot = FALSE)
 # 2w ----
 test_that("2w", {
   df_long <- sim_design(within = 2, long = TRUE)
-  df_wide <- long2wide(df_long, "A", c(), "y", "id")
+  df_wide <- long2wide(df_long, "W1", c(), "y", "id")
   
   expect_equal(nrow(df_wide), 100)
   expect_equal(ncol(df_wide), 3)
-  expect_equal(colnames(df_wide), c("id", "A1", "A2"))
+  expect_equal(colnames(df_wide), c("id", "W1a", "W1b"))
 })
 
 # 2b ----
 test_that("2b", {
   df_long <- sim_design(between = 2, long = TRUE)
-  df_wide <- long2wide(df_long, c(), "A", "y", "id")
+  df_wide <- long2wide(df_long, c(), "B1", "y", "id")
   
   expect_equal(nrow(df_wide), 200)
   expect_equal(ncol(df_wide), 3)
-  expect_equal(colnames(df_wide), c("id", "A", "y"))
+  expect_equal(colnames(df_wide), c("id", "B1", "y"))
   expect_equivalent(df_long, df_wide)
 })
 
 # 2w*2b ----
 test_that("2w*2b", {
   df_long <- sim_design(2, 2, long = TRUE)
-  df_wide <- long2wide(df_long, "A", "B", "y", "id")
+  df_wide <- long2wide(df_long, "W1", "B1", "y", "id")
   
-  expect_equal(names(df_wide), c("id", "B", "A1", "A2"))
+  expect_equal(names(df_wide), c("id", "B1", "W1a", "W1b"))
   expect_equal(nrow(df_wide), 200)
 })
 
 # named arguments ----
 test_that("named arguments", {
   df_long <- sim_design(2, 2, long = TRUE)
-  df_wide <- long2wide(dv = "y", id = "id", data = df_long, between = "B", within = "A")
+  df_wide <- long2wide(dv = "y", id = "id", data = df_long, between = "B1", within = "W1")
   
-  expect_equal(names(df_wide), c("id", "B", "A1", "A2"))
+  expect_equal(names(df_wide), c("id", "B1", "W1a", "W1b"))
   expect_equal(nrow(df_wide), 200)
 })
 
 # 2w*2w*2b*2b ----
 test_that("2w*2w*2b*2b", {
   df_long <- sim_design(c(2, 2), c(2, 2), long = TRUE)
-  df_wide <- long2wide(df_long, c("A", "B"), c("C","D"), "y", "id")
+  df_wide <- long2wide(df_long, c("W1", "W2"), c("B1","B2"), "y", "id")
   
-  expect_equal(names(df_wide), c("id", "C", "D", "A1_B1", "A1_B2", "A2_B1", "A2_B2"))
+  expect_equal(names(df_wide), c("id", "B1", "B2", "W1a_W2a", "W1a_W2b", "W1b_W2a", "W1b_W2b"))
   expect_equal(nrow(df_wide), 400)
 })
 
@@ -86,6 +86,8 @@ test_that("wide2long", {
   
   expect_equal(nrow(long_iris), 600)
   expect_equal(names(long_iris), c("ID", "Species", "feature", "dimension", "value"))
+  expect_true(is.factor(long_iris$feature))
+  expect_true(is.factor(long_iris$dimension))
   
   long_iris <- wide2long(iris, c("Feature", "Measure"), 1:4, sep = "\\.")
   expect_equal(nrow(long_iris), 600)
@@ -101,14 +103,14 @@ test_that("from design", {
   expect_equal(class(w2), c("faux", "data.frame"))
   expect_equal(class(w3), c("faux", "data.frame"))
   
-  expect_equal(names(w2), c("id", "C", "D", "A", "B","y"))
+  expect_equal(names(w2), c("id", "B1", "B2", "W1", "W2", "y"))
   #expect_equal(w, w3)
 
   l <- sim_design(c(2,2), c(2,2), long = TRUE)
   l2 <- long2wide(l)
   expect_equal(class(l), c("faux", "data.frame"))
   expect_equal(class(l2), c("faux", "data.frame"))
-  expect_equal(names(l2), c("id", "C", "D", "A1_B1", "A1_B2", "A2_B1", "A2_B2"))
+  expect_equal(names(l2), c("id", "B1", "B2", "W1a_W2a", "W1a_W2b", "W1b_W2a", "W1b_W2b"))
 
   # from data not made by faux and grouped
   data <- fr4 %>%

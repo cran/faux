@@ -165,20 +165,20 @@ test_that("no vardesc", {
                              dataType = "string"))
   
   expect_equal(vm[[2]], list(`@type` = "PropertyValue",
-                             name = "B",
-                             description = "B",
-                             levels = list(B1 = "B1", B2 = "B2"),
+                             name = "B1",
+                             description = "B1",
+                             levels = list(B1a = "B1a", B1b = "B1b"),
                              dataType = "string",
                              levelsOrdered = FALSE))
   
   expect_equal(vm[[3]], list(`@type` = "PropertyValue",
-                             name = "A1",
-                             description = "A1", 
+                             name = "W1a",
+                             description = "W1a", 
                              dataType = "float"))
   
   expect_equal(vm[[4]], list(`@type` = "PropertyValue",
-                             name = "A2",
-                             description = "A2", 
+                             name = "W1b",
+                             description = "W1b", 
                              dataType = "float"))
 })
 
@@ -204,42 +204,42 @@ test_that("with vardesc", {
   set.seed(8675309)
   data <- sim_design(2, 2, plot = FALSE)
   vardesc <- list(description = c(id = "Subject ID",
-                                  B = "Between-subject factor",
-                                  A1 = "Condition 1",
-                                  A2 = "Condition 2"),
-                  levels = list(B = c(B1 = "First level",
-                                      B2 = "Second level")))
+                                  B1 = "Between-subject factor",
+                                  W1a = "Condition 1",
+                                  W1b = "Condition 2"),
+                  levels = list(B1 = c(B1a = "First level",
+                                       B1b = "Second level")))
   cb <- codebook(data, "My Data", vardesc, return = "list")
   
   output <- capture_output(print(cb))
-  expect_equal(output, "Codebook for My Data (Psych-DS 0.1.0)\n\nDataset Parameters\n\n* name: My Data\n* schemaVersion: Psych-DS 0.1.0\n\nColumn Parameters\n\n* id (string): Subject ID\n* B (string): Between-subject factor\n  * Levels\n    * B1: First level\n    * B2: Second level\n  * Ordered: FALSE\n* A1 (float): Condition 1\n* A2 (float): Condition 2")
+  expect_equal(output, "Codebook for My Data (Psych-DS 0.1.0)\n\nDataset Parameters\n\n* name: My Data\n* schemaVersion: Psych-DS 0.1.0\n\nColumn Parameters\n\n* id (string): Subject ID\n* B1 (string): Between-subject factor\n  * Levels\n    * B1a: First level\n    * B1b: Second level\n  * Ordered: FALSE\n* W1a (float): Condition 1\n* W1b (float): Condition 2")
   
   # unseen levels
   vardesc <- list(description = c(id = "Subject ID",
-                                  B = "Between-subject factor",
-                                  A1 = "Condition 1",
-                                  A2 = "Condition 2"),
-                  levels = list(B = c(B1 = "First level",
-                                      B2 = "Second level",
-                                      B3 = "Third level")))
+                                  B1 = "Between-subject factor",
+                                  W1a = "Condition 1",
+                                  W1b = "Condition 2"),
+                  levels = list(B1 = c(B1a = "First level",
+                                       B1b = "Second level",
+                                       B1c = "Third level")))
   cb <- codebook(data, "My Data", vardesc, return = "list")
   # should convert levels to a list
   expect_equal(cb$variableMeasured[[2]]$levels,
-               list(B1 = "First level",
-                    B2 = "Second level",
-                    B3 = "Third level"))
+               list(B1a = "First level",
+                    B1b = "Second level",
+                    B1c = "Third level"))
 })
 
 test_that("ignores extra vardesc", {
   set.seed(8675309)
-  data <- sim_design(2, 2,, plot = FALSE)
+  data <- sim_design(2, 2, plot = FALSE)
   vardesc <- list(description = c(id = "Subject ID",
-                                  B = "Between-subject factor",
+                                  B1 = "Between-subject factor",
                                   C = "Extra Factor",
-                                  A1 = "Condition 1",
-                                  A2 = "Condition 2"),
-                  levels = list(B = c(B1 = "First level",
-                                      B2 = "Second level"),
+                                  W1a = "Condition 1",
+                                  W1b = "Condition 2"),
+                  levels = list(W1 = c(W1a = "First level",
+                                       W1b = "Second level"),
                                 C = c("C1", "C2"))
   )
   

@@ -19,9 +19,13 @@ mu <- data.frame(
   dog    = c(10, 15, 20, 25),
   row.names = within$time
 )
+# add factor labels for plotting
+vardesc <- c(pet = "Type of Pet",
+             time = "Time of Day")
+
 df <- sim_design(within, between, 
                  n = 100, mu = mu, sd = 5, r = .5,
-                 empirical = TRUE, plot = TRUE)
+                 empirical = TRUE, vardesc = vardesc, plot = TRUE)
 
 ## ----anon---------------------------------------------------------------------
 df <- sim_design(within = c(2,3), between = c(2), 
@@ -56,10 +60,16 @@ within <- list(
 df <- sim_design(within, between, mu = 1:4)
 
 ## -----------------------------------------------------------------------------
-design <- check_design(within, between, n = 10, 
-                       mu = 1:4, sd = 1:4, r = 0.5, plot = FALSE)
+vardesc <- c(pet = "Type of Pet",
+             time = "Time of Day")
 
-json_design(design, pretty = TRUE)
+df <- sim_design(within, between, mu = 1:4, 
+                 id = c(pet_id = "Pet ID"),
+                 dv = c(score = "Score on the Test"),
+                 vardesc = vardesc)
+
+## -----------------------------------------------------------------------------
+wide2long(df) %>% head()
 
 ## -----------------------------------------------------------------------------
 n <- 20 # n per cell, not total
@@ -68,27 +78,27 @@ str(design$n)
 
 ## -----------------------------------------------------------------------------
 n <- list(
-  B1_C1 = 10, 
-  B1_C2 = 20, 
-  B2_C1 = 30, 
-  B2_C2 = 40
+  B1a_B2a = 10, 
+  B1a_B2b = 20, 
+  B1b_B2a = 30, 
+  B1b_B2b = 40
 )
 design <- check_design(2, c(2,2), n = n, plot = FALSE)
 str(design$n)
 
 ## -----------------------------------------------------------------------------
 n <- data.frame(
-  B2_C2 = 40,
-  B1_C1 = 10, 
-  B1_C2 = 20, 
-  B2_C1 = 30
+  B1b_B2b = 40,
+  B1a_B2a = 10, 
+  B1a_B2b = 20, 
+  B1b_B2a = 30
 )
 design <- check_design(2, c(2,2), n = n, plot = FALSE)
 str(design$n)
 
 ## -----------------------------------------------------------------------------
 n <- data.frame(n = c(10, 20, 30, 40),
-                row.names = c("B1_C1", "B1_C2", "B2_C1", "B2_C2"))
+                row.names = c("B1a_B2a", "B1a_B2b", "B1b_B2a", "B1b_B2b"))
 design <- check_design(2, c(2,2), n = n, plot = FALSE)
 str(design$n)
 
@@ -142,10 +152,10 @@ design$r
 
 ## -----------------------------------------------------------------------------
 r <- list(
-  B1 = c(.10, .20, .30, 
+  B1a = c(.10, .20, .30, 
               .40, .50, 
                    .60),
-  B2 = c(.15, .25, .35, 
+  B1b = c(.15, .25, .35, 
               .45, .55, 
                    .65)
 )
@@ -250,7 +260,7 @@ df
 ## -----------------------------------------------------------------------------
 # using tidyverse functions
 analyse <- function(data) {
-  stats::aov(y ~ B * A + Error(id/A), data = data) %>% 
+  stats::aov(y ~ B1 * W1 + Error(id/W1), data = data) %>% 
     broom::tidy()
 }
 
@@ -258,4 +268,26 @@ df %>%
   dplyr::mutate(analysis = lapply(data, analyse)) %>%
   dplyr::select(-data) %>%
   tidyr::unnest(analysis)
+
+## -----------------------------------------------------------------------------
+df <- sim_design(within = 2, between = 2, 
+                 n = 2, mu = c(1, 1, 1, 1.5), 
+                 sd = 1, r = 0.5, plot = FALSE, 
+                 long = TRUE, rep = 2, nested = FALSE)
+
+df
+
+## ---- results='asis'----------------------------------------------------------
+between <- list(pet = c("cat", "dog"))
+within <- list(time = c("day", "night"))
+vardesc <- c(pet = "Type of Pet",
+             time = "Time of Day")
+design <- check_design(within, between, n = 10, 
+                       mu = 1:4, sd = 1:4, r = 0.5, 
+                       vardesc = vardesc, plot = FALSE)
+
+design
+
+## -----------------------------------------------------------------------------
+data <- sim_design(design = design)
 
