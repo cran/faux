@@ -6,6 +6,7 @@
 #' @param cb The codebook in list format if already generated
 #'
 #' @return codebook list
+#' @keywords internal
 #'
 codebook_interactive <- function(data, cb = NULL) {
   if (is.null(cb)) {

@@ -289,6 +289,7 @@ codebook <- function(data, name = NULL, vardesc = list(), ...,
 #' @param ... Additional parameters for print
 #'
 #' @export
+#' @keywords internal
 #'
 print.psychds_codebook <- function(x, ...) {
   

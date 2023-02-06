@@ -33,4 +33,10 @@ data4 <- add_random(data3, question = 10)
 data <- add_random(A = 2, B = 2)
 add_random(data, C = 2, .nested_in = "A")
 add_random(data, C = 2, .nested_in = "B")
+
+# specify item names
+add_random(school = c("Hyndland Primary", "Hyndland Secondary")) \%>\%
+  add_random(class = list(paste0("P", 1:7),
+                          paste0("S", 1:6)),
+             .nested_in = "school")
 }

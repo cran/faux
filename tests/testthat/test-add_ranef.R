@@ -45,14 +45,14 @@ test_that("x and y", {
   expect_equal(cor(x, y), r_xy, tol = .05)
 })
 
-
+# add_random ----
 test_that("add_random", {
   # start a data frame
   data1 <- add_random(school = 3)
-  expect_equal(data1$school, paste0("s", 1:3))
+  expect_equal(data1$school, paste0("school", 1:3))
   # nest classes in schools (2 classes per school)
   data2 <- add_random(data1, class = 2, .nested_in = "school")
-  expect_equal(data2$class, paste0("c", 1:6))
+  expect_equal(data2$class, paste0("class", 1:6))
   expect_equal(data2$school, rep(data1$school, each = 2))
   # nest students in each class (different n per class)
   n <- c(20, 24, 23, 21, 25, 24)
@@ -73,6 +73,37 @@ test_that("add_random", {
   nested_in_A <- add_random(data, C = 2, .nested_in = "A")
   nested_in_B <- add_random(data, C = 2, .nested_in = "B")
   expect_false(all(nested_in_A$C == nested_in_B$C))
+})
+
+## ids ----
+test_that("add_random ids", {
+  # crossed random factors
+  ids <- c("A", "B", "C")
+  data1 <- add_random(school = ids)
+  expect_equal(data1$school, ids)
+  
+  data1b <- add_random(school = ids, class = 3)
+  check <- dplyr::tibble(
+    school = rep(ids, each = 3),
+    class = rep(paste0("class", 1:3), 3)
+  )
+  expect_equal(data1b, check)
+  
+  # nested random factors
+  data2 <- add_random(data1, class = 2, .nested_in = "school")
+  expect_equal(data2$class, paste0("class", 1:6))
+  
+  data2 <- add_random(data1, class = c(2, 3, 4), .nested_in = "school")
+  expect_equal(data2$class, paste0("class", 1:9))
+  
+  data3 <- add_random(data1, 
+                      class = list(
+                        LETTERS[1:2],
+                        LETTERS[3:5],
+                        LETTERS[6:9]
+                      ), 
+                      .nested_in = "school")
+  expect_equal(data3$class, LETTERS[1:9])
 })
 
 # add_between ----

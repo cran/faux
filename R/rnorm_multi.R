@@ -95,7 +95,13 @@ rnorm_multi <- function(n = 100, vars = NULL, mu = 0, sd = 1, r = 0,
     cor_mat <- r # for name-checking later
   } else {
     # get data from mvn ----
-    cor_mat <- cormat(r, vars)
+    cor_mat <- tryCatch(
+      { cormat(r, vars) }, 
+      error = function(e) {
+        stop("The correlation you specified is impossible: ", e$message, call. = FALSE)
+      }
+    )
+                        
     sigma <- (sd %*% t(sd)) * cor_mat
     # tryCatch({
     #   mvn <- MASS::mvrnorm(n, mu, sigma, empirical = empirical)

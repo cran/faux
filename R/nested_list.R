@@ -73,6 +73,7 @@ nested_list <- function(x, pre = "", quote = "") {
 #' @param ... Additional parameters for print
 #'
 #' @export
+#' @keywords internal
 #'
 print.nested_list <- function(x, ...) {
   cat(x)

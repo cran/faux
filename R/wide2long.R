@@ -28,6 +28,9 @@ wide2long <- function(data, within_factors = c(), within_cols = c(),
     design <- NULL
   }
   
+  # a full stop never makes sense, so escape
+  if (sep == ".") sep <- "\\."
+  
   if (is.numeric(within_cols)) within_cols <- names(data)[within_cols]
     
   # check if ID exists and make if not

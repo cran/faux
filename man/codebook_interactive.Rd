@@ -17,3 +17,4 @@ codebook list
 \description{
 Create a Psych-DS formatted codebook from data by answering questions interactively in the console.
 }
+\keyword{internal}

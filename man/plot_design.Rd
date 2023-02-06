@@ -29,13 +29,13 @@ plot
 \description{
 Plots the specified within and between design. See \href{../doc/plots.html}{\code{vignette("plots", package = "faux")}} for examples and details.
 }
-\section{Methods (by generic)}{
+\section{Functions}{
 \itemize{
-\item \code{plot}: Plotting from a faux design list
+\item \code{plot(design)}: Plotting from a faux design list
 
-\item \code{plot}: Plotting from a faux data table
+\item \code{plot(faux)}: Plotting from a faux data table
+
 }}
-
 \examples{
 
 within <- list(time = c("day", "night"))

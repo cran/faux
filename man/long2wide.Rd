@@ -4,7 +4,14 @@
 \alias{long2wide}
 \title{Convert data from long to wide format}
 \usage{
-long2wide(data, within = c(), between = c(), dv = "y", id = "id")
+long2wide(
+  data,
+  within = c(),
+  between = c(),
+  dv = "y",
+  id = "id",
+  sep = faux_options("sep")
+)
 }
 \arguments{
 \item{data}{the tbl in long format}
@@ -16,6 +23,8 @@ long2wide(data, within = c(), between = c(), dv = "y", id = "id")
 \item{dv}{the name of the DV (value) column}
 
 \item{id}{the names of the column(s) for grouping observations}
+
+\item{sep}{separator for factor levels}
 }
 \value{
 a tbl in wide format

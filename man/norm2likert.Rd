@@ -4,12 +4,14 @@
 \alias{norm2likert}
 \title{Convert normal to likert}
 \usage{
-norm2likert(x, prob, mu = mean(x), sd = stats::sd(x))
+norm2likert(x, prob, labels = names(prob), mu = mean(x), sd = stats::sd(x))
 }
 \arguments{
 \item{x}{the normally distributed vector}
 
 \item{prob}{a vector of probabilities or counts; if named, the output is a factor}
+
+\item{labels}{a vector of values, defaults to names(prob) or 1:length(prob), if numeric, the output is numeric}
 
 \item{mu}{the mean of x (calculated from x if not given)}
 

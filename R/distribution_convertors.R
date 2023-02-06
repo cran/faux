@@ -271,6 +271,31 @@ norm2unif <- function(x, min = 0, max = 1, mu = mean(x), sd = stats::sd(x)) {
   stats::qunif(p, min, max)
 }
 
+#' Convert normal to normal
+#'
+#' Convert a normal distribution to a normal (gaussian) distribution with specified mu and sd
+#' 
+#' @param x the uniformly distributed vector
+#' @param mu the mean of the normal distribution to return
+#' @param sd the SD of the normal distribution to return
+#' @param x_mu the mean of x (calculated from x if not given)
+#' @param x_sd the SD of x (calculated from x if not given)
+#'
+#' @return a vector with a gaussian distribution
+#' @export
+#'
+#' @examples
+#' 
+#' x <- rnorm(10000)
+#' y <- norm2norm(x, 100, 10)
+#' g <- ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(x, y))
+#' ggExtra::ggMarginal(g, type = "histogram")
+#' 
+norm2norm <- function(x, mu = 0, sd = 1, x_mu = mean(x), x_sd = stats::sd(x)) {
+  p <- stats::pnorm(x, x_mu, x_sd)
+  stats::qnorm(p, mean = mu, sd = sd)
+}
+
 #' Convert normal to truncated normal
 #' 
 #' Convert a normal (gaussian) distribution to a truncated normal distribution with specified minimum and maximum
@@ -280,6 +305,8 @@ norm2unif <- function(x, min = 0, max = 1, mu = mean(x), sd = stats::sd(x)) {
 #' @param max the maximum of the truncated distribution to return
 #' @param mu the mean of the distribution to return (calculated from x if not given)
 #' @param sd the SD of the distribution to return (calculated from x if not given)
+#' @param x_mu the mean of x (calculated from x if not given)
+#' @param x_sd the SD of x (calculated from x if not given)
 #'
 #' @return a vector with a uniform distribution
 #' @export
@@ -291,8 +318,10 @@ norm2unif <- function(x, min = 0, max = 1, mu = mean(x), sd = stats::sd(x)) {
 #' g <- ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(x, y))
 #' ggExtra::ggMarginal(g, type = "histogram")
 #' 
-norm2trunc <- function(x, min = -Inf, max = Inf, mu = mean(x), sd = stats::sd(x)) {
-  p <- stats::pnorm(x, mean(x), stats::sd(x))
+norm2trunc <- function(x, min = -Inf, max = Inf, 
+                       mu = mean(x), sd = stats::sd(x), 
+                       x_mu = mean(x), x_sd = stats::sd(x)) {
+  p <- stats::pnorm(x, x_mu, x_sd)
   truncnorm::qtruncnorm(p, a = min, b = max, mean = mu, sd = sd)
 }
 
@@ -352,6 +381,7 @@ trunc2norm <- function(x, min = NULL, max = NULL,
 #'
 #' @param x the normally distributed vector
 #' @param prob a vector of probabilities or counts; if named, the output is a factor
+#' @param labels a vector of values, defaults to names(prob) or 1:length(prob), if numeric, the output is numeric
 #' @param mu the mean of x (calculated from x if not given)
 #' @param sd the SD of x (calculated from x if not given)
 #'
@@ -372,20 +402,132 @@ trunc2norm <- function(x, min = NULL, max = NULL,
 #' y <- norm2likert(x, c(lower = .5, upper = .5))
 #' g <- ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(x, y))
 #' ggExtra::ggMarginal(g, type = "histogram")
-norm2likert <- function(x, prob, mu = mean(x), sd = stats::sd(x)) {
-  prob <- prob / sum(prob)
-  cprob <- cumsum(prob)
-  n <- length(cprob)
-  
+norm2likert <- function(x, prob, labels = names(prob), mu = mean(x), sd = stats::sd(x)) {
+  labels <- labels %||% 1:length(prob)
   p <- stats::pnorm(x, mu, sd)
-  x2 <- sapply(p, function(a) n + 1 - sum(a < cprob))
-  
-  if (!is.null(names(prob))) {
-    x2 <- factor(x2, levels = 1:n, labels = names(prob))
-  }
-  
-  x2
+  qlikert(p, prob, labels)
 }
+
+#' Likert density function
+#'
+#' @param x the likert distributed vector
+#' @param prob a vector of probabilities or counts; if named, the output is a factor
+#' @param labels a vector of values, defaults to names(prob) or 1:length(prob), if numeric, the output is numeric
+#'
+#' @return a vector of the densities
+#' @export
+#'
+#' @examples
+#' x <- 1:5
+#' prob <- c(.1, .2, .4, .2, .1)
+#' dlikert(x, prob)
+#' 
+#' x <- c("A", "C", "B", "B")
+#' prob <- c(A = 10, B = 20, C = 30)
+#' dlikert(x, prob)
+#' 
+#' # specify labels if prob not named and not 1:length(prob)
+#' labels <- -2:2 
+#' x <- sample(labels, 10, replace = TRUE)
+#' prob <- rep(1, length(labels)) # uniform probability
+#' dlikert(x, prob, labels)
+dlikert <- function(x, prob, labels = names(prob)) {
+  labels <- labels %||% 1:length(prob)
+  dtrans <- stats::setNames(prob/sum(prob), labels)
+  dtrans[as.character(x)]
+}
+
+#' Likert distribution function
+#'
+#' @param q the vector of quantiles
+#' @param prob a vector of probabilities or counts; if named, the output is a factor
+#' @param labels a vector of values, defaults to names(prob) or 1:length(prob), if numeric, the output is numeric
+#'
+#' @return a vector of the densities
+#' @export
+#'
+#' @examples
+#' q <- 1:5
+#' prob <- c(.1, .2, .4, .2, .1)
+#' plikert(q, prob)
+#' 
+#' q <- c("A", "C", "B", "B")
+#' prob <- c(A = 10, B = 20, C = 30)
+#' plikert(q, prob)
+#' 
+#' # specify labels if prob not named and not 1:length(prob)
+#' labels <- -2:2 
+#' q <- labels
+#' prob <- rep(1, length(labels)) # uniform probability
+#' plikert(q, prob, labels)
+plikert <- function(q, prob, labels = names(prob)) {
+  labels <- labels %||% 1:length(prob)
+  ptrans <- stats::setNames(cumsum(prob/sum(prob)), labels)
+  ptrans[as.character(q)]
+}
+
+#' Likert quantile function
+#'
+#' @param p the vector of probabilities
+#' @param prob a vector of probabilities or counts; if named, the output is a factor
+#' @param labels a vector of values, defaults to names(prob) or 1:length(prob), if numeric, the output is numeric
+#'
+#' @return a vector of the quantiles
+#' @export
+#'
+#' @examples
+#' p <- seq(0, 1, .1)
+#' prob <- c(.1, .2, .4, .2, .1)
+#' qlikert(p, prob)
+#' 
+#' p <- seq(0, 1, .1)
+#' prob <- c(A = 10, B = 20, C = 30)
+#' qlikert(p, prob)
+#' 
+#' # specify labels if prob not named and not 1:length(prob)
+#' labels <- -2:2 
+#' p <- seq(0, 1, .1)
+#' prob <- rep(1, length(labels)) # uniform probability
+#' qlikert(p, prob, labels)
+qlikert <- function(p, prob, labels = names(prob)) {
+  labels <- labels %||% 1:length(prob)
+  ptrans <- stats::setNames(cumsum(prob/sum(prob)), labels)
+  q <- lapply(p, `>`, ptrans) %>%
+    sapply(sum) %>%
+    sapply(`+`, 1) %>%
+    `[`(labels, .)
+  
+  if (!is.numeric(labels)) factor(q, labels) else q
+}
+
+#' Random Likert distribution
+#'
+#' @param n the number of observations
+#' @param prob a vector of probabilities or counts; if named, the output is a factor
+#' @param labels a vector of values, defaults to names(prob) or 1:length(prob), if numeric, the output is numeric
+#'
+#' @return a vector sampled from a likert distribution with the specified parameters
+#' @export
+#'
+#' @examples
+#' # no names or labels returns integer vector of values 1:length(prob)
+#' prob <- c(.1, .2, .4, .2, .1)
+#' rlikert(10, prob)
+#' 
+#' # named prob returns factor 
+#' prob <- c(A = 10, B = 20, C = 30)
+#' rlikert(10, prob)
+#' 
+#' # specify labels if prob not named and not 1:length(prob)
+#' labels <- -2:2 
+#' prob <- rep(1, length(labels)) # uniform probability
+#' rlikert(10, prob, labels)
+rlikert <- function(n, prob, labels = names(prob)) {
+  labels <- labels %||% 1:length(prob)
+  if (!is.numeric(labels)) labels <- factor(labels, labels, labels)
+  sample(labels, n, replace = TRUE, prob = prob)
+}
+
 
 
 #' Standardized Alpha to Average R

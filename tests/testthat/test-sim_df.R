@@ -165,3 +165,40 @@ test_that("seed", {
   df5 <- sim_df(iris, n = 10)
   expect_equal(df4, df5)
 })
+
+
+# long ----
+test_that("long", {
+  longdf <- sim_df(iris, 
+                   between = "Species", 
+                   within = c("type", "dim"),
+                   sep = ".",
+                   long = TRUE)
+  
+  expect_equal(names(longdf), c("id", "Species", "type", "dim", "value"))
+  
+  widedf <- sim_df(longdf, 
+                   between = "Species", 
+                   within = c("type", "dim"))
+  
+  expect_equal(names(widedf), c("id", "Species", 
+                                     "Sepal_Length", "Sepal_Width", 
+                                     "Petal_Length", "Petal_Width"))
+  
+  widedf_dot <- sim_df(longdf, 
+                   between = "Species", 
+                   within = c("type", "dim"),
+                   sep = ".")
+  
+  expect_equal(names(widedf_dot ), c("id", "Species", 
+                                "Sepal.Length", "Sepal.Width", 
+                                "Petal.Length", "Petal.Width"))
+  
+  simdf <- sim_design(between = list(B = c("ctl", "app")), 
+                      within = list(W = c("start", "end")))
+  widesim <- sim_df(simdf, between = "B", within = "W", long = TRUE)
+  
+  # factors stay in the right order
+  expect_equal(levels(widesim$B), c("ctl", "app"))
+  expect_equal(levels(widesim$W), c("start", "end"))
+})

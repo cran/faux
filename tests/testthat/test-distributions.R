@@ -486,3 +486,90 @@ test_that("std_alpha2average_r", {
   })
 })
 
+
+# likert distributions ----
+test_that("likert", {
+  prob <- c(A= 1, B = 5, C = 10, D = 15, E = 20)
+  
+  # rlikert
+  x <- rlikert(1e5, prob)
+  #plot(x)
+  # proportions are close
+  count <- dplyr::count(data.frame(x = x), x)
+  diffs <- abs(prob/sum(prob) - count$n/1e5)
+  expect_true(all(diffs < .01))
+  
+  # dlikert
+  x <- names(prob) %>% factor()
+  d <- dlikert(x, prob)
+  expect_equal(prob/sum(prob), d)
+  
+  # plikert
+  q <- names(prob)
+  p <- plikert(q, prob)
+  #plot(q, p)
+  diff <- cumsum(prob/sum(prob)) - p
+  expect_true(all(abs(diff) < .0001))
+  
+  # plikert different order
+  q2 <- rev(q)
+  p2 <- plikert(q2, prob)
+  diff <- rev(cumsum(prob/sum(prob))) - p2
+  expect_true(all(abs(diff) < .0001))
+
+  # qlikert
+  q3 <- qlikert(p, prob)
+  #plot(q3, p)
+  expect_equal(as.factor(q), q3)
+  
+  p4 <- seq(0, 1, .01)
+  q4 <- qlikert(p4, prob)
+  #plot(as.numeric(q4), p4)
+  
+  counts <- data.frame(q = q4) %>% dplyr::count(q)
+  expect_equal(cumsum(counts$n), floor(unname(p)*100) + 1)
+  
+})
+
+test_that("likert labels", {
+  prob <- c(.1, .2, .4, .2, .1)
+  labels <- -2:2
+  
+  # rlikert
+  x <- rlikert(1e5, prob, labels)
+  #plot(as.factor(x))
+  # proportions are close
+  count <- dplyr::count(data.frame(x = x), x)
+  diffs <- abs(prob/sum(prob) - count$n/1e5)
+  expect_true(all(diffs < .01))
+  
+  # dlikert
+  x <- labels
+  d <- dlikert(x, prob, labels)
+  expect_equal(prob/sum(prob), unname(d))
+  
+  # plikert
+  q <- labels
+  p <- plikert(q, prob, labels)
+  #plot(q, p)
+  diff <- cumsum(prob/sum(prob)) - p
+  expect_true(all(abs(diff) < .0001))
+  
+  # plikert different order
+  q2 <- rev(q)
+  p2 <- plikert(q2, prob, labels)
+  diff <- rev(cumsum(prob/sum(prob))) - p2
+  expect_true(all(abs(diff) < .0001))
+  
+  # qlikert
+  q3 <- qlikert(p, prob, labels)
+  #plot(q3, p)
+  expect_equal(q, q3)
+  
+  p4 <- seq(0, 1, .01)
+  q4 <- qlikert(p4, prob, labels)
+  #plot(as.numeric(q4), p4)
+  
+  counts <- data.frame(q = q4) %>% dplyr::count(q)
+  expect_equal(cumsum(counts$n), floor(unname(p)*100) + 1)
+})

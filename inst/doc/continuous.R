@@ -61,7 +61,7 @@ dat <- sim_design(within = list(time = c("pre", "post"),
 
 ## -----------------------------------------------------------------------------
 long_dat <- dat %>%
-  pivot_longer(-id, "var", "value") %>%
+  pivot_longer(cols = -id, names_to = "var", values_to = "value") %>%
   separate(var, c("time", "var")) %>%
   pivot_wider(names_from = var, values_from = value)
 

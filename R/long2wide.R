@@ -5,6 +5,7 @@
 #' @param between the names of between column(s) (optional)
 #' @param dv the name of the DV (value) column
 #' @param id the names of the column(s) for grouping observations
+#' @param sep separator for factor levels
 #' 
 #' @return a tbl in wide format
 #' 
@@ -14,7 +15,7 @@
 #' 
 #' @export
 #' 
-long2wide <- function(data, within = c(), between = c(), dv = "y", id = "id") {
+long2wide <- function(data, within = c(), between = c(), dv = "y", id = "id", sep = faux_options("sep")) {
   if ("design" %in% names(attributes(data))) {
     # get parameters from design
     design <- get_design(data)
@@ -23,6 +24,7 @@ long2wide <- function(data, within = c(), between = c(), dv = "y", id = "id") {
     between <- names(design$between)
     dv <- names(design$dv)
     id <- names(design$id)
+    sep <- design$sep
   } else {
     #design <- get_design_long(data, dv = dv, id = id, plot = FALSE)
   }
@@ -30,9 +32,9 @@ long2wide <- function(data, within = c(), between = c(), dv = "y", id = "id") {
   if (length(within) == 0) return(data)
   
   d1 <- data[c(id, between, within, dv)] %>% as.data.frame()
-  sep <- faux_options("sep")
   sep_replace <- "~-~" # avoid odd parsing
-  for (w in within) d1[w] <- gsub(sep, sep_replace, d1[[w]])
+  sep_escape <- gsub("([.|()\\^{}+$*?]|\\[|\\])", "\\\\\\1", sep)
+  for (w in within) d1[w] <- gsub(sep_escape, sep_replace, d1[[w]])
   
   tmpw <- d1[within]
   tmpw$sep <- sep

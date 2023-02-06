@@ -1,7 +1,7 @@
 Package: faux
 Title: Simulation for Factorial Designs
-Version: 1.1.0
-Date: 2021-08-30
+Version: 1.2.0
+Date: 2023-02-03
 Authors@R: c(
     person(
         given = "Lisa", 
@@ -30,18 +30,18 @@ Imports: lme4, dplyr, ggplot2 (>= 3.3.0), jsonlite, truncnorm, rlang
 License: MIT + file LICENSE
 Suggests: testthat (>= 2.1.0), tidyr, knitr, rmarkdown, roxygen2, covr,
         cowplot, ggExtra, purrr, broom, broom.mixed, psych, lmerTest,
-        kableExtra, glue, openssl, readr
+        kableExtra, glue, openssl, readr, patchwork
 VignetteBuilder: knitr
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.1
 Encoding: UTF-8
 LazyData: true
 URL: https://github.com/debruine/faux
 BugReports: https://github.com/debruine/faux/issues
 NeedsCompilation: no
-Packaged: 2021-09-13 21:26:19 UTC; lisad
+Packaged: 2023-02-06 00:56:57 UTC; debruine
 Author: Lisa DeBruine [aut, cre] (<https://orcid.org/0000-0002-7523-5539>),
   Anna Krystalli [ctb] (<https://orcid.org/0000-0002-2378-4915>),
   Andrew Heiss [ctb] (<https://orcid.org/0000-0002-3948-3914>)
 Maintainer: Lisa DeBruine <debruine@gmail.com>
 Repository: CRAN
-Date/Publication: 2021-09-13 21:40:02 UTC
+Date/Publication: 2023-02-06 08:12:32 UTC

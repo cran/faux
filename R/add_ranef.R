@@ -80,12 +80,24 @@ add_recode <- function(.data, .col, .newcol = paste0(col, ".c"), ...) {
 #' data <- add_random(A = 2, B = 2)
 #' add_random(data, C = 2, .nested_in = "A")
 #' add_random(data, C = 2, .nested_in = "B")
+#' 
+#' # specify item names
+#' add_random(school = c("Hyndland Primary", "Hyndland Secondary")) %>%
+#'   add_random(class = list(paste0("P", 1:7),
+#'                           paste0("S", 1:6)),
+#'              .nested_in = "school")
 add_random <- function(.data = NULL, ..., .nested_in = NULL) {
   grps <- list(...)
-  prefix <- substr(names(grps), 1, 1)
 
   if (is.null(.nested_in)) {
-    ids <- mapply(make_id, grps, prefix, SIMPLIFY = FALSE)
+    # create IDs
+    ids <- mapply(function(grp, nm) {
+      if (length(grp) == 1 && is.numeric(grp)) {
+        make_id(n = grp, prefix = nm)
+      } else {
+        grp
+      }
+    }, grps, names(grps), SIMPLIFY = FALSE)
     ranfacs <- do.call(tidyr::crossing, ids)
     .mydata <- .data # stops rlang_data_pronoun warning
     new_data <- tidyr::crossing(.mydata, ranfacs)
@@ -102,9 +114,17 @@ add_random <- function(.data = NULL, ..., .nested_in = NULL) {
            "with the same length as the number of unique values in ", 
            .nested_in)
     }
+    
+    if (is.list(n)) {
+      all_ids <- unlist(n)
+      n <- sapply(n, length)
+    } else {
+      all_ids <- make_id(sum(n), prefix = names(grps)[[1]])
+    }
+    
     ids <- data.frame(
       .row = rep(1:nrow(ingrps), times = n),
-      y = make_id(sum(n), prefix = prefix[[1]])
+      y = all_ids
     )
     names(ids)[2] <- name
     ingrps[".row"] <- 1:nrow(ingrps)

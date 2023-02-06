@@ -23,29 +23,29 @@ test_that("error messages", {
   
   expect_error(
     rnorm_multi(10, 3, 0, 1, matrix("A", 3, 3)),
-    "cors matrix not numeric" 
+    "The correlation you specified is impossible: cors matrix not numeric" 
   )
   expect_error(
     rnorm_multi(10, 3, 0, 1, matrix(0.5, 4, 2)),
-    "cors matrix wrong dimensions" 
+    "The correlation you specified is impossible: cors matrix wrong dimensions" 
   )
   
   m <- matrix(c(1, .5, .5, .5, 1, .5, .5, .75, 1), 3)
   expect_error( 
     rnorm_multi(10, 3, 0, 1, m), 
-    "cors matrix not symmetric"
+    "The correlation you specified is impossible: cors matrix not symmetric"
   )
   
   m <- matrix(c(1, .5, .5, .5, 1, .5, .5, .5, 0), 3)
   expect_error(
     rnorm_multi(10, 3, 0, 1, m),
-    "correlation matrix not positive definite"
+    "The correlation you specified is impossible: correlation matrix not positive definite"
   )
   
   cors <- c(-0.06826927, -0.89756943, -0.45636273)
   expect_error(
     rnorm_multi(10, 3, 0, 1, cors),
-    "correlation matrix not positive definite"
+    "The correlation you specified is impossible: correlation matrix not positive definite"
   )
 })
 

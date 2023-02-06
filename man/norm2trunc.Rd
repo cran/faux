@@ -4,7 +4,15 @@
 \alias{norm2trunc}
 \title{Convert normal to truncated normal}
 \usage{
-norm2trunc(x, min = -Inf, max = Inf, mu = mean(x), sd = stats::sd(x))
+norm2trunc(
+  x,
+  min = -Inf,
+  max = Inf,
+  mu = mean(x),
+  sd = stats::sd(x),
+  x_mu = mean(x),
+  x_sd = stats::sd(x)
+)
 }
 \arguments{
 \item{x}{the normally distributed vector}
@@ -16,6 +24,10 @@ norm2trunc(x, min = -Inf, max = Inf, mu = mean(x), sd = stats::sd(x))
 \item{mu}{the mean of the distribution to return (calculated from x if not given)}
 
 \item{sd}{the SD of the distribution to return (calculated from x if not given)}
+
+\item{x_mu}{the mean of x (calculated from x if not given)}
+
+\item{x_sd}{the SD of x (calculated from x if not given)}
 }
 \value{
 a vector with a uniform distribution

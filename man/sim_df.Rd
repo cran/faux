@@ -14,7 +14,8 @@ sim_df(
   empirical = FALSE,
   long = FALSE,
   seed = NULL,
-  missing = FALSE
+  missing = FALSE,
+  sep = faux_options("sep")
 )
 }
 \arguments{
@@ -37,6 +38,8 @@ sim_df(
 \item{seed}{DEPRECATED use set.seed() instead before running this function}
 
 \item{missing}{simulate missing data?}
+
+\item{sep}{separator for factor levels}
 }
 \value{
 a tbl
@@ -51,4 +54,18 @@ See \href{../doc/sim_df.html}{\code{vignette("sim_df", package = "faux")}} for d
 \examples{
 iris100 <- sim_df(iris, 100)
 iris_species <- sim_df(iris, 100, between = "Species")
+
+# set the names of within factors and (the separator character) 
+# if you want to return a long version
+longdf <- sim_df(iris, 
+                 between = "Species", 
+                 within = c("type", "dim"),
+                 sep = ".",
+                 long = TRUE)
+                 
+# or if you are simulating data from a table in long format
+widedf <- sim_df(longdf, 
+                 between = "Species", 
+                 within = c("type", "dim"),
+                 sep = ".")
 }

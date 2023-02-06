@@ -1,3 +1,32 @@
+# faux 1.2.0 (2023-02-03)
+
+* `rmulti()` function for multivariate distributions that aren't all normal (experimental)
+* Minor changes to `add_random()`
+* Fixed minor vignette bugs for CRAN
+* Various minor bug fixes
+
+# faux 1.1.0.9005 (2023-02-02)
+
+* Fixed the `long` argument for `sim_df()`
+
+# faux 1.1.0.9004 (2022-02-13)
+
+* Improvements for `rmulti()` and associated helper functions `convert_r()` and `fh_bounds()`.
+* A vignette for NORTA
+
+# faux 1.1.0.9003 (2021-12-02)
+
+* `rmulti()` function for multivariate distributions that aren't all normal (experimental)
+
+# faux 1.1.0.9002 (2021-12-01)
+
+* Likert distribution functions `rlikert()`, `dlikert()`, `plikert()` and `qlikert()`
+
+# faux 1.1.0.9001 (2021-11-23)
+
+* `add_random()` now names random factor items with the full random factor name (e.g., "class1", not "c1")
+* `add_random()` allows you to set specific factor item names (see vignette)
+
 # faux 1.1.0 (2021-09-13)
 
 ## Breaking changes

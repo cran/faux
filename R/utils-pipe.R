@@ -19,12 +19,7 @@ NULL
 #' @return LHS if not \code{NULL}, otherwise RHS.
 #' @name OR
 #'
-#' @export
-#'
-#' @examples
-#' x <- list(b = 2, c = 3)
-#' x$a %||% x$b %||% x$c
-#' x$a %||% "default_value"
+#' @keywords internal
 #'
 `%||%` <- function(l, r) {
   if (is.null(l)) r else l
