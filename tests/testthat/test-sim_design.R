@@ -712,3 +712,24 @@ test_that("vardesc", {
   design <- get_design(dat)
   expect_mapequal(design$vardesc, vardesc)
 })
+
+
+# numeric levels ----
+test_that("numeric levels", {
+  f <- list(int = 2:3, 
+            num = c(2.2, 3.3),
+            char = LETTERS[2:3],
+            bool = c(TRUE, FALSE))
+  
+  data <- sim_design(n = 1, between = f)
+  expect_true(is.integer(data$int))
+  expect_true(is.numeric(data$num))
+  expect_true(is.factor(data$char))
+  expect_true(is.logical(data$bool))
+  
+  data <- sim_design(n = 1, within = f, long = TRUE)
+  expect_true(is.integer(data$int))
+  expect_true(is.numeric(data$num))
+  expect_true(is.factor(data$char))
+  expect_true(is.logical(data$bool))
+})

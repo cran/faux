@@ -156,6 +156,12 @@ sim_data <- function(design, empirical = FALSE, long = FALSE,
     unlist() %>% matrix(nrow = length(between_factors)) %>% 
     t() %>% as.data.frame()
   names(btwn) <- between_factors
+  # col_types <- lapply(between, `[[`, 1) %>% 
+  #   sapply(typeof) %>%
+  #   sapply(substr, 1, 1) %>%
+  #   paste(collapse = "")
+  btwn <- utils::type.convert(btwn, as.is = FALSE)
+  
   df_wide <- cbind(df, btwn)
   df_wide$.btwn. <- NULL
   df_wide <- by(df_wide, df_wide$.rep., function(x) {
@@ -166,7 +172,9 @@ sim_data <- function(design, empirical = FALSE, long = FALSE,
   # put factors in order
   factors_to_order <- setdiff(between_factors, ".tmpvar.")
   for (f in factors_to_order) {
-    df_wide[[f]] <- factor(df_wide[[f]], levels = names(between[[f]]))
+    if (typeof(between[[f]][[1]]) == "character") {
+      df_wide[[f]] <- factor(df_wide[[f]], levels = names(between[[f]]))
+    }
   }
   
   if (long == TRUE && length(within)) {
@@ -184,13 +192,16 @@ sim_data <- function(design, empirical = FALSE, long = FALSE,
       unlist() %>% matrix(nrow = length(within_factors)) %>% 
       t() %>% as.data.frame()
     names(w_in) <- within_factors
+    w_in <- utils::type.convert(w_in, as.is = FALSE)
     df_long$.win. <- NULL
     df_long <- cbind(df_long, w_in)[col_order]
     
     # put factors in order
     factors_to_order <- setdiff(within_factors, ".tmpvar.")
     for (f in factors_to_order) {
-      df_long[[f]] <- factor(df_long[[f]], levels = names(within[[f]]))
+      if (typeof(within[[f]][[1]]) == "character") {
+        df_long[[f]] <- factor(df_long[[f]], levels = names(within[[f]]))
+      }
     }
 
     df_return <- df_long

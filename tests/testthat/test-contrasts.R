@@ -242,3 +242,19 @@ test_that("add_contrast", {
     expect_equal(colnames(df2), cnames2)
   }
 })
+
+
+test_that("numeric levels", {
+  data <- sim_design(list(time = 1:5), long = TRUE, plot = FALSE)
+  
+  cont <- add_contrast(data, col = "time", contrast = "poly")
+  
+  expect_true(is.factor(cont$time))
+  expect_equal(levels(cont$time), as.character(1:5))
+  
+  data <- sim_design(between = list(x = c("b", "a")), plot = FALSE)
+  cont <- add_contrast(data, col = "x", contrast = "treatment")
+  
+  expect_true(is.factor(cont$x))
+  expect_equal(levels(cont$x), c("b", "a"))
+})

@@ -198,6 +198,15 @@ test_that("add_between", {
   expect_equal(cond, .3, tol = 0.01)
   expect_equal(time, .3, tol = 0.01)
   expect_equal(joint, .3*.3, tol = 0.01)
+  
+  ## numeric levels
+  base <- add_random(subj = 6)
+  x <- add_between(base, "subj", time = 3:5, letter = c("A", "B"))
+  
+  expect_true(is.numeric(x$time))
+  expect_equal(x$time, c(3, 3, 4, 4, 5, 5))
+  expect_true(is.factor(x$letter))
+  expect_equal(levels(x$letter), c("A", "B"))
 })
 
 # add_within ----
@@ -221,4 +230,13 @@ test_that("add_within", {
     factor(levels = c("morning", "evening"))
   expect_equal(data$cond, cond)
   expect_equal(data$time, time)
+  
+  ## numeric levels
+  base <- add_random(subj = 2)
+  x <- add_within(base, "subj", time = 3:4, letter = c("A", "B"))
+  
+  expect_true(is.numeric(x$time))
+  expect_equal(x$time, c(3, 3, 4, 4, 3, 3, 4, 4))
+  expect_true(is.factor(x$letter))
+  expect_equal(levels(x$letter), c("A", "B"))
 })

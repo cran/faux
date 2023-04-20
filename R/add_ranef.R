@@ -166,7 +166,7 @@ add_between <- function(.data, .by = NULL, ..., .shuffle = FALSE, .prob = NULL) 
     # equal probability for each level
     # return as equal combos as possible 
     vars <- list(...) %>%
-      mapply(factor, ., ., SIMPLIFY = FALSE) %>%
+      mapply(factor_char, ., SIMPLIFY = FALSE) %>%
       do.call(tidyr::crossing, .)
       
     for (v in names(vars)) {
@@ -174,7 +174,7 @@ add_between <- function(.data, .by = NULL, ..., .shuffle = FALSE, .prob = NULL) 
     }
   } else {
     # set prob for each level
-    vars <- list(...) %>% mapply(factor, ., ., SIMPLIFY = FALSE)
+    vars <- list(...) %>% mapply(factor_char, ., SIMPLIFY = FALSE)
     exact_prob <- (sum(unlist(.prob)) == nrow(grps))
     crossed_vars <- do.call(tidyr::crossing, vars)
     
@@ -229,10 +229,19 @@ add_within <- function(.data, .by = NULL, ...) {
   }
   
   # make vars factors, keep original order
-  vars <- list(...) %>% mapply(factor, ., ., SIMPLIFY = FALSE)
+  vars <- list(...) %>% mapply(factor_char, ., SIMPLIFY = FALSE)
   
   newdat <- c(list(grps), vars) %>%
     do.call(tidyr::crossing, .)
   
   dplyr::left_join(.data, newdat, by = .by)
+}
+
+# convert only character vectors to factors
+factor_char <- function(x) {
+  if (is.character(x)) {
+    factor(x, x)
+  } else {
+    x
+  }
 }

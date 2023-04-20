@@ -320,10 +320,14 @@ add_contrast <- function(data, col, contrast = c("anova", "sum", "treatment", "h
                      helmert = ".hmt", 
                      poly = ".poly", 
                      difference = ".dif")
+    # match column types
+    data[col] <- as.character(data[[col]])
+    contr[col]<- as.character(contr[[col]])
+    
     data <- dplyr::left_join(data, contr, by = col, suffix = c("", suffix))
   }
   
-  # add after join, which removes factor from col
+  # add col as factor after join, which removes factor from col
   data[col] <- newfct 
   
   data

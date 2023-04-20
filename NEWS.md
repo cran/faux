@@ -1,3 +1,7 @@
+# faux 1.2.1 (2023-04-18)
+
+* `add_between()` and `add_within()` don't convert non-character levels to factors any more * submitting to CRAN (sorry for letting it get archived!)
+
 # faux 1.2.0 (2023-02-03)
 
 * `rmulti()` function for multivariate distributions that aren't all normal (experimental)
