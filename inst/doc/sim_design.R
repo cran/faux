@@ -7,7 +7,7 @@ knitr::opts_chunk$set(
 ggplot2::theme_set(ggplot2::theme_bw())
 set.seed(8675309)
 
-## ---- warning=FALSE, message=FALSE--------------------------------------------
+## ----warning=FALSE, message=FALSE---------------------------------------------
 library(faux)
 
 ## ----plot-sim-design----------------------------------------------------------
@@ -277,7 +277,7 @@ df <- sim_design(within = 2, between = 2,
 
 df
 
-## ---- results='asis'----------------------------------------------------------
+## ----results='asis'-----------------------------------------------------------
 between <- list(pet = c("cat", "dog"))
 within <- list(time = c("day", "night"))
 vardesc <- c(pet = "Type of Pet",

@@ -24,7 +24,6 @@ a vector with a binomial distribution
 Convert normal to binomial
 }
 \examples{
-
 x <- rnorm(10000)
 y <- norm2binom(x)
 g <- ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(x, y))

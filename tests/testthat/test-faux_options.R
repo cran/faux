@@ -1,19 +1,21 @@
 context("faux_options")
 
-user_opts <- faux_options("sep", "verbose", "plot", "connection")
+user_opts <- faux_options("long", "sep", "verbose", "plot", "connection")
 on.exit(faux_options(user_opts))
 
-faux_options(list(sep = "_", 
+faux_options(list(long = FALSE,
+                  sep = "_", 
                   verbose = TRUE, 
                   plot = TRUE, 
                   connection = stdin()))
 
 test_that("default", {
   o <- faux_options()
-  expect_equal(names(o), c("connection", "plot", "sep", "verbose"))
+  expect_equal(names(o), c("connection", "long", "plot", "sep", "verbose"))
   expect_equal(o$plot, TRUE)
   expect_equal(o$sep, "_")
   expect_equal(o$verbose, TRUE)
+  expect_equal(o$long, FALSE)
   expect_equal(class(o$connection), c("terminal", "connection"))
 })
 

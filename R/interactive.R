@@ -104,14 +104,14 @@ interactive_design <- function(output = c("faux"),
   n <- as.list(n)
   
   wlist <- paste(cells_w, collapse = ", ")
-  pattern <- paste0("^\\s?(-?\\d*\\.?\\d?\\s?,\\s?){0,", (length(cells_w)-1), "}\\s?(-?\\d*\\.?\\d?)\\s?$")
+  pattern <- paste0("^\\s?(-?\\d*\\.?\\d*\\s?,\\s?){0,", (length(cells_w)-1), "}\\s?(-?\\d*\\.?\\d*)\\s?$")
   
   # ask for mu ----
   mu <- lapply(cells_b, function(b) {
     p <- paste0("Means of ", wlist, " in condition ", b, ": ")
     input <- readline_check(p, "grep", pattern = pattern, perl = TRUE) %>%
       strsplit("\\s?,\\s?") %>% unlist()
-    if (length(input) == 1) input <- rep(input, length(cells_w))
+    input <- rep(input, length.out = length(cells_w))
     input
   }) %>% unlist() %>% as.double() %>%
     matrix(nrow = length(cells_w), dimnames = list(cells_w, cells_b)) %>%
@@ -122,7 +122,7 @@ interactive_design <- function(output = c("faux"),
     p <- paste0("SDs of ", wlist, " in condition ", b, ": ")
     input <- readline_check(p, "grep", pattern = pattern, perl = TRUE) %>%
       strsplit("\\s?,\\s?") %>% unlist()
-    if (length(input) == 1) input <- rep(input, length(cells_w))
+    input <- rep(input, length.out = length(cells_w))
     input
   }) %>% unlist() %>% as.double() %>%
     matrix(nrow = length(cells_w), dimnames = list(cells_w, cells_b)) %>%
@@ -132,13 +132,13 @@ interactive_design <- function(output = c("faux"),
   if (length(cells_w)> 1) {
     up <- unique_pairs(cells_w)
     uplist <- paste(up, collapse = ", ")
-    pattern <- paste0("^\\s?(-?\\d*\\.?\\d?\\s?,\\s?){0,", (length(up)-1), "}\\s?(-?\\d*\\.?\\d?)\\s?$")
     r <- lapply(cells_b, function(b) {
       p <- paste0("Cors (r) of ", uplist, " in condition ", b, ": ")
+      tri_n <- length(cells_w) * (length(cells_w)-1) / 2
+      pattern <- paste0("^\\s?(-?\\d*\\.?\\d*\\s?,\\s?){0,", (tri_n-1), "}\\s?(-?\\d*\\.?\\d*)\\s?$")
       input <- readline_check(p, "grep", pattern = pattern, perl = TRUE) %>%
         strsplit("\\s?,\\s?") %>% unlist()
-      tri_n <- length(cells_w) * (length(cells_w)-1) / 2
-      if (length(input) == 1) input <- rep(input, tri_n)
+      input <- rep(input, length.out = tri_n)
       input %>% as.double()
     })
     names(r) <- cells_b

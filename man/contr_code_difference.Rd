@@ -4,12 +4,14 @@
 \alias{contr_code_difference}
 \title{Difference code a factor}
 \usage{
-contr_code_difference(fct, levels = NULL)
+contr_code_difference(fct, levels = NULL, colnames = NULL)
 }
 \arguments{
 \item{fct}{the factor to contrast code (or a vector)}
 
 \item{levels}{the levels of the factor in order}
+
+\item{colnames}{optional list of column names for the added contrasts}
 }
 \value{
 the factor with contrasts set

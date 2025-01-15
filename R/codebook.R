@@ -290,6 +290,7 @@ codebook <- function(data, name = NULL, vardesc = list(), ...,
 #'
 #' @export
 #' @keywords internal
+#' @returns Prints x and returns it invisibly
 #'
 print.psychds_codebook <- function(x, ...) {
   

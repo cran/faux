@@ -2,9 +2,29 @@
 % Please edit documentation in R/faux-package.R
 \docType{package}
 \name{faux}
+\alias{faux-package}
 \alias{faux}
 \title{faux: Simulation Functions.}
 \description{
 The faux package provides functions for simulating datasets with specified structure.
 }
-\keyword{package}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/debruine/faux}
+  \item \url{https://debruine.github.io/faux/}
+  \item Report bugs at \url{https://github.com/debruine/faux/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Lisa DeBruine \email{debruine@gmail.com} (\href{https://orcid.org/0000-0002-7523-5539}{ORCID}) [copyright holder]
+
+Other contributors:
+\itemize{
+  \item Anna Krystalli \email{annakrystalli@googlemail.com} (\href{https://orcid.org/0000-0002-2378-4915}{ORCID}) [contributor]
+  \item Andrew Heiss \email{andrew@andrewheiss.com} (\href{https://orcid.org/0000-0002-3948-3914}{ORCID}) [contributor]
+}
+
+}
+\keyword{internal}

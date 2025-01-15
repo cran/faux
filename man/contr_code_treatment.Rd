@@ -4,7 +4,7 @@
 \alias{contr_code_treatment}
 \title{Treatment code a factor}
 \usage{
-contr_code_treatment(fct, levels = NULL, base = 1)
+contr_code_treatment(fct, levels = NULL, base = 1, colnames = NULL)
 }
 \arguments{
 \item{fct}{the factor to contrast code (or a vector)}
@@ -12,6 +12,8 @@ contr_code_treatment(fct, levels = NULL, base = 1)
 \item{levels}{the levels of the factor in order}
 
 \item{base}{the index of the level to use as baseline}
+
+\item{colnames}{optional list of column names for the added contrasts}
 }
 \value{
 the factor with contrasts set

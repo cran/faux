@@ -131,7 +131,8 @@ add_random <- function(.data = NULL, ..., .nested_in = NULL) {
     newdat <- dplyr::left_join(ingrps, ids, by = ".row")
     newdat[".row"] <- NULL
     
-    new_data <- dplyr::right_join(.data, newdat, by = .nested_in)
+    new_data <- dplyr::right_join(.data, newdat, by = .nested_in, 
+                                  relationship = "many-to-many")
   }
 
   new_data
@@ -234,7 +235,8 @@ add_within <- function(.data, .by = NULL, ...) {
   newdat <- c(list(grps), vars) %>%
     do.call(tidyr::crossing, .)
   
-  dplyr::left_join(.data, newdat, by = .by)
+  dplyr::left_join(.data, newdat, by = .by, 
+                   relationship = "many-to-many")
 }
 
 # convert only character vectors to factors

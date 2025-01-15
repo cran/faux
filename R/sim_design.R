@@ -9,7 +9,7 @@
 #' @param sd the standard deviations of the variables
 #' @param r the correlations among the variables (can be a single number, full correlation matrix as a matrix or vector, or a vector of the upper right triangle of the correlation matrix
 #' @param empirical logical. If true, mu, sd and r specify the empirical not population mean, sd and covariance 
-#' @param long Whether the returned tbl is in wide (default = FALSE) or long (TRUE) format
+#' @param long Whether the returned tbl is in wide or long format (defaults to value of `faux_options("long")`)
 #' @param dv the name of the dv for long plots (defaults to y)
 #' @param id the name of the id column (defaults to id)
 #' @param vardesc a list of variable descriptions having the names of the within- and between-subject factors
@@ -27,7 +27,8 @@
 #' 
 sim_design <- function(within = list(), between = list(), 
                        n = 100, mu = 0, sd = 1, r = 0, 
-                       empirical = FALSE, long = FALSE, 
+                       empirical = FALSE, 
+                       long = faux_options("long"), 
                        dv = list(y = "value"), 
                        id = list(id = "id"),
                        vardesc = list(),
@@ -57,7 +58,8 @@ sim_design <- function(within = list(), between = list(),
   
   # simulate the data
   data <- sim_data(design, empirical = empirical, 
-                   long = long, rep = rep, nested = nested) %>%
+                   long = long, 
+                   rep = rep, nested = nested) %>%
     set_design(design)
   
   return(data)
@@ -75,7 +77,8 @@ sim_design <- function(within = list(), between = list(),
 #' @return a tbl
 #' @keywords internal
 #' 
-sim_data <- function(design, empirical = FALSE, long = FALSE, 
+sim_data <- function(design, empirical = FALSE, 
+                     long = faux_options("long"), 
                      rep = 1, nested = TRUE, seed = NULL) {
   if (!is.numeric(rep)) {
     stop("rep must be a number")

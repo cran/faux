@@ -6,6 +6,14 @@
 \usage{
 lhs \%>\% rhs
 }
+\arguments{
+\item{lhs}{A value or the magrittr placeholder.}
+
+\item{rhs}{A function call using the magrittr semantics.}
+}
+\value{
+The result of applying the function in the rhs to the value in the lhs.
+}
 \description{
 See \code{dplyr::\link[dplyr]{\%>\%}} for details.
 }

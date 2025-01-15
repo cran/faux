@@ -4,14 +4,14 @@
 \alias{get_coefs}
 \title{Get Coefficients from Data}
 \usage{
-get_coefs(data, formula = NULL, fun = stats::lm, ...)
+get_coefs(data, formula = NULL, fun = c("lm", "glm", "lmer", "glmer"), ...)
 }
 \arguments{
 \item{data}{A dataset in long format}
 
-\item{formula}{An lm formula (can be extracted from datasets created by sim_design)}
+\item{formula}{A formula (can be extracted from datasets created by sim_design)}
 
-\item{fun}{the model function}
+\item{fun}{the model function (one of "lm", "glm", "lmer",  or "glmer")}
 
 \item{...}{Further arguments to the model function}
 }
@@ -35,5 +35,5 @@ get_coefs(data, y ~ B1 + W1)
 
 # specify a different model function
 data$y <- norm2binom(data$y)
-get_coefs(data, fun = glm, family = binomial)
+get_coefs(data, fun = "glm", family = binomial)
 }

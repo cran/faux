@@ -11,6 +11,9 @@
 
 \item{...}{Additional parameters for print}
 }
+\value{
+Prints x and returns it invisibly
+}
 \description{
 Print Codebook Object
 }

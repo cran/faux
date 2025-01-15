@@ -18,7 +18,7 @@ getcols <- function(data, ..., as_index = FALSE) {
       symbol = rlang::as_string(v),
       character = v,
       language = names(data)[eval(v)], # usually e.g., 1:3
-      names(data)[v]
+      names(data)[v] # numeric
     )
   }) %>% unlist() %>% as.vector()
   

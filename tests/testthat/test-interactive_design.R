@@ -117,3 +117,45 @@ test_that("get it wrong", {
   expect_equal(des$sd, des2$sd)
   expect_equal(des$r,  des2$r)
 })
+
+test_that("issue106", {
+  # https://github.com/debruine/faux/issues/106
+  
+  
+  # set up canonical design
+  within <- list(headline = c("TRUTH", "FAKE"),
+                 image = c("PIC", "NOPIC"))
+  between <- list()
+  dv <- "accuracy"
+  id <- "id"
+  n <- 211
+  mu <- c(2.66, 2.52, 2.53, 2.41)
+  sd <- c(2.66, 2.52, 2.66, 2.52)
+  r <- c(.01, .02, .03, .04, .05, .06)
+
+  des2 <- check_design(within, between, n, mu, sd, r, dv, id, plot = FALSE)
+  
+  # set up interactive answers
+  f <- file()
+  faux_options(connection = f)
+  on.exit({
+    faux_options(connection = stdin()) # reset connection
+    close(f) # close the file
+  })
+  
+  lines <- c(
+    2, "headline", 2, "TRUTH", "FAKE", 
+    "image", 2, "PIC", "NOPIC", 
+    0, "accuracy", "id", 211, 
+    "2.66, 2.52, 2.53, 2.41", 
+    " 2.66, 2.52 ",
+    ".01, .02, .03, .04, .05, .06"
+  )
+  ans <- paste(lines, collapse = "\n")
+  write(ans, f)
+  
+  capture_output_lines({des <- interactive_design(plot = FALSE)})
+  
+  # check match
+  expect_equal(des,  des2)
+})

@@ -11,9 +11,9 @@ fh_bounds(dist1 = "norm", dist2 = "norm", params1 = list(), params2 = list())
 
 \item{dist2}{The target distribution function for variable 2}
 
-\item{params1}{Arguments to pass to the r{dist} function for distribution 1}
+\item{params1}{Arguments to pass to the random generation function (e.g., rnorm) for distribution 1}
 
-\item{params2}{Arguments to pass to the r{dist} function for distribution 2}
+\item{params2}{Arguments to pass to the random generation function (e.g., rnorm) for distribution 2}
 }
 \value{
 a list of the min and max possible values

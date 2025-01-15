@@ -74,6 +74,7 @@ nested_list <- function(x, pre = "", quote = "") {
 #'
 #' @export
 #' @keywords internal
+#' @returns Prints x and returns it invisibly
 #'
 print.nested_list <- function(x, ...) {
   cat(x)

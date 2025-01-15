@@ -7,7 +7,7 @@
 sim_data(
   design,
   empirical = FALSE,
-  long = FALSE,
+  long = faux_options("long"),
   rep = 1,
   nested = TRUE,
   seed = NULL

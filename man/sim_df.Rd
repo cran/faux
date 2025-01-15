@@ -12,7 +12,7 @@ sim_df(
   id = "id",
   dv = "value",
   empirical = FALSE,
-  long = FALSE,
+  long = faux_options("long"),
   seed = NULL,
   missing = FALSE,
   sep = faux_options("sep")

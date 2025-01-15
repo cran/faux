@@ -1,3 +1,13 @@
+# faux 1.2.1.9002 (2024-02-10)
+
+* Fixed a [bug](https://github.com/debruine/faux/issues/107) in `rmulti()` that assigned correlations to the wrong pairs with more than 3 variables (thanks @yann1cks!)
+* Made `rmulti()` more efficient by skipping adjusted r simulation for normal-normal pairs
+* Added `nbinom2norm()` conversion function, but not sure it works right unless you set `size` and `prob` manually (produces a warning if you don't)
+
+# faux 1.2.1.9001 (2023-07-07)
+
+* Fixed a bug in `interactive_design()` that didn't allow mu, sd or r with more than 0.1 accuracy, and gave incorrect error messages for r specifications with more than 1 value.
+
 # faux 1.2.1 (2023-04-18)
 
 * `add_between()` and `add_within()` don't convert non-character levels to factors any more * submitting to CRAN (sorry for letting it get archived!)

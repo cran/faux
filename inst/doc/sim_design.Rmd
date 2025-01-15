@@ -27,9 +27,9 @@ The `sim_design()` function creates a dataset with a specific between- and withi
 
 ## Quick example
 
-For example, the following creates a 2w*2b design with 100 observations in each cell. The between-subject factor is `pet` with two levels (`cat` and `dog`). The within-subject factor is `time` with two levels (`day` and `night`). 
+For example, the following creates a 4w*2b design with 100 observations in each cell. The between-subject factor is `pet` with two levels ("cat" and "dog"). The within-subject factor is `time` with four levels ("morning", "noon", "evening" and "night"). 
 
-The data is sampled from a population where the mean for the `cat_day` cell is 10, the mean for the `cat_night` cell is 20, the mean for the `dog_day` cell is 15, and the mean for the `dog_night` cell is 25. All cells have a SD of 5 and all within-subject cells are correlated <code>r = 0.5</code>. 
+The data is sampled from a population where the mean for the `cat_morning` cell is 10, the mean for the `cat_noon` cell is 12, the mean for the `cat_evening` cell is 14, and the mean for the `cat_night` cell is 16. The mean for the `dog_morning` cell is 10, the mean for the `dog_noon` cell is 15, the mean for the `dog_evening` cell is 20, and the mean for the `dog_night` cell is 25. All cells have a SD of 5 and all within-subject cells are correlated <code>r = 0.5</code>. 
 
 ```{r plot-sim-design}
 between <- list(pet = c(cat = "Cat Owners", 

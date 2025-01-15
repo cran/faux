@@ -5,7 +5,8 @@
     faux.connection = stdin(),
     faux.sep = "_",
     faux.plot = TRUE,
-    faux.verbose = TRUE
+    faux.verbose = TRUE,
+    faux.long = FALSE
   )
   toset <- !(names(op.faux) %in% names(op))
   if(any(toset)) options(op.faux[toset])

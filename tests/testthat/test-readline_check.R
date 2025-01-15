@@ -131,3 +131,39 @@ test_that("repeats", {
   expect_equal(ol[[2]], err)
   expect_equal(ol[[3]], err)
 })
+
+test_that("grep-pattern", {
+  pattern <- paste0("^\\s?(-?\\d*\\.?\\d*\\s?,\\s?){0,3}\\s?(-?\\d*\\.?\\d*)\\s?$")
+  input <- "2.66, 2.52, 2.53, 2.41"
+  write(input, f)
+  ol <- capture_output_lines({ 
+    x <- readline_check("", "grep", 
+                        pattern = pattern, 
+                        perl = TRUE) })
+  expect_equal(x, input)
+  
+  input <- "2.66, 2.52, 2.53"
+  write(input, f)
+  ol <- capture_output_lines({ 
+    x <- readline_check("", "grep", 
+                        pattern = pattern, 
+                        perl = TRUE) })
+  expect_equal(x, input)
+  
+  input <- "2.66, 2.52"
+  write(input, f)
+  ol <- capture_output_lines({ 
+    x <- readline_check("", "grep", 
+                        pattern = pattern, 
+                        perl = TRUE) })
+  expect_equal(x, input)
+  
+  input <- "2.66"
+  write(input, f)
+  ol <- capture_output_lines({ 
+    x <- readline_check("", "grep", 
+                        pattern = pattern, 
+                        perl = TRUE) })
+  expect_equal(x, input)
+})
+

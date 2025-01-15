@@ -41,10 +41,4 @@ convert_r(target_r = 0.5,
           dist2 = "binom", 
           params1 = list(mean = 100, sd = 10),
           params2 = list(size = 1, prob = 0.5))
-          
-convert_r(target_r = 0.5, 
-          dist1 = "norm", 
-          dist2 = "likert", 
-          params1 = list(mean = 100, sd = 10),
-          params2 = list(prob = c(5, 10, 20, 30, 20)))
 }

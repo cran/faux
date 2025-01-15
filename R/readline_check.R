@@ -26,7 +26,7 @@ readline_check <- function(prompt, type = c("numeric", "integer", "length", "gre
   cat(paste0(prompt, "\n"))
   input <- readLines(con = con, n = 1)
   
-  if (!is.null(default) & input == "") {
+  if (!is.null(default) & (length(input) == 0 || input == "")) {
     return(default)
   }
   

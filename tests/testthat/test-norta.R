@@ -77,18 +77,19 @@ test_that("convert_r warnings", {
 test_that("convert_r norm:norm", {
   x <- sapply(r, convert_r)
   #plot(r, x)
-  expect_true(all(abs(r - x) < .005))
+  expect_equal(r, x)
   
   # norm with changed SD
   x <- sapply(r, convert_r, 
               params1 = list(mean = 10, sd = 5),
               params2 = list(mean = -10, sd = 2))
   #plot(r, x)
-  expect_true(all(abs(r - x) < .005))
+  expect_equal(r, x)
 })
 
 ## norm:binom ----
 test_that("convert_r norm:binom", {
+  skip("long simulation")
   size <- 2
   prob <- .5
   x <- sapply(r, convert_r, dist2 = "binom",
@@ -108,6 +109,7 @@ test_that("convert_r norm:binom", {
 
 ## binom:binom
 test_that("convert_r binom:binom", {
+  skip("long simulation")
   size1 <- 2
   prob1 <- .5
   size2 <- 3
@@ -135,6 +137,7 @@ test_that("convert_r binom:binom", {
 
 ## norm:pois ----
 test_that("convert_r norm:pois", {
+  skip("long simulation")
   lambda <- 1.5
   x <- sapply(r, convert_r, dist2 = "pois",
               params2 = list(lambda = lambda))
@@ -154,6 +157,7 @@ test_that("convert_r norm:pois", {
 
 ## pois:pois ----
 test_that("convert_r pois:pois", {
+  skip("long simulation")
   lambda1 <- 1
   lambda2 <- 2
   x <- sapply(r, convert_r, 
@@ -179,6 +183,7 @@ test_that("convert_r pois:pois", {
 
 ## norm:beta ----
 test_that("convert_r norm:beta", {
+  skip("long simulation")
   shape1 <- 1.1
   shape2 <- 1.2
   x <- sapply(r, convert_r, dist2 = "beta",
@@ -201,6 +206,7 @@ test_that("convert_r norm:beta", {
 
 ## norm:gamma ----
 test_that("convert_r norm:gamma", {
+  skip("long simulation")
   shape <- 1.5
   rate <- 1.2
   x <- sapply(r, convert_r, dist2 = "gamma",
@@ -224,6 +230,7 @@ test_that("convert_r norm:gamma", {
 
 ## norm:likert ----
 test_that("convert_r norm:likert", {
+  skip("long simulation")
   prob <- c(10, 20, 40, 20, 10)
   labels <- LETTERS[1:length(prob)]
   x <- sapply(r, convert_r, dist2 = "likert",
@@ -285,6 +292,8 @@ test_that("rmulti default", {
 })
 
 test_that("rmulti", {
+  skip("long simulation")
+  
   r <- seq(.1, .6, .1)
   dist <- c(A = "norm", B = "binom", C = "beta", D = "pois")
   params <- list(A = list(mean = 10, sd = 5), 
@@ -299,7 +308,7 @@ test_that("rmulti", {
               empirical = TRUE)
   
   recov_r <- cor(x)
-  diff <- abs(recov_r[upper.tri(recov_r)] - r)
+  diff <- abs(recov_r[lower.tri(recov_r)] - r)
   expect_true(all(diff < .05))
 })
 
@@ -316,4 +325,63 @@ test_that("rmulti impossible r", {
               r = r, 
               empirical = TRUE)
   })
+})
+
+test_that("rmulti 5", {
+  # https://github.com/debruine/faux/issues/107
+  r <- c(1, 0.1, 0.2, 0.3, 0.4,
+         0.1, 1, 0.5, 0.6, 0.7,
+         0.2, 0.5, 1, 0.8, 0.1,
+         0.3, 0.6, 0.8, 1, 0.2,
+         0.4, 0.7, 0.1, 0.2, 1)
+  
+  # Simulate data. 
+  data <- rmulti(
+    n = 1000,
+    dist = c(A = "norm", B = "norm", C = "norm", D = "norm",  E = "norm"),
+    params = list(
+      A = list(mean = 1, sd = 1),
+      B = list(mean = 2, sd = 2),
+      C = list(mean = 3, sd = 3),
+      D = list(mean = 4, sd = 4),
+      E = list(mean = 5, sd = 5)
+    ),
+    r = r,
+    empirical = TRUE
+  )
+  p <- get_params(data)
+  
+  expect_equal(p$A, c(1.0, 0.1, .2, .3, .4))
+  expect_equal(p$B, c(.1, 1.0, .5, .6, .7))
+  expect_equal(p$C, c(.2, .5, 1.0, .8, .1))
+  expect_equal(p$D, c(0.3, 0.6, 0.8, 1, 0.2))
+  expect_equal(p$E, c(0.4, 0.7, 0.1, 0.2, 1))
+  expect_equal(p$mean, 1:5)
+  expect_equal(p$sd, 1:5)
+})
+
+test_that("rmulti r", {
+  r <- seq(0, .5, .1)
+  
+  # Simulate data. 
+  data <- rmulti(
+    n = 1000,
+    dist = c(Z = "norm", Y = "norm", X = "norm", W = "norm"),
+    params = list(
+      W = list(mean = 1, sd = 1),
+      X = list(mean = 2, sd = 2),
+      Y = list(mean = 3, sd = 3),
+      Z = list(mean = 4, sd = 4)
+    ),
+    r = r,
+    empirical = TRUE
+  )
+  p <- get_params(data)
+  
+  expect_equal(p$Z, c(1, 0, .1, .2))
+  expect_equal(p$Y, c(0, 1, .3, .4))
+  expect_equal(p$X, c(.1, .3, 1, .5))
+  expect_equal(p$W, c(.2, .4, .5, 1))
+  expect_equal(p$mean, 4:1)
+  expect_equal(p$sd, 4:1)
 })

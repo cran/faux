@@ -23,11 +23,11 @@ unif2norm <- function(x, mu = 0, sd = 1, min = NULL, max = NULL) {
   tol <- 1/length(x)
   if (is.null(min)) {
     min <- min(x, na.rm = TRUE) - tol
-    message("min was set to ", min)
+    message("min was not set, so guessed as ", min)
   }
   if (is.null(max)) {
     max <- max(x, na.rm = TRUE) + tol
-    message("max was set to ", max)
+    message("max was not set, so guessed as ", max)
   }
   
   p <- stats::punif(x, min, max)
@@ -61,11 +61,11 @@ binom2norm <- function(x, mu = 0, sd = 1, size = NULL, prob = NULL) {
   maxx <- max(x, na.rm = TRUE)
   if (is.null(size)) {
     size <- maxx
-    message("size was set to ", size)
+    message("size was not set, so guessed as ", size)
   }
   if (is.null(prob)) {
     prob <- mean(x, na.rm = TRUE)/size
-    message("prob was set to ", prob)
+    message("prob was not set, so guessed as ", prob)
   }
   
   if (size < maxx) stop("size cannot be smaller than the largest value")
@@ -79,6 +79,57 @@ binom2norm <- function(x, mu = 0, sd = 1, size = NULL, prob = NULL) {
   replace_inf <- a[2] + (a[2]-a[1])
   
   p <- stats::pbinom(x, size, prob)
+  x2 <- stats::qnorm(p, mu, sd)
+  x2[x2==Inf] <- replace_inf
+  
+  x2
+}
+
+#' Convert negative binomial to normal
+#'
+#' Convert a negative binomial distribution to a normal (gaussian) distribution with specified mu and sd
+#' 
+#' @param x the negative binomially distributed vector
+#' @param mu the mean of the normal distribution to return
+#' @param sd the SD of the normal distribution to return
+#' @param size number of trials (set to max value of x if not specified)
+#' @param prob the probability of success on each trial (set to mean probability if not specified)
+#'
+#' @return a vector with a gaussian distribution
+#' @export
+#'
+#' @examples
+#' 
+#' x <- rnbinom(10000, 20, 0.75)
+#' y <- nbinom2norm(x, 0, 1, 20, 0.75)
+#' g <- ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(x, y))
+#' ggExtra::ggMarginal(g, type = "histogram")
+#' 
+nbinom2norm <- function(x, mu = 0, sd = 1, size = NULL, prob = NULL) {
+  if (!all(as.integer(x) == x, na.rm = TRUE)) stop("all values in x must be integers or NA")
+  
+  minx <- min(x, na.rm = TRUE)
+  maxx <- max(x, na.rm = TRUE)
+  if (is.null(size)) {
+    size <- maxx
+    message("size was not set, so guessed as ", size)
+  }
+  if (is.null(prob)) {
+    prob <- mean(x, na.rm = TRUE) / size
+    message("prob was not set, so guessed as ", prob)
+  }
+  
+  #if (size < maxx) stop("size cannot be smaller than the largest value")
+  if (size < 0) stop("size cannot be smaller than 0")
+  if (minx < 0) stop("the smallest possible value in a negative binomial distribution is 0")
+  if (prob <0 || prob>1) stop("prob must be between 0 and 1")
+  
+  # replace infinite values (where x_i == size)
+  a <- stats::pnbinom((size-2):(size-1), size, prob) %>%
+    stats::qnorm(mu, sd)
+  replace_inf <- a[2] + (a[2]-a[1])
+  
+  p <- stats::pnbinom(x, size, prob)
   x2 <- stats::qnorm(p, mu, sd)
   x2[x2==Inf] <- replace_inf
   
@@ -108,7 +159,7 @@ gamma2norm <- function(x, mu = 0, sd = 1, shape = NULL, rate = 1, scale = 1/rate
   if (scale != 1) rate <- 1/scale
   if (is.null(shape)) {
     shape = mean(x) * rate
-    message("shape was set to ", shape)
+    message("shape was not set, so guessed as ", shape)
   }
   p <- stats::pgamma(x, shape, rate = rate)
   stats::qnorm(p, mu, sd)
@@ -137,11 +188,11 @@ beta2norm <- function(x, mu = 0, sd = 1, shape1 = NULL, shape2 = NULL, ...) {
   xsd <- stats::sd(x, na.rm = TRUE)
   if (is.null(shape1)) {
     shape1 = ((1 - xmu) / xsd^2 - 1 / xmu) * xmu^2
-    message("shape1 was set to ", shape1)
+    message("shape1 was not set, so guessed as ", shape1)
   }
   if (is.null(shape2)) {
     shape2 <- shape1 * (1 / xmu - 1)
-    message("shape2 was set to ", shape2)
+    message("shape2 was not set, so guessed as ", shape2)
   }
   
   p <- stats::pbeta(x, shape1, shape2, ...)
@@ -234,7 +285,6 @@ norm2gamma <- function(x, shape, rate = 1, scale = 1/rate,
 #' @export
 #'
 #' @examples
-#' 
 #' x <- rnorm(10000)
 #' y <- norm2binom(x)
 #' g <- ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(x, y))
@@ -243,6 +293,39 @@ norm2gamma <- function(x, shape, rate = 1, scale = 1/rate,
 norm2binom <- function(x, size = 1, prob = 0.5, mu = mean(x), sd = stats::sd(x)) {
   p <- stats::pnorm(x, mu, sd)
   stats::qbinom(p, size, prob)
+}
+
+#' Convert normal to negative binomial
+#' 
+#' See the help for `qnbinom()` for further info about prob versus mu parameter specification. Thanks for the suggested code, David Hugh-Jones!
+#' 
+#' @param x the normally distributed vector
+#' @param size target for number of successful trials, or dispersion parameter (the shape parameter of the gamma mixing distribution). (size > 0)
+#' @param prob the probability of success on each trial (0 to 1)
+#' @param mu alternative parametrization via mean (only specify one of prob or mu)
+#' @param lower.tail logical; if TRUE (default), probabilities are P[$X <= x$], otherwise, P[$X > x$]
+#' @param log.p logical; if TRUE, probabilities p are given as log(p)
+#' @param x_mu the mean of x (calculated from x if not given)
+#' @param x_sd the SD of x (calculated from x if not given)
+#'
+#' @return a vector with a negative binomial distribution
+#' @export
+#'
+#' @examples
+#' 
+#' x <- rnorm(10000)
+#' y <- norm2nbinom(x, 1, prob = 0.5)
+#' z <- norm2nbinom(x, 1, mu = 1)
+#' g <- ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(x, y))
+#' ggExtra::ggMarginal(g, type = "histogram")
+#' 
+norm2nbinom <- function (x, size, prob, mu, lower.tail = TRUE, log.p = FALSE, x_mu = mean(x), x_sd = stats::sd(x)) {
+  # https://github.com/debruine/faux/issues/105
+  
+  p <- stats::pnorm(x, x_mu, x_sd)
+  stats::qnbinom(p, size, prob, mu,
+                 lower.tail = lower.tail, 
+                 log.p = log.p)
 }
 
 
@@ -353,13 +436,13 @@ trunc2norm <- function(x, min = NULL, max = NULL,
   if (is.null(min)) {
     #min <- mu - (1.5*sd + 0.22*sd*log2(n))
     min <- mu - 3*sd
-    message("min was set to ", min, 
+    message("min was not set, so guessed as ", min, 
             " (min(x) = ", min(x), ")")
   }
   if (is.null(max)) {
     #max <- mu + (1.5*sd + 0.22*sd*log2(n))
     max <- mu + 3*sd
-    message("max was set to ", max, 
+    message("max was not set, so guessed as ", max, 
             " (max(x) = ", max(x), ")")
   }
   
@@ -492,7 +575,12 @@ plikert <- function(q, prob, labels = names(prob)) {
 qlikert <- function(p, prob, labels = names(prob)) {
   labels <- labels %||% 1:length(prob)
   ptrans <- stats::setNames(cumsum(prob/sum(prob)), labels)
-  q <- lapply(p, `>`, ptrans) %>%
+  q <- lapply(p, function(psub) {
+      greater <- psub > ptrans
+      # deal with floating point inequalities where x != x
+      noneq <- sapply(ptrans, all.equal, current = psub) != TRUE
+      greater & noneq
+    }) %>%
     sapply(sum) %>%
     sapply(`+`, 1) %>%
     `[`(labels, .)

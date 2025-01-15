@@ -13,7 +13,7 @@
 #' 
 #' faux_options("sep") # see value of faux.sep
 #' 
-#' \dontrun{
+#' \donttest{
 #' # changes cell separator (e.g., A1.B2)
 #' faux_options(sep = ".")
 #' 

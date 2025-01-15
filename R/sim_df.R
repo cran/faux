@@ -39,8 +39,11 @@
 
 sim_df <- function (data, n = 100, within = c(), between = c(), 
                     id = "id", dv = "value",
-                    empirical = FALSE, long = FALSE, seed = NULL, 
-                    missing = FALSE, sep = faux_options("sep")) {
+                    empirical = FALSE, 
+                    long = faux_options("long"), 
+                    seed = NULL, 
+                    missing = FALSE, 
+                    sep = faux_options("sep")) {
   if (!is.null(seed)) {
     warning("The seed argument is deprecated. Please set seed using set.seed() instead")
   #   # reinstate system seed after simulation

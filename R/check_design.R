@@ -245,6 +245,7 @@ check_design <- function(within = list(), between = list(),
 #'
 #' @export
 #' @keywords internal
+#' @returns Prints x and returns it invisibly
 #'
 print.design <- function(x, ...) {
   if (!"quote" %in% names(list(...))) quote <- ""

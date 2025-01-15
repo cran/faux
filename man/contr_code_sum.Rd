@@ -4,7 +4,7 @@
 \alias{contr_code_sum}
 \title{Sum code a factor}
 \usage{
-contr_code_sum(fct, levels = NULL, omit = length(levels))
+contr_code_sum(fct, levels = NULL, omit = length(levels), colnames = NULL)
 }
 \arguments{
 \item{fct}{the factor to contrast code (or a vector)}
@@ -12,6 +12,8 @@ contr_code_sum(fct, levels = NULL, omit = length(levels))
 \item{levels}{the levels of the factor in order}
 
 \item{omit}{the level to omit (defaults to the last level)}
+
+\item{colnames}{optional list of column names for the added contrasts}
 }
 \value{
 the factor with contrasts set
