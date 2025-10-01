@@ -1,7 +1,7 @@
 Package: faux
 Title: Simulation for Factorial Designs
-Version: 1.2.2
-Date: 2025-01-13
+Version: 1.2.3
+Date: 2025-09-25
 Authors@R: c(
     person(
         given = "Lisa", 
@@ -24,7 +24,7 @@ Authors@R: c(
         email = "andrew@andrewheiss.com",
         comment = c(ORCID = "0000-0002-3948-3914")
     ))
-Description: Create datasets with factorial structure through simulation by specifying variable parameters. Extended documentation at <https://debruine.github.io/faux/>. Described in DeBruine (2020) <doi:10.5281/zenodo.2669586>.
+Description: Create datasets with factorial structure through simulation by specifying variable parameters. Extended documentation at <https://scienceverse.github.io/faux/>. Described in DeBruine (2020) <doi:10.5281/zenodo.2669586>.
 Depends: R (>= 3.2.4)
 Imports: lme4, dplyr (>= 1.1.1), ggplot2 (>= 3.3.0), jsonlite,
         truncnorm, rlang
@@ -33,17 +33,19 @@ Suggests: testthat (>= 2.1.0), tidyr, knitr, rmarkdown, roxygen2,
         cowplot, ggExtra, purrr, broom, broom.mixed, psych, lmerTest,
         kableExtra, glue, openssl, readr, patchwork
 VignetteBuilder: knitr
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 Encoding: UTF-8
 LazyData: true
-URL: https://github.com/debruine/faux, https://debruine.github.io/faux/
-BugReports: https://github.com/debruine/faux/issues
+URL: https://github.com/scienceverse/faux,
+        https://scienceverse.github.io/faux/
+BugReports: https://github.com/scienceverse/faux/issues
 Config/Needs/website: rmarkdown
 NeedsCompilation: no
-Packaged: 2025-01-14 13:55:02 UTC; debruine
-Author: Lisa DeBruine [aut, cre, cph] (<https://orcid.org/0000-0002-7523-5539>),
-  Anna Krystalli [ctb] (<https://orcid.org/0000-0002-2378-4915>),
-  Andrew Heiss [ctb] (<https://orcid.org/0000-0002-3948-3914>)
+Packaged: 2025-10-01 15:57:36 UTC; debruine
+Author: Lisa DeBruine [aut, cre, cph] (ORCID:
+    <https://orcid.org/0000-0002-7523-5539>),
+  Anna Krystalli [ctb] (ORCID: <https://orcid.org/0000-0002-2378-4915>),
+  Andrew Heiss [ctb] (ORCID: <https://orcid.org/0000-0002-3948-3914>)
 Maintainer: Lisa DeBruine <debruine@gmail.com>
 Repository: CRAN
-Date/Publication: 2025-01-15 09:10:01 UTC
+Date/Publication: 2025-10-01 16:20:08 UTC

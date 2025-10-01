@@ -320,7 +320,7 @@ norm2binom <- function(x, size = 1, prob = 0.5, mu = mean(x), sd = stats::sd(x))
 #' ggExtra::ggMarginal(g, type = "histogram")
 #' 
 norm2nbinom <- function (x, size, prob, mu, lower.tail = TRUE, log.p = FALSE, x_mu = mean(x), x_sd = stats::sd(x)) {
-  # https://github.com/debruine/faux/issues/105
+  # https://github.com/scienceverse/faux/issues/105
   
   p <- stats::pnorm(x, x_mu, x_sd)
   stats::qnbinom(p, size, prob, mu,
@@ -470,21 +470,6 @@ trunc2norm <- function(x, min = NULL, max = NULL,
 #'
 #' @return a vector with the specified distribution
 #' @export
-#'
-#' @examples
-#' 
-#' x <- rnorm(10000)
-#' y <- norm2likert(x, c(.1, .2, .35, .2, .1, .05))
-#' g <- ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(x, y))
-#' ggExtra::ggMarginal(g, type = "histogram")
-#' 
-#' y <- norm2likert(x, c(40, 30, 20, 10))
-#' g <- ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(x, y))
-#' ggExtra::ggMarginal(g, type = "histogram")
-#' 
-#' y <- norm2likert(x, c(lower = .5, upper = .5))
-#' g <- ggplot2::ggplot() + ggplot2::geom_point(ggplot2::aes(x, y))
-#' ggExtra::ggMarginal(g, type = "histogram")
 norm2likert <- function(x, prob, labels = names(prob), mu = mean(x), sd = stats::sd(x)) {
   labels <- labels %||% 1:length(prob)
   p <- stats::pnorm(x, mu, sd)

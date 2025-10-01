@@ -1,6 +1,17 @@
+# faux 1.2.3 (2025-09-25)
+
+* Fixed failing tests due to ggplot2 4.0 ggplot object sturcture changes
+* Moved to https://github.com/scienceverse/faux
+* Website is now https://scienceverse.github.io/faux
+
+# faux 1.2.2 (2025-01-17)
+
+* Fixed some tests that were suddenly erroring on some platforms (hence the removal from CRAN)
+* Removed some vignettes to make package size smaller for CRAN (they are still available on the website)
+
 # faux 1.2.1.9002 (2024-02-10)
 
-* Fixed a [bug](https://github.com/debruine/faux/issues/107) in `rmulti()` that assigned correlations to the wrong pairs with more than 3 variables (thanks @yann1cks!)
+* Fixed a [bug](https://github.com/scienceverse/faux/issues/107) in `rmulti()` that assigned correlations to the wrong pairs with more than 3 variables (thanks @yann1cks!)
 * Made `rmulti()` more efficient by skipping adjusted r simulation for normal-normal pairs
 * Added `nbinom2norm()` conversion function, but not sure it works right unless you set `size` and `prob` manually (produces a warning if you don't)
 
